@@ -116,6 +116,46 @@ export function useUsers() {
         }
     }
 
+    async function createUsersBulk(usersArray) {
+        setLoading(true)
+        setError(null)
+        try {
+            const { data: { session } } = await supabase.auth.getSession()
+
+            if (!session) {
+                throw new Error('Not authenticated')
+            }
+
+            const response = await fetch(
+                `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/bulk-create-users`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${session.access_token}`,
+                        'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ users: usersArray })
+                }
+            )
+
+            const result = await response.json()
+
+            if (!response.ok) {
+                throw new Error(result.error || `HTTP Error ${response.status}`)
+            }
+
+            await fetchUsers()
+            return result.results || []
+        } catch (err) {
+            console.error('[useUsers] Bulk create failed:', err.message)
+            setError(err.message)
+            throw err
+        } finally {
+            setLoading(false)
+        }
+    }
+
     return {
         users,
         loading,
@@ -125,6 +165,7 @@ export function useUsers() {
         deleteUser,
         assignUserToTeam,
         removeUserFromTeam,
+        createUsersBulk,
         refresh: fetchUsers
     }
 }

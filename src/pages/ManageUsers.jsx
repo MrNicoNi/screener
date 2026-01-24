@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useUsers } from '../hooks/useUsers'
 import { useTeams } from '../hooks/useTeams'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Plus, Edit2, Trash2 } from 'lucide-react'
+import { Plus, Edit2, Trash2, Upload, Download, Loader2, Check, X, AlertCircle } from 'lucide-react'
+import * as XLSX from 'xlsx'
 
 const userSchema = z.object({
     name: z.string().min(3, 'Nome deve ter no mínimo 3 caracteres'),
@@ -15,11 +16,21 @@ const userSchema = z.object({
 })
 
 export function ManageUsers() {
-    const { users, loading, createUser, updateUser, deleteUser } = useUsers()
-    const { teams } = useTeams()
+    const { users, loading, createUser, createUsersBulk, updateUser, deleteUser } = useUsers()
+    const { teams, createTeam } = useTeams()
+
+    // Single User State
     const [showModal, setShowModal] = useState(false)
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
+
+    // Bulk User State
+    const [showBulkModal, setShowBulkModal] = useState(false)
+    const [bulkUsers, setBulkUsers] = useState([])
+    const [newTeamsToCreate, setNewTeamsToCreate] = useState([])
+    const [bulkResults, setBulkResults] = useState(null)
+    const [bulkLoading, setBulkLoading] = useState(false)
+    const fileInputRef = useRef(null)
 
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm({
         resolver: zodResolver(userSchema)
@@ -52,6 +63,169 @@ export function ManageUsers() {
         }
     }
 
+    // --- BULK FUNCTIONS ---
+
+    const downloadTemplate = () => {
+        const link = document.createElement('a')
+        link.href = '/modelo_usuarios.xlsx'
+        link.download = 'modelo_usuarios.xlsx'
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+    }
+
+    const handleFileUpload = (e) => {
+        const file = e.target.files[0]
+        if (!file) return
+
+        const reader = new FileReader()
+        reader.onload = (event) => {
+            try {
+                const workbook = XLSX.read(event.target.result, { type: 'binary' })
+                const sheetName = workbook.SheetNames[0]
+                const sheet = workbook.Sheets[sheetName]
+                const data = XLSX.utils.sheet_to_json(sheet)
+
+                processExcelData(data)
+            } catch (err) {
+                console.error('Error parsing Excel:', err)
+                alert('Erro ao ler arquivo. Verifique o formato.')
+            }
+        }
+        reader.readAsBinaryString(file)
+        e.target.value = '' // Reset input
+    }
+
+    const processExcelData = (data) => {
+        const getColumn = (row, ...keys) => {
+            for (const key of Object.keys(row)) {
+                const normalizedKey = key.trim().toLowerCase()
+                for (const searchKey of keys) {
+                    if (normalizedKey === searchKey.toLowerCase() || normalizedKey.includes(searchKey.toLowerCase())) {
+                        return String(row[key] || '').trim()
+                    }
+                }
+            }
+            return ''
+        }
+
+        const newTeamsSet = new Set()
+        const mappedUsers = data.map((row, index) => {
+            const teamName = getColumn(row, 'Time', 'team', 'time')
+            const teamResult = findTeamId(teamName)
+
+            if (teamResult.isNew && teamName) {
+                newTeamsSet.add(teamName)
+            }
+
+            const user = {
+                tempId: Math.random().toString(36).substr(2, 9), // UI id for removal
+                name: getColumn(row, 'Nome', 'name', 'nome'),
+                email: getColumn(row, 'Email', 'email', 'e-mail'),
+                role: mapRole(getColumn(row, 'Perfil', 'role', 'perfil') || 'analyst'),
+                teamName: teamName,
+                teamId: teamResult.id || '',
+                isNewTeam: teamResult.isNew,
+                password: 'Screener2026',
+                valid: true,
+                error: null
+            }
+
+            // Validation
+            if (!user.name) {
+                user.valid = false
+                user.error = 'Nome obrigatório'
+            } else if (!user.email || !user.email.includes('@')) {
+                user.valid = false
+                user.error = 'Email inválido'
+            } else if (users.some(u => u.email === user.email)) {
+                user.valid = false
+                user.error = 'Email já cadastrado'
+            }
+
+            return user
+        })
+
+        setNewTeamsToCreate([...newTeamsSet])
+        setBulkUsers(mappedUsers)
+        setShowBulkModal(true)
+        setBulkResults(null)
+    }
+
+    const mapRole = (input) => {
+        const lower = input.toLowerCase()
+        if (lower.includes('admin')) return 'admin'
+        if (lower.includes('avaliador') || lower.includes('evaluator')) return 'evaluator'
+        return 'analyst'
+    }
+
+    const findTeamId = (teamName) => {
+        if (!teamName) return { id: '', isNew: false }
+        const team = teams.find(t => t.name.toLowerCase() === teamName.toLowerCase())
+        if (team) return { id: team.id, isNew: false }
+        return { id: null, isNew: true }
+    }
+
+    const handleBulkCreate = async () => {
+        const validUsers = bulkUsers.filter(u => u.valid)
+        if (validUsers.length === 0) return
+
+        setBulkLoading(true)
+        try {
+            // 1. Create new teams
+            const createdTeamsMap = {}
+            for (const teamName of newTeamsToCreate) {
+                try {
+                    const newTeam = await createTeam({ name: teamName })
+                    if (newTeam) {
+                        createdTeamsMap[teamName.toLowerCase()] = newTeam.id
+                    }
+                } catch (e) {
+                    console.error(`Failed to create team ${teamName}`, e)
+                }
+            }
+
+            // 2. Prepare users with team IDs
+            const usersWithTeamIds = validUsers.map(u => ({
+                name: u.name,
+                email: u.email,
+                role: u.role,
+                password: u.password,
+                teamId: u.teamId || createdTeamsMap[u.teamName?.toLowerCase()] || null
+            }))
+
+            // 3. Create users
+            const results = await createUsersBulk(usersWithTeamIds)
+            setBulkResults(results)
+            setBulkUsers([]) // Clear preview
+            setShowBulkModal(false) // Close preview modal
+
+            // Refresh main success message if all good
+            if (results.every(r => r.success)) {
+                setSuccess(`${results.length} usuários criados com sucesso!`)
+                setTimeout(() => setSuccess(''), 3000)
+            }
+        } catch (err) {
+            setError('Erro na criação em massa: ' + err.message)
+        } finally {
+            setBulkLoading(false)
+        }
+    }
+
+    const removeUserFromPreview = (tempId) => {
+        const updatedUsers = bulkUsers.filter(u => u.tempId !== tempId)
+        setBulkUsers(updatedUsers)
+
+        // Update new teams list based on remaining users
+        const remainingNewTeams = new Set()
+        updatedUsers.forEach(u => {
+            if (u.isNewTeam && u.teamName) {
+                remainingNewTeams.add(u.teamName)
+            }
+        })
+        setNewTeamsToCreate([...remainingNewTeams])
+    }
+
     if (loading) {
         return <div className="text-center py-12">Carregando...</div>
     }
@@ -59,24 +233,53 @@ export function ManageUsers() {
     return (
         <div>
             <div className="flex items-center justify-between mb-8">
-                <h1 className="text-3xl font-bold text-gray-900">Gerenciar Usuários</h1>
-                <button
-                    onClick={() => setShowModal(true)}
-                    className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-                >
-                    <Plus size={20} />
-                    Novo Usuário
-                </button>
+                <div>
+                    <h1 className="text-3xl font-bold text-gray-900">Gerenciar Usuários</h1>
+                    <p className="text-gray-500 mt-1">Gerencie acessos e permissões do sistema</p>
+                </div>
+
+                <div className="flex gap-2">
+                    <button
+                        onClick={downloadTemplate}
+                        className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-gray-700"
+                    >
+                        <Download size={18} />
+                        Modelo Excel
+                    </button>
+                    <button
+                        onClick={() => fileInputRef.current?.click()}
+                        className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                    >
+                        <Upload size={18} />
+                        Importar Excel
+                    </button>
+                    <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept=".xlsx,.xls,.csv"
+                        className="hidden"
+                        onChange={handleFileUpload}
+                    />
+                    <button
+                        onClick={() => setShowModal(true)}
+                        className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                    >
+                        <Plus size={20} />
+                        Novo Usuário
+                    </button>
+                </div>
             </div>
 
             {success && (
-                <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-4">
+                <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-4 flex items-center gap-2">
+                    <Check size={20} />
                     {success}
                 </div>
             )}
 
             {error && (
-                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4 flex items-center gap-2">
+                    <AlertCircle size={20} />
                     {error}
                 </div>
             )}
@@ -100,8 +303,8 @@ export function ManageUsers() {
                                 <td className="px-6 py-4 text-sm text-gray-500">{user.email}</td>
                                 <td className="px-6 py-4">
                                     <span className={`px-2 py-1 text-xs font-medium rounded-full ${user.role === 'admin' ? 'bg-purple-100 text-purple-800' :
-                                            user.role === 'evaluator' ? 'bg-blue-100 text-blue-800' :
-                                                'bg-gray-100 text-gray-800'
+                                        user.role === 'evaluator' ? 'bg-blue-100 text-blue-800' :
+                                            'bg-gray-100 text-gray-800'
                                         }`}>
                                         {user.role}
                                     </span>
@@ -117,6 +320,7 @@ export function ManageUsers() {
                                     <button
                                         onClick={() => handleDelete(user.id)}
                                         className="text-red-600 hover:text-red-800"
+                                        title="Desativar usuário"
                                     >
                                         <Trash2 size={18} />
                                     </button>
@@ -200,6 +404,153 @@ export function ManageUsers() {
                                 </button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Bulk Preview Modal */}
+            {showBulkModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-lg p-6 max-w-4xl w-full max-h-[90vh] flex flex-col">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-xl font-bold">Importar Usuários</h2>
+                            <button onClick={() => setShowBulkModal(false)} className="text-gray-500 hover:text-gray-700">
+                                <X size={24} />
+                            </button>
+                        </div>
+
+                        {newTeamsToCreate.length > 0 && (
+                            <div className="mb-4 p-3 bg-yellow-50 text-yellow-800 rounded-lg flex items-start gap-2 text-sm">
+                                <AlertCircle size={16} className="mt-0.5" />
+                                <div>
+                                    <span className="font-semibold">Novos times serão criados:</span>{' '}
+                                    {newTeamsToCreate.join(', ')}
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="flex-1 overflow-auto border rounded-lg mb-4">
+                            <table className="w-full text-sm text-left">
+                                <thead className="bg-gray-50 sticky top-0">
+                                    <tr>
+                                        <th className="p-3 font-medium">Status</th>
+                                        <th className="p-3 font-medium">Nome</th>
+                                        <th className="p-3 font-medium">Email</th>
+                                        <th className="p-3 font-medium">Perfil</th>
+                                        <th className="p-3 font-medium">Time</th>
+                                        <th className="p-3 font-medium">Senha</th>
+                                        <th className="p-3 font-medium text-right">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y">
+                                    {bulkUsers.map((u) => (
+                                        <tr key={u.tempId} className={u.valid ? '' : 'bg-red-50'}>
+                                            <td className="p-3">
+                                                {u.valid ? <Check size={16} className="text-green-500" /> : <span className="text-red-500 font-bold">!</span>}
+                                            </td>
+                                            <td className="p-3">
+                                                {u.name}
+                                                {!u.valid && u.error === 'Nome obrigatório' && <div className="text-xs text-red-500">{u.error}</div>}
+                                            </td>
+                                            <td className="p-3">
+                                                {u.email}
+                                                {!u.valid && (u.error === 'Email inválido' || u.error === 'Email já cadastrado') && <div className="text-xs text-red-500">{u.error}</div>}
+                                            </td>
+                                            <td className="p-3 capitalize">{u.role}</td>
+                                            <td className="p-3">
+                                                {u.teamName || '-'}
+                                                {u.isNewTeam && <span className="text-xs bg-yellow-100 text-yellow-800 px-1 rounded ml-1">Novo</span>}
+                                            </td>
+                                            <td className="p-3 font-mono text-xs">{u.password}</td>
+                                            <td className="p-3 text-right">
+                                                <button
+                                                    onClick={() => removeUserFromPreview(u.tempId)}
+                                                    className="text-red-500 hover:text-red-700 p-1 hover:bg-red-50 rounded"
+                                                    title="Remover linha"
+                                                >
+                                                    <Trash2 size={16} />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    {bulkUsers.length === 0 && (
+                                        <tr>
+                                            <td colSpan="7" className="p-4 text-center text-gray-500">Nenhum usuário para importar</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div className="flex justify-between items-center">
+                            <span className="text-gray-500 text-sm">
+                                {bulkUsers.filter(u => u.valid).length} usuários válidos de {bulkUsers.length}
+                            </span>
+                            <div className="flex gap-2">
+                                <button
+                                    onClick={() => setShowBulkModal(false)}
+                                    className="px-4 py-2 border rounded-lg hover:bg-gray-50"
+                                >
+                                    Cancelar
+                                </button>
+                                <button
+                                    onClick={handleBulkCreate}
+                                    disabled={bulkLoading || bulkUsers.filter(u => u.valid).length === 0}
+                                    className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {bulkLoading ? <Loader2 size={18} className="animate-spin" /> : <Check size={18} />}
+                                    Confirmar Importação
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Results Modal */}
+            {bulkResults && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[80vh] flex flex-col">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-xl font-bold">Resultado da Importação</h2>
+                            <button onClick={() => setBulkResults(null)} className="text-gray-500 hover:text-gray-700">
+                                <X size={24} />
+                            </button>
+                        </div>
+
+                        <div className="flex-1 overflow-auto border rounded-lg mb-4">
+                            <table className="w-full text-sm text-left">
+                                <thead className="bg-gray-50 sticky top-0">
+                                    <tr>
+                                        <th className="p-3">Email</th>
+                                        <th className="p-3">Status</th>
+                                        <th className="p-3">Detalhes</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y">
+                                    {bulkResults.map((res, i) => (
+                                        <tr key={i} className={res.success ? 'bg-green-50' : 'bg-red-50'}>
+                                            <td className="p-3 font-medium">{res.email}</td>
+                                            <td className="p-3">
+                                                {res.success ? <span className="text-green-600 font-bold">Sucesso</span> : <span className="text-red-600 font-bold">Erro</span>}
+                                            </td>
+                                            <td className="p-3 text-sm">
+                                                {res.success ? 'Usuário criado' : res.error}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div className="text-right">
+                            <button
+                                onClick={() => setBulkResults(null)}
+                                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                            >
+                                Fechar
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
