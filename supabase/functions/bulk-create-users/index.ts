@@ -25,19 +25,33 @@ Deno.serve(async (req: Request) => {
         const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!
         const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 
+        console.log('🔍 [BULK] Auth header received:', authHeader?.substring(0, 20) + '...')
+
         // Create Supabase client with user's auth token
         const supabase = createClient(supabaseUrl, supabaseAnonKey, {
             global: { headers: { Authorization: authHeader } }
         })
 
+        console.log('🔍 [BULK] Validating JWT...')
+
         // Validate user is authenticated
         const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+        console.log('🔍 [BULK] Auth result:', {
+            hasUser: !!user,
+            userEmail: user?.email,
+            error: authError?.message
+        })
+
         if (authError || !user) {
+            console.error('❌ [BULK] Auth failed:', authError)
             return new Response(
                 JSON.stringify({ error: 'Unauthorized', details: authError?.message }),
                 { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
             )
         }
+
+        console.log('✅ [BULK] User authenticated:', user.email)
 
         // Check if user is admin
         const { data: userProfile } = await supabase
@@ -46,7 +60,10 @@ Deno.serve(async (req: Request) => {
             .eq('id', user.id)
             .single()
 
+        console.log('🔍 [BULK] User role:', userProfile?.role)
+
         if (userProfile?.role !== 'admin') {
+            console.error('❌ [BULK] User is not admin')
             return new Response(
                 JSON.stringify({ error: 'Only administrators can manage users' }),
                 { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }

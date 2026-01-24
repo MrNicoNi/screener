@@ -126,27 +126,62 @@ export function useUsers() {
                 throw new Error('Not authenticated')
             }
 
-            const response = await fetch(
-                `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/bulk-create-users`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${session.access_token}`,
-                        'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ users: usersArray })
+            console.log('🔑 Session exists:', !!session)
+            console.log('🔑 Access token exists:', !!session.access_token)
+            console.log('👤 User email:', session.user?.email)
+            console.log('📤 Creating', usersArray.length, 'users via manage-users endpoint...')
+
+            // Use the working manage-users endpoint in a loop
+            const results = []
+
+            for (const userData of usersArray) {
+                try {
+                    console.log(`Creating user: ${userData.email}...`)
+
+                    const response = await fetch(
+                        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/manage-users`,
+                        {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${session.access_token}`,
+                                'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(userData)
+                        }
+                    )
+
+                    const result = await response.json()
+
+                    if (response.ok && result.success) {
+                        results.push({
+                            email: userData.email,
+                            success: true,
+                            userId: result.userId
+                        })
+                        console.log('✅', userData.email, 'created successfully')
+                    } else {
+                        results.push({
+                            email: userData.email,
+                            success: false,
+                            error: result.error || 'Unknown error'
+                        })
+                        console.error('❌', userData.email, 'failed:', result.error)
+                    }
+                } catch (err) {
+                    results.push({
+                        email: userData.email,
+                        success: false,
+                        error: err.message
+                    })
+                    console.error('❌', userData.email, 'exception:', err.message)
                 }
-            )
-
-            const result = await response.json()
-
-            if (!response.ok) {
-                throw new Error(result.error || `HTTP Error ${response.status}`)
             }
 
+            console.log('📊 Bulk creation results:', results)
+
             await fetchUsers()
-            return result.results || []
+            return results
         } catch (err) {
             console.error('[useUsers] Bulk create failed:', err.message)
             setError(err.message)
