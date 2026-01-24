@@ -1,0 +1,4 @@
+# https://supabase.com/docs/guides/functions/config
+[functions.manage-users]
+# Disable JWT verification to allow CORS preflight (OPTIONS) requests
+verify_jwt = false

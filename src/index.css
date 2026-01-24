@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+/* Screener Design System - Navita Brand */
+@theme {
+  /* Brand Colors - Navita */
+  --color-navita-blue: #0047AB;
+  --color-navita-dark-blue: #003366;
+  --color-navita-green: #8CC63F;
+  --color-navita-slate: #334155;
+  --color-navita-light: #F8FAFC;
+
+  /* Semantic Colors */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Outfit', system-ui, sans-serif;
+}
+
+/* Base Styles */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-navita-light);
+  color: #0F172A;
+  background-image: radial-gradient(#E2E8F0 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Utilities */
+.clean-card {
+  background: white;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.clean-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+/* Score Animation */
+@keyframes scorePulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.score-update {
+  animation: scorePulse 0.3s ease-out;
+}
