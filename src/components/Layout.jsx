@@ -87,6 +87,19 @@ export function Layout() {
                             </div>
                         </div>
 
+                        <NavLink
+                            to="/configuracoes"
+                            className={({ isActive }) =>
+                                `p-2 rounded-lg transition ${isActive
+                                    ? 'bg-slate-200 text-slate-700'
+                                    : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'
+                                }`
+                            }
+                            title="Configurações"
+                        >
+                            <Settings className="w-5 h-5" />
+                        </NavLink>
+
                         <button
                             onClick={handleLogout}
                             className="p-2 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition"

@@ -8,6 +8,7 @@ import { NewAudit } from './pages/NewAudit'
 import { EvaluationDetail } from './pages/EvaluationDetail'
 import { Team } from './pages/Team'
 import { AnalystDetail } from './pages/AnalystDetail'
+import { UserSettings } from './pages/UserSettings'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { AdminRoute } from './components/AdminRoute'
 import { EvaluatorRoute } from './components/EvaluatorRoute'
@@ -22,6 +23,7 @@ function App() {
 
                     <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
                         <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/configuracoes" element={<UserSettings />} />
                         <Route path="/nova-auditoria" element={<EvaluatorRoute><NewAudit /></EvaluatorRoute>} />
                         <Route path="/equipe" element={<Team />} />
                         <Route path="/analista/:id" element={<AnalystDetail />} />
