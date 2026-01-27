@@ -75,7 +75,7 @@ Deno.serve(async (req: Request) => {
             ` : ''}
             
             <div class="cta">
-                <a href="${Deno.env.get('FRONTEND_URL') || 'https://screener.vercel.app'}/avaliacao/${evaluationId}" class="button">
+                <a href="${Deno.env.get('FRONTEND_URL') || 'https://screener-2-0.vercel.app'}/avaliacao/${evaluationId}" class="button">
                     Ver Avaliação Completa
                 </a>
             </div>

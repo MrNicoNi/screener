@@ -14,7 +14,7 @@ Deno.serve(async (req: Request) => {
     try {
         const { userEmail, userName, userPassword, userRole } = await req.json()
         const SENDGRID_API_KEY = Deno.env.get('SENDGRID_API_KEY')
-        const FRONTEND_URL = Deno.env.get('FRONTEND_URL') || 'https://screener.vercel.app'
+        const FRONTEND_URL = Deno.env.get('FRONTEND_URL') || 'https://screener-2-0.vercel.app'
 
         if (!SENDGRID_API_KEY) {
             console.error('[send-welcome-email] SendGrid API key not configured')
