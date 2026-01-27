@@ -6,6 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Plus, Edit2, Trash2, Upload, Download, Loader2, Check, X, AlertCircle } from 'lucide-react'
 import * as XLSX from 'xlsx'
+import { ConfirmModal } from '../components/Modal'
+import { useToast } from '../components/Toast'
 
 const userSchema = z.object({
     name: z.string().min(3, 'Nome deve ter no mínimo 3 caracteres'),
@@ -18,6 +20,7 @@ const userSchema = z.object({
 export function ManageUsers() {
     const { users, loading, createUser, createUsersBulk, updateUser, deleteUser } = useUsers()
     const { teams, createTeam } = useTeams()
+    const toast = useToast()
 
     // Single User State
     const [showModal, setShowModal] = useState(false)
@@ -32,6 +35,9 @@ export function ManageUsers() {
     const [bulkLoading, setBulkLoading] = useState(false)
     const fileInputRef = useRef(null)
 
+    // Delete Confirmation Modal
+    const [deleteConfirm, setDeleteConfirm] = useState({ isOpen: false, userId: null, userName: '' })
+
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm({
         resolver: zodResolver(userSchema)
     })
@@ -42,24 +48,27 @@ export function ManageUsers() {
 
         try {
             await createUser(data)
-            setSuccess('Usuário criado com sucesso!')
+            toast.success('Usuário criado com sucesso!')
             reset()
             setShowModal(false)
-            setTimeout(() => setSuccess(''), 3000)
         } catch (err) {
+            toast.error(err.message)
             setError(err.message)
         }
     }
 
-    async function handleDelete(id) {
-        if (!confirm('Tem certeza que deseja desativar este usuário?')) return
+    function confirmDelete(userId, userName) {
+        setDeleteConfirm({ isOpen: true, userId, userName })
+    }
 
+    async function handleDelete() {
         try {
-            await deleteUser(id)
-            setSuccess('Usuário desativado com sucesso!')
-            setTimeout(() => setSuccess(''), 3000)
+            await deleteUser(deleteConfirm.userId)
+            toast.success('Usuário desativado com sucesso!')
+            setDeleteConfirm({ isOpen: false, userId: null, userName: '' })
         } catch (err) {
-            setError(err.message)
+            toast.error(err.message)
+            setDeleteConfirm({ isOpen: false, userId: null, userName: '' })
         }
     }
 
@@ -89,7 +98,7 @@ export function ManageUsers() {
                 processExcelData(data)
             } catch (err) {
                 console.error('Error parsing Excel:', err)
-                alert('Erro ao ler arquivo. Verifique o formato.')
+                toast.error('Erro ao ler arquivo. Verifique o formato.')
             }
         }
         reader.readAsBinaryString(file)
@@ -202,10 +211,10 @@ export function ManageUsers() {
 
             // Refresh main success message if all good
             if (results.every(r => r.success)) {
-                setSuccess(`${results.length} usuários criados com sucesso!`)
-                setTimeout(() => setSuccess(''), 3000)
+                toast.success(`${results.length} usuários criados com sucesso!`)
             }
         } catch (err) {
+            toast.error('Erro na criação em massa: ' + err.message)
             setError('Erro na criação em massa: ' + err.message)
         } finally {
             setBulkLoading(false)
@@ -318,7 +327,7 @@ export function ManageUsers() {
                                 </td>
                                 <td className="px-6 py-4">
                                     <button
-                                        onClick={() => handleDelete(user.id)}
+                                        onClick={() => confirmDelete(user.id, user.name)}
                                         className="text-red-600 hover:text-red-800"
                                         title="Desativar usuário"
                                     >
@@ -554,6 +563,18 @@ export function ManageUsers() {
                     </div>
                 </div>
             )}
+
+            {/* Delete Confirmation Modal */}
+            <ConfirmModal
+                isOpen={deleteConfirm.isOpen}
+                onClose={() => setDeleteConfirm({ isOpen: false, userId: null, userName: '' })}
+                onConfirm={handleDelete}
+                title="Desativar Usuário"
+                message={`Tem certeza que deseja desativar o usuário "${deleteConfirm.userName}"? Esta ação pode ser revertida posteriormente.`}
+                confirmText="Desativar"
+                cancelText="Cancelar"
+                isDestructive={true}
+            />
         </div>
     )
 }
