@@ -5,11 +5,13 @@ import { useUsers } from '../hooks/useUsers'
 import { useEvaluations } from '../hooks/useEvaluations'
 import { supabase } from '../lib/supabase'
 import { FRAMEWORK } from '../lib/scoring'
+import { useToast } from '../components/Toast'
 
 export function NewAudit() {
     const navigate = useNavigate()
     const { userProfile } = useAuth()
-    const { users } = useUsers()
+    const { users: allUsers } = useUsers() // Renamed to avoid conflict with filtered 'analysts'
+    const toast = useToast()
     const { createEvaluation } = useEvaluations()
 
     const [analystId, setAnalystId] = useState('')
@@ -20,7 +22,7 @@ export function NewAudit() {
     const [finalScore, setFinalScore] = useState(0)
     const [isSubmitting, setIsSubmitting] = useState(false)
 
-    const analysts = users.filter(u => u.role === 'analyst' && u.is_active)
+    const analysts = allUsers.filter(u => u.role === 'analyst' && u.is_active)
 
     useEffect(() => {
         calculateScore()
@@ -182,9 +184,12 @@ export function NewAudit() {
                 }
             }
 
+            // Show success toast and navigate
+            toast.success('Avaliação criada com sucesso! Email enviado ao analista.')
             navigate('/dashboard')
         } catch (err) {
-            alert('Erro ao criar avaliação: ' + err.message)
+            console.error('[NewAudit] Error:', err)
+            toast.error(err.message || 'Erro ao criar avaliação')
         } finally {
             setIsSubmitting(false)
         }
