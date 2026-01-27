@@ -1,6 +1,6 @@
-import { Users, ChevronRight } from 'lucide-react'
+import { Users, ChevronRight, Trash2 } from 'lucide-react'
 
-export function TeamCard({ team, memberCount, onViewMembers }) {
+export function TeamCard({ team, memberCount, onViewMembers, onDelete }) {
     return (
         <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
             <div className="flex items-start justify-between mb-4">
@@ -10,6 +10,14 @@ export function TeamCard({ team, memberCount, onViewMembers }) {
                         Criado em {new Date(team.created_at).toLocaleDateString('pt-BR')}
                     </p>
                 </div>
+                {/* Delete Button */}
+                <button
+                    onClick={() => onDelete(team)}
+                    className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                    title="Excluir time"
+                >
+                    <Trash2 size={18} />
+                </button>
             </div>
 
             <div className="flex items-center gap-2 text-gray-600 mb-4">

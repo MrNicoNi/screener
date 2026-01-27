@@ -102,7 +102,7 @@ export function useEvaluations() {
         try {
             let query = supabase
                 .from('evaluations')
-                .select('final_score, status, created_at, analyst:users!analyst_id(email)')
+                .select('final_score, status, created_at, analyst:users!analyst_id(email, team_id)')
                 .order('created_at', { ascending: false })
 
             // Filter by analyst email if provided
@@ -112,6 +112,15 @@ export function useEvaluations() {
                 if (fetchError) throw fetchError
 
                 const evals = allEvals.filter(e => e.analyst?.email === options.analystEmail)
+                return calculateStats(evals)
+            }
+
+            // Filter by team ID if provided
+            if (options.teamId) {
+                const { data: allEvals, error: fetchError } = await query
+                if (fetchError) throw fetchError
+
+                const evals = allEvals.filter(e => e.analyst?.team_id === options.teamId)
                 return calculateStats(evals)
             }
 
@@ -182,21 +191,26 @@ export function useEvaluations() {
         }
     }
 
-    async function getAnalystRanking(limit = 10) {
+    async function getAnalystRanking(limit = 10, teamId = null) {
         try {
             const { data: evals, error: fetchError } = await supabase
                 .from('evaluations')
                 .select(`
                     final_score,
-                    analyst:users!analyst_id(id, name)
+                    analyst:users!analyst_id(id, name, team_id)
                 `)
                 .not('analyst_id', 'is', null)
 
             if (fetchError) throw fetchError
 
+            // Filter by team if teamId is provided
+            const filteredEvals = teamId
+                ? evals.filter(e => e.analyst?.team_id === teamId)
+                : evals
+
             // Group by analyst
             const analystScores = {}
-            evals.forEach(e => {
+            filteredEvals.forEach(e => {
                 if (e.analyst) {
                     const id = e.analyst.id
                     if (!analystScores[id]) {
@@ -310,6 +324,142 @@ export function useEvaluations() {
         }
     }
 
+    async function getTeamsWithStats() {
+        try {
+            // Get all teams
+            const { data: teams, error: teamsError } = await supabase
+                .from('teams')
+                .select('id, name, created_at')
+                .order('name')
+
+            if (teamsError) throw teamsError
+
+            // Get all users to count members
+            const { data: users, error: usersError } = await supabase
+                .from('users')
+                .select('id, team_id')
+                .eq('role', 'analyst')
+
+            if (usersError) throw usersError
+
+            // Get all evaluations with analyst info
+            const { data: evals, error: evalsError } = await supabase
+                .from('evaluations')
+                .select('final_score, created_at, analyst:users!analyst_id(team_id)')
+                .not('analyst_id', 'is', null)
+
+            if (evalsError) throw evalsError
+
+            // Calculate stats for each team
+            const teamsWithStats = await Promise.all(teams.map(async (team) => {
+                // Count members
+                const memberCount = users.filter(u => u.team_id === team.id).length
+
+                // Filter evaluations for this team
+                const teamEvals = evals.filter(e => e.analyst?.team_id === team.id)
+
+                // Calculate stats using same logic as getDashboardStats
+                const stats = calculateStats(teamEvals)
+
+                // Get principal offender
+                const principalOffender = await getPrincipalOffenderByTeam(team.id)
+
+                return {
+                    id: team.id,
+                    name: team.name,
+                    memberCount,
+                    avgScore: stats.avgScore,
+                    trend: stats.trend,
+                    totalAudits: stats.totalAudits,
+                    alerts: stats.alerts,
+                    principalOffender
+                }
+            }))
+
+            return teamsWithStats
+        } catch (err) {
+            console.error('[useEvaluations] getTeamsWithStats failed:', err.message)
+            return []
+        }
+    }
+
+    async function getPrincipalOffenderByTeam(teamId) {
+        try {
+            // Get current month date range
+            const now = new Date()
+            const currentMonth = now.getMonth()
+            const currentYear = now.getFullYear()
+            const startOfMonth = new Date(currentYear, currentMonth, 1).toISOString()
+            const endOfMonth = new Date(currentYear, currentMonth + 1, 0, 23, 59, 59).toISOString()
+
+            // Get evaluations for this team in current month
+            const { data: teamEvals, error: evalsError } = await supabase
+                .from('evaluations')
+                .select(`
+                    id,
+                    analyst:users!analyst_id(team_id)
+                `)
+                .gte('created_at', startOfMonth)
+                .lte('created_at', endOfMonth)
+                .not('analyst_id', 'is', null)
+
+            if (evalsError) throw evalsError
+
+            // Filter for this team
+            const filteredEvals = teamEvals.filter(e => e.analyst?.team_id === teamId)
+
+            if (filteredEvals.length === 0) {
+                return { name: '—', score: 0 }
+            }
+
+            // Get evaluation items for these evaluations
+            const evalIds = filteredEvals.map(e => e.id)
+            const { data: items, error: itemsError } = await supabase
+                .from('evaluation_items')
+                .select('pillar_name, value')
+                .in('evaluation_id', evalIds)
+
+            if (itemsError) throw itemsError
+
+            if (!items || items.length === 0) {
+                return { name: '—', score: 0 }
+            }
+
+            // Group by pillar and calculate averages
+            const pillarScores = {}
+            items.forEach(item => {
+                const pillar = item.pillar_name || 'Outros'
+                if (!pillarScores[pillar]) {
+                    pillarScores[pillar] = { sum: 0, count: 0 }
+                }
+                // Convert value (1-5) to percentage (20-100)
+                const scorePercent = item.value * 20
+                pillarScores[pillar].sum += scorePercent
+                pillarScores[pillar].count++
+            })
+
+            // Calculate averages and find lowest
+            let lowestPillar = null
+            let lowestScore = 100
+
+            Object.entries(pillarScores).forEach(([pillar, data]) => {
+                const avg = Math.round(data.sum / data.count)
+                if (avg < lowestScore) {
+                    lowestScore = avg
+                    lowestPillar = pillar
+                }
+            })
+
+            return {
+                name: lowestPillar || '—',
+                score: lowestScore
+            }
+        } catch (err) {
+            console.error('[useEvaluations] getPrincipalOffenderByTeam failed:', err.message)
+            return { name: '—', score: 0 }
+        }
+    }
+
     return {
         evaluations,
         loading,
@@ -320,6 +470,8 @@ export function useEvaluations() {
         getAnalystRanking,
         getAnalystsWithStats,
         getEvaluations,
+        getTeamsWithStats,
+        getPrincipalOffenderByTeam,
         refresh: fetchEvaluations
     }
 }

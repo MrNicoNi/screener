@@ -6,15 +6,18 @@ import { TeamCard } from '../components/TeamCard'
 import { ManageTeamMembers } from '../components/ManageTeamMembers'
 
 export function ManageTeams() {
-    const { teams, loading, createTeam, getTeamWithMembers, refresh: refreshTeams } = useTeams()
+    const { teams, loading, createTeam, deleteTeam, getTeamWithMembers, refresh: refreshTeams } = useTeams()
     const { users, assignUserToTeam, removeUserFromTeam } = useUsers()
     const [showCreateModal, setShowCreateModal] = useState(false)
     const [showMembersModal, setShowMembersModal] = useState(false)
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
+    const [teamToDelete, setTeamToDelete] = useState(null)
     const [selectedTeam, setSelectedTeam] = useState(null)
     const [teamMembers, setTeamMembers] = useState([])
     const [name, setName] = useState('')
     const [error, setError] = useState('')
     const [loadingMembers, setLoadingMembers] = useState(false)
+    const [deleteError, setDeleteError] = useState('')
 
     // Calculate member counts for each team
     const teamMemberCounts = teams.reduce((acc, team) => {
@@ -76,6 +79,31 @@ export function ManageTeams() {
         setTeamMembers([])
     }
 
+    function handleDeleteClick(team) {
+        setTeamToDelete(team)
+        setShowDeleteModal(true)
+        setDeleteError('')
+    }
+
+    async function confirmDelete() {
+        if (!teamToDelete) return
+
+        try {
+            await deleteTeam(teamToDelete.id)
+            setShowDeleteModal(false)
+            setTeamToDelete(null)
+            setDeleteError('')
+        } catch (err) {
+            setDeleteError(err.message)
+        }
+    }
+
+    function cancelDelete() {
+        setShowDeleteModal(false)
+        setTeamToDelete(null)
+        setDeleteError('')
+    }
+
     // Get users without a team (available to add)
     const availableUsers = users.filter(user =>
         user.is_active && !user.team_id
@@ -109,6 +137,7 @@ export function ManageTeams() {
                         team={team}
                         memberCount={teamMemberCounts[team.id] || 0}
                         onViewMembers={handleViewMembers}
+                        onDelete={handleDeleteClick}
                     />
                 ))}
             </div>
@@ -158,6 +187,40 @@ export function ManageTeams() {
                     onRemoveMember={handleRemoveMember}
                     onClose={handleCloseMembersModal}
                 />
+            )}
+
+            {/* Delete Confirmation Modal */}
+            {showDeleteModal && teamToDelete && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg p-8 max-w-md w-full">
+                        <h2 className="text-2xl font-bold mb-4 text-red-600">Confirmar Exclusão</h2>
+                        <p className="text-gray-700 mb-2">
+                            Tem certeza que deseja excluir o time <strong>{teamToDelete.name}</strong>?
+                        </p>
+                        <p className="text-sm text-gray-500 mb-4">
+                            Esta ação não pode ser desfeita.
+                        </p>
+                        {deleteError && (
+                            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
+                                {deleteError}
+                            </div>
+                        )}
+                        <div className="flex gap-2">
+                            <button
+                                onClick={cancelDelete}
+                                className="flex-1 px-4 py-2 border rounded-lg hover:bg-gray-50"
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                onClick={confirmDelete}
+                                className="flex-1 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
+                            >
+                                Excluir
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     )

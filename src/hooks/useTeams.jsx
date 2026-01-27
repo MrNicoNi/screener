@@ -94,12 +94,42 @@ export function useTeams() {
         }
     }
 
+    async function deleteTeam(teamId) {
+        try {
+            // First, check if team has members
+            const { data: members, error: membersError } = await supabase
+                .from('users')
+                .select('id')
+                .eq('team_id', teamId)
+
+            if (membersError) throw membersError
+
+            if (members && members.length > 0) {
+                throw new Error('Não é possível excluir um time com membros. Remova todos os membros primeiro.')
+            }
+
+            // Delete the team
+            const { error: deleteError } = await supabase
+                .from('teams')
+                .delete()
+                .eq('id', teamId)
+
+            if (deleteError) throw deleteError
+
+            await fetchTeams()
+        } catch (err) {
+            console.error('[useTeams] Delete failed:', err.message)
+            throw err
+        }
+    }
+
     return {
         teams,
         loading,
         error,
         createTeam,
         updateTeam,
+        deleteTeam,
         getTeamWithMembers,
         refresh: fetchTeams
     }
