@@ -107,6 +107,28 @@ Deno.serve(async (req: Request) => {
             )
         }
 
+        // Send welcome email (non-blocking - don't fail user creation if email fails)
+        try {
+            const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!
+            await fetch(`${SUPABASE_URL}/functions/v1/send-welcome-email`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': authHeader
+                },
+                body: JSON.stringify({
+                    userEmail: email,
+                    userName: name,
+                    userPassword: password,
+                    userRole: role
+                })
+            })
+            console.log('[manage-users] Welcome email sent to:', email)
+        } catch (emailError) {
+            // Log but don't fail user creation
+            console.error('[manage-users] Welcome email failed:', emailError)
+        }
+
         return new Response(
             JSON.stringify({
                 success: true,
