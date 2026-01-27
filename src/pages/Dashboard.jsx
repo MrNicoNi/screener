@@ -14,7 +14,7 @@ import {
 
 export function Dashboard() {
     const { getDashboardStats, getAnalystRanking, getEvaluations } = useEvaluations()
-    const { userProfile } = useAuth()
+    const { userProfile, isAnalyst } = useAuth()
     const [stats, setStats] = useState({
         avgScore: 0,
         totalAudits: 0,
@@ -28,16 +28,23 @@ export function Dashboard() {
     ])
     const [recentEvaluations, setRecentEvaluations] = useState([])
     const [topAnalysts, setTopAnalysts] = useState([])
+    const [personalScores, setPersonalScores] = useState([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        loadDashboardData()
-    }, [])
+        if (userProfile?.email) {
+            loadDashboardData()
+        }
+    }, [userProfile?.email, userProfile?.role])
 
     const loadDashboardData = async () => {
         try {
+            // For analysts, filter by their email; for others, show all data
+            const filterOptions = isAnalyst ? { analystEmail: userProfile?.email } : {}
+
             // Load dashboard stats from Supabase
-            const dashboardStats = await getDashboardStats()
+            const dashboardStats = await getDashboardStats(filterOptions)
+
             if (dashboardStats) {
                 setStats({
                     avgScore: dashboardStats.avgScore,
@@ -48,12 +55,24 @@ export function Dashboard() {
                 setRadarData(dashboardStats.radarData)
             }
 
-            // Load analyst ranking
-            const ranking = await getAnalystRanking(3)
-            setTopAnalysts(ranking)
+            // Load analyst ranking or personal scores
+            if (isAnalyst) {
+                // For analysts, load their recent evaluations with scores
+                const personalEvals = await getEvaluations({ analystEmail: userProfile?.email, limit: 5 })
+                setPersonalScores(personalEvals.map(e => ({
+                    id: e.id,
+                    ticketId: `#${e.ticket_id}`,
+                    score: Math.round(e.final_score || 0),
+                    date: new Date(e.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })
+                })))
+            } else {
+                // For admins/evaluators, load analyst ranking
+                const ranking = await getAnalystRanking(3)
+                setTopAnalysts(ranking)
+            }
 
             // Load recent evaluations
-            const recent = await getEvaluations({ limit: 5 })
+            const recent = await getEvaluations({ ...filterOptions, limit: 5 })
             setRecentEvaluations(recent.map(e => ({
                 id: e.id,
                 ticketId: `#${e.ticket_id}`,
@@ -190,38 +209,65 @@ export function Dashboard() {
                     </div>
                 </div>
 
-                {/* Top Analysts */}
+                {/* Top Analysts or Personal Scores */}
                 <div className="clean-card rounded-2xl p-6">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="text-lg font-semibold text-slate-900">
-                            Ranking do Mês
+                            {isAnalyst ? 'Minhas Últimas Avaliações' : 'Ranking do Mês'}
                         </h3>
-                        <Link
-                            to="/equipe"
-                            className="text-sm text-navita-blue hover:underline flex items-center gap-1"
-                        >
-                            Ver todos <ArrowRight className="w-4 h-4" />
-                        </Link>
+                        {!isAnalyst && (
+                            <Link
+                                to="/equipe"
+                                className="text-sm text-navita-blue hover:underline flex items-center gap-1"
+                            >
+                                Ver todos <ArrowRight className="w-4 h-4" />
+                            </Link>
+                        )}
                     </div>
                     <div className="space-y-3">
-                        {topAnalysts.map((analyst, index) => (
-                            <div
-                                key={analyst.id}
-                                className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 transition"
-                            >
-                                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${index === 0 ? 'bg-amber-100 text-amber-600' :
-                                    index === 1 ? 'bg-slate-200 text-slate-600' :
-                                        'bg-orange-100 text-orange-600'
-                                    }`}>
-                                    {index + 1}
+                        {isAnalyst ? (
+                            // Personal scores for analysts
+                            personalScores.length > 0 ? (
+                                personalScores.map((evaluation) => (
+                                    <Link
+                                        key={evaluation.id}
+                                        to={`/avaliacao/${evaluation.id}`}
+                                        className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 transition"
+                                    >
+                                        <div className="flex-1">
+                                            <p className="font-medium text-slate-900">{evaluation.ticketId}</p>
+                                            <p className="text-xs text-slate-500">{evaluation.date}</p>
+                                        </div>
+                                        <p className={`text-lg font-bold ${evaluation.score >= 90 ? 'text-navita-green' :
+                                            evaluation.score >= 75 ? 'text-navita-blue' :
+                                                'text-red-500'
+                                            }`}>{evaluation.score}%</p>
+                                    </Link>
+                                ))
+                            ) : (
+                                <p className="text-sm text-slate-500 text-center py-4">Nenhuma avaliação ainda</p>
+                            )
+                        ) : (
+                            // Team ranking for admins/evaluators
+                            topAnalysts.map((analyst, index) => (
+                                <div
+                                    key={analyst.id}
+                                    className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 transition"
+                                >
+                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${index === 0 ? 'bg-amber-100 text-amber-600' :
+                                        index === 1 ? 'bg-slate-200 text-slate-600' :
+                                            'bg-orange-100 text-orange-600'
+                                        }`}>
+                                        {index + 1}
+                                    </div>
+                                    <div className="flex-1">
+                                        <p className="font-medium text-slate-900">{analyst.name}</p>
+                                        <p className="text-xs text-slate-500">{analyst.audits} auditorias</p>
+                                    </div>
+                                    <p className="text-lg font-bold text-navita-green">{analyst.score}%</p>
                                 </div>
-                                <div className="flex-1">
-                                    <p className="font-medium text-slate-900">{analyst.name}</p>
-                                    <p className="text-xs text-slate-500">{analyst.audits} auditorias</p>
-                                </div>
-                                <p className="text-lg font-bold text-navita-green">{analyst.score}%</p>
-                            </div>
-                        ))}
+                            ))
+                        )}
                     </div>
                 </div>
             </div>

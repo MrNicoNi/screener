@@ -98,59 +98,27 @@ export function useEvaluations() {
         }
     }
 
-    async function getDashboardStats() {
+    async function getDashboardStats(options = {}) {
         try {
-            const { data: evals, error: fetchError } = await supabase
+            let query = supabase
                 .from('evaluations')
-                .select('final_score, status, created_at')
+                .select('final_score, status, created_at, analyst:users!analyst_id(email)')
                 .order('created_at', { ascending: false })
 
+            // Filter by analyst email if provided
+            if (options.analystEmail) {
+                // We need to filter after fetching since we're joining
+                const { data: allEvals, error: fetchError } = await query
+                if (fetchError) throw fetchError
+
+                const evals = allEvals.filter(e => e.analyst?.email === options.analystEmail)
+                return calculateStats(evals)
+            }
+
+            const { data: evals, error: fetchError } = await query
             if (fetchError) throw fetchError
 
-            const now = new Date()
-            const currentMonth = now.getMonth()
-            const currentYear = now.getFullYear()
-            const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1
-            const lastMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear
-
-            // Filter current month
-            const currentMonthEvals = evals.filter(e => {
-                const date = new Date(e.created_at)
-                return date.getMonth() === currentMonth && date.getFullYear() === currentYear
-            })
-
-            // Filter last month
-            const lastMonthEvals = evals.filter(e => {
-                const date = new Date(e.created_at)
-                return date.getMonth() === lastMonth && date.getFullYear() === lastMonthYear
-            })
-
-            // Calculate stats
-            const avgScore = currentMonthEvals.length > 0
-                ? Math.round(currentMonthEvals.reduce((sum, e) => sum + (e.final_score || 0), 0) / currentMonthEvals.length)
-                : 0
-
-            const lastMonthAvg = lastMonthEvals.length > 0
-                ? Math.round(lastMonthEvals.reduce((sum, e) => sum + (e.final_score || 0), 0) / lastMonthEvals.length)
-                : 0
-
-            const trend = lastMonthAvg > 0 ? Math.round(((avgScore - lastMonthAvg) / lastMonthAvg) * 100) : 0
-            const alerts = currentMonthEvals.filter(e => (e.final_score || 0) < 75).length
-
-            // Calculate radar data (simplified - you can enhance this based on evaluation_items)
-            const radarData = [
-                { subject: 'Comunicação', score: avgScore > 0 ? avgScore - 5 : 0, fullMark: 100 },
-                { subject: 'Eficiência', score: avgScore, fullMark: 100 },
-                { subject: 'Processos', score: avgScore > 0 ? avgScore + 3 : 0, fullMark: 100 },
-            ]
-
-            return {
-                avgScore,
-                totalAudits: currentMonthEvals.length,
-                alerts,
-                trend,
-                radarData
-            }
+            return calculateStats(evals)
         } catch (err) {
             console.error('[useEvaluations] getDashboardStats failed:', err.message)
             return {
@@ -164,6 +132,53 @@ export function useEvaluations() {
                     { subject: 'Processos', score: 0, fullMark: 100 },
                 ]
             }
+        }
+    }
+
+    function calculateStats(evals) {
+        const now = new Date()
+        const currentMonth = now.getMonth()
+        const currentYear = now.getFullYear()
+        const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1
+        const lastMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear
+
+        // Filter current month
+        const currentMonthEvals = evals.filter(e => {
+            const date = new Date(e.created_at)
+            return date.getMonth() === currentMonth && date.getFullYear() === currentYear
+        })
+
+        // Filter last month
+        const lastMonthEvals = evals.filter(e => {
+            const date = new Date(e.created_at)
+            return date.getMonth() === lastMonth && date.getFullYear() === lastMonthYear
+        })
+
+        // Calculate stats
+        const avgScore = currentMonthEvals.length > 0
+            ? Math.round(currentMonthEvals.reduce((sum, e) => sum + (e.final_score || 0), 0) / currentMonthEvals.length)
+            : 0
+
+        const lastMonthAvg = lastMonthEvals.length > 0
+            ? Math.round(lastMonthEvals.reduce((sum, e) => sum + (e.final_score || 0), 0) / lastMonthEvals.length)
+            : 0
+
+        const trend = lastMonthAvg > 0 ? Math.round(((avgScore - lastMonthAvg) / lastMonthAvg) * 100) : 0
+        const alerts = currentMonthEvals.filter(e => (e.final_score || 0) < 75).length
+
+        // Calculate radar data (simplified - you can enhance this based on evaluation_items)
+        const radarData = [
+            { subject: 'Comunicação', score: avgScore > 0 ? avgScore - 5 : 0, fullMark: 100 },
+            { subject: 'Eficiência', score: avgScore, fullMark: 100 },
+            { subject: 'Processos', score: avgScore > 0 ? avgScore + 3 : 0, fullMark: 100 },
+        ]
+
+        return {
+            avgScore,
+            totalAudits: currentMonthEvals.length,
+            alerts,
+            trend,
+            radarData
         }
     }
 
@@ -281,7 +296,14 @@ export function useEvaluations() {
             const { data, error: fetchError } = await query
 
             if (fetchError) throw fetchError
-            return data || []
+
+            // Filter by analyst email if provided (post-query filter since it's a joined field)
+            let filteredData = data || []
+            if (options.analystEmail) {
+                filteredData = filteredData.filter(e => e.analyst?.email === options.analystEmail)
+            }
+
+            return filteredData
         } catch (err) {
             console.error('[useEvaluations] getEvaluations failed:', err.message)
             return []

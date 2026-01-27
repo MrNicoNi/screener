@@ -25,7 +25,7 @@ function App() {
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/configuracoes" element={<UserSettings />} />
                         <Route path="/nova-auditoria" element={<EvaluatorRoute><NewAudit /></EvaluatorRoute>} />
-                        <Route path="/equipe" element={<Team />} />
+                        <Route path="/equipe" element={<EvaluatorRoute><Team /></EvaluatorRoute>} />
                         <Route path="/analista/:id" element={<AnalystDetail />} />
                         <Route path="/avaliacao/:id" element={<EvaluationDetail />} />
                         <Route path="/admin/usuarios" element={<AdminRoute><ManageUsers /></AdminRoute>} />

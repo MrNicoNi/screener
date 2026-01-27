@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Search, Plus, ChevronRight } from 'lucide-react'
 import { useEvaluations } from '../hooks/useEvaluations'
+import { useAuth } from '../hooks/useAuth'
 
 export function Team() {
     const { getAnalystsWithStats } = useEvaluations()
+    const { userProfile } = useAuth()
     const [analysts, setAnalysts] = useState([])
     const [search, setSearch] = useState('')
     const [loading, setLoading] = useState(true)
@@ -52,10 +54,12 @@ export function Team() {
                     <h1 className="text-2xl font-display font-bold text-slate-900">Equipe</h1>
                     <p className="text-slate-500">Gerenciar analistas e ver performance</p>
                 </div>
-                <button className="flex items-center gap-2 px-4 py-2.5 bg-navita-blue text-white font-medium rounded-xl hover:bg-navita-dark-blue transition shadow-lg shadow-blue-900/20">
-                    <Plus className="w-5 h-5" />
-                    Novo Analista
-                </button>
+                {(userProfile?.role === 'admin' || userProfile?.role === 'evaluator') && (
+                    <button className="flex items-center gap-2 px-4 py-2.5 bg-navita-blue text-white font-medium rounded-xl hover:bg-navita-dark-blue transition shadow-lg shadow-blue-900/20">
+                        <Plus className="w-5 h-5" />
+                        Novo Analista
+                    </button>
+                )}
             </div>
 
             {/* Search */}

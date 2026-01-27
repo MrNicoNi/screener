@@ -7,14 +7,12 @@ import { FRAMEWORK, getStatusDisplay } from '../lib/scoring'
 
 export function EvaluationDetail() {
     const { id } = useParams()
-    const { userProfile } = useAuth()
+    const { userProfile, isAnalyst } = useAuth()
     const [evaluation, setEvaluation] = useState(null)
     const [comment, setComment] = useState('')
     const [submitting, setSubmitting] = useState(false)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-
-    const isAnalyst = userProfile?.role === 'analyst'
 
     useEffect(() => {
         loadEvaluation()
@@ -43,6 +41,12 @@ export function EvaluationDetail() {
                 return
             }
 
+            // Access control: Analysts can only view their own evaluations
+            if (isAnalyst && data.analyst?.email !== userProfile?.email) {
+                setError('Você não tem permissão para visualizar esta avaliação')
+                return
+            }
+
             // Transform data for the UI
             const transformedEval = {
                 id: data.id,
@@ -51,6 +55,7 @@ export function EvaluationDetail() {
                 date: new Date(data.created_at).toLocaleDateString('pt-BR'),
                 evaluator: data.evaluator?.name || 'Avaliador',
                 analyst: data.analyst?.name || 'Analista',
+                analystEmail: data.analyst?.email,
                 scores: {
                     communication: data.score_communication || 0,
                     efficiency: data.score_efficiency || 0,
@@ -78,6 +83,12 @@ export function EvaluationDetail() {
 
     const handleAcknowledge = async () => {
         if (!comment.trim()) return
+
+        // Access control: Only allow acknowledgment if analyst email matches
+        if (isAnalyst && evaluation?.analystEmail !== userProfile?.email) {
+            alert('Você não tem permissão para dar aceite nesta avaliação')
+            return
+        }
 
         setSubmitting(true)
         try {
