@@ -98,6 +98,128 @@ export function useEvaluations() {
         }
     }
 
+    async function deleteEvaluation(id) {
+        try {
+            // Check if Dev Mode is active
+            const isDevMode = localStorage.getItem('devMode') === 'true'
+
+            if (isDevMode) {
+                // Dev Mode: Delete from localStorage
+                const mockDB = JSON.parse(localStorage.getItem('mockDB') || '{"evaluations":[],"evaluation_items":[]}')
+
+                // Remove evaluation
+                mockDB.evaluations = mockDB.evaluations.filter(e => e.id !== id)
+
+                // Remove associated evaluation items
+                mockDB.evaluation_items = mockDB.evaluation_items.filter(item => item.evaluation_id !== id)
+
+                localStorage.setItem('mockDB', JSON.stringify(mockDB))
+                console.log('[useEvaluations] Dev Mode: Evaluation deleted from mockDB', id)
+            } else {
+                // Production Mode: Delete from Supabase
+                // Note: evaluation_items should cascade delete if FK is set with ON DELETE CASCADE
+                const { error: deleteError } = await supabase
+                    .from('evaluations')
+                    .delete()
+                    .eq('id', id)
+
+                if (deleteError) throw deleteError
+                console.log('[useEvaluations] Evaluation deleted from Supabase', id)
+            }
+
+            await fetchEvaluations()
+        } catch (err) {
+            console.error('[useEvaluations] Delete failed:', err.message)
+            throw err
+        }
+    }
+
+    async function bulkDeleteEvaluations(ids) {
+        try {
+            if (!ids || ids.length === 0) {
+                throw new Error('No evaluation IDs provided')
+            }
+
+            const isDevMode = localStorage.getItem('devMode') === 'true'
+
+            if (isDevMode) {
+                // Dev Mode: Delete from localStorage
+                const mockDB = JSON.parse(localStorage.getItem('mockDB') || '{"evaluations":[],"evaluation_items":[]}')
+
+                // Remove evaluations
+                mockDB.evaluations = mockDB.evaluations.filter(e => !ids.includes(e.id))
+
+                // Remove associated evaluation items
+                mockDB.evaluation_items = mockDB.evaluation_items.filter(item => !ids.includes(item.evaluation_id))
+
+                localStorage.setItem('mockDB', JSON.stringify(mockDB))
+                console.log('[useEvaluations] Dev Mode: Bulk deleted', ids.length, 'evaluations')
+            } else {
+                // Production Mode: Delete from Supabase
+                const { error: deleteError } = await supabase
+                    .from('evaluations')
+                    .delete()
+                    .in('id', ids)
+
+                if (deleteError) throw deleteError
+                console.log('[useEvaluations] Bulk deleted', ids.length, 'evaluations from Supabase')
+            }
+
+            await fetchEvaluations()
+        } catch (err) {
+            console.error('[useEvaluations] Bulk delete failed:', err.message)
+            throw err
+        }
+    }
+
+    async function bulkAcknowledgeEvaluations(ids) {
+        try {
+            if (!ids || ids.length === 0) {
+                throw new Error('No evaluation IDs provided')
+            }
+
+            const isDevMode = localStorage.getItem('devMode') === 'true'
+
+            if (isDevMode) {
+                // Dev Mode: Update localStorage
+                const mockDB = JSON.parse(localStorage.getItem('mockDB') || '{"evaluations":[],"evaluation_items":[]}')
+
+                mockDB.evaluations = mockDB.evaluations.map(e => {
+                    if (ids.includes(e.id)) {
+                        return {
+                            ...e,
+                            analyst_acknowledged: true,
+                            acknowledged_at: new Date().toISOString(),
+                            status: 'acknowledged'
+                        }
+                    }
+                    return e
+                })
+
+                localStorage.setItem('mockDB', JSON.stringify(mockDB))
+                console.log('[useEvaluations] Dev Mode: Bulk acknowledged', ids.length, 'evaluations')
+            } else {
+                // Production Mode: Update Supabase
+                const { error: updateError } = await supabase
+                    .from('evaluations')
+                    .update({
+                        analyst_acknowledged: true,
+                        acknowledged_at: new Date().toISOString(),
+                        status: 'acknowledged'
+                    })
+                    .in('id', ids)
+
+                if (updateError) throw updateError
+                console.log('[useEvaluations] Bulk acknowledged', ids.length, 'evaluations in Supabase')
+            }
+
+            await fetchEvaluations()
+        } catch (err) {
+            console.error('[useEvaluations] Bulk acknowledge failed:', err.message)
+            throw err
+        }
+    }
+
     async function getDashboardStats(options = {}) {
         try {
             let query = supabase
@@ -466,6 +588,9 @@ export function useEvaluations() {
         error,
         createEvaluation,
         acknowledgeEvaluation,
+        deleteEvaluation,
+        bulkDeleteEvaluations,
+        bulkAcknowledgeEvaluations,
         getDashboardStats,
         getAnalystRanking,
         getAnalystsWithStats,

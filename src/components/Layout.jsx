@@ -1,6 +1,6 @@
 import { Outlet, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-import { LayoutDashboard, ClipboardCheck, Users, LogOut, Settings, UserCog } from 'lucide-react'
+import { LayoutDashboard, ClipboardCheck, ClipboardList, Users, LogOut, Settings, UserCog } from 'lucide-react'
 import { DevModeToggle } from './DevModeToggle'
 
 export function Layout() {
@@ -22,6 +22,7 @@ export function Layout() {
         : [
             { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
             { to: '/nova-auditoria', icon: ClipboardCheck, label: 'Nova Auditoria' },
+            { to: '/avaliacoes', icon: ClipboardList, label: 'Avaliações' },
             { to: '/equipe', icon: Users, label: 'Equipe' },
             ...(isAdmin ? [
                 { to: '/admin/times', icon: Settings, label: 'Times' },

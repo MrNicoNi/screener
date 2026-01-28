@@ -4,6 +4,7 @@ import { Login } from './pages/Login'
 import { Dashboard } from './pages/Dashboard'
 import { ManageUsers } from './pages/ManageUsers'
 import { ManageTeams } from './pages/ManageTeams'
+import { ManageEvaluations } from './pages/ManageEvaluations'
 import { NewAudit } from './pages/NewAudit'
 import { EvaluationDetail } from './pages/EvaluationDetail'
 import { Team } from './pages/Team'
@@ -27,6 +28,7 @@ function App() {
                             <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/configuracoes" element={<UserSettings />} />
                             <Route path="/nova-auditoria" element={<EvaluatorRoute><NewAudit /></EvaluatorRoute>} />
+                            <Route path="/avaliacoes" element={<EvaluatorRoute><ManageEvaluations /></EvaluatorRoute>} />
                             <Route path="/equipe" element={<EvaluatorRoute><Team /></EvaluatorRoute>} />
                             <Route path="/analista/:id" element={<AnalystDetail />} />
                             <Route path="/avaliacao/:id" element={<EvaluationDetail />} />

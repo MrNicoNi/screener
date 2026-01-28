@@ -1,20 +1,26 @@
 import { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
-import { ArrowLeft, FileText, User, Calendar, CheckCircle2, AlertCircle } from 'lucide-react'
+import { useParams, Link, useNavigate } from 'react-router-dom'
+import { ArrowLeft, FileText, User, Calendar, CheckCircle2, AlertCircle, Trash2 } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
+import { useEvaluations } from '../hooks/useEvaluations'
 import { supabase } from '../lib/supabase'
 import { FRAMEWORK, getStatusDisplay } from '../lib/scoring'
 import { useToast } from '../components/Toast'
+import { ConfirmModal } from '../components/Modal'
 
 export function EvaluationDetail() {
     const { id } = useParams()
-    const { userProfile, isAnalyst } = useAuth()
+    const navigate = useNavigate()
+    const { userProfile, isAnalyst, isAdmin, isEvaluator } = useAuth()
+    const { deleteEvaluation } = useEvaluations()
     const { showToast } = useToast()
     const [evaluation, setEvaluation] = useState(null)
     const [comment, setComment] = useState('')
     const [submitting, setSubmitting] = useState(false)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
+    const [isDeleting, setIsDeleting] = useState(false)
 
     useEffect(() => {
         loadEvaluation()
@@ -121,6 +127,30 @@ export function EvaluationDetail() {
         }
     }
 
+    const handleDelete = async () => {
+        // Access control: Only admins and evaluators can delete
+        if (!isAdmin && !isEvaluator) {
+            showToast('Você não tem permissão para excluir avaliações', 'error')
+            setShowDeleteModal(false)
+            return
+        }
+
+        setIsDeleting(true)
+        try {
+            await deleteEvaluation(id)
+            showToast('Avaliação excluída com sucesso!', 'success')
+            // Redirect to dashboard after successful deletion
+            setTimeout(() => {
+                navigate('/dashboard')
+            }, 1000)
+        } catch (err) {
+            console.error('Error deleting evaluation:', err)
+            showToast(err.message || 'Erro ao excluir avaliação', 'error')
+            setIsDeleting(false)
+            setShowDeleteModal(false)
+        }
+    }
+
     if (loading) {
         return (
             <div className="animate-pulse space-y-6">
@@ -153,14 +183,27 @@ export function EvaluationDetail() {
 
     return (
         <div className="space-y-6 max-w-4xl mx-auto">
-            {/* Back Button */}
-            <Link
-                to={isAnalyst ? '/' : '/dashboard'}
-                className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 transition"
-            >
-                <ArrowLeft className="w-4 h-4" />
-                Voltar
-            </Link>
+            {/* Back Button and Delete Button */}
+            <div className="flex justify-between items-center">
+                <Link
+                    to={isAnalyst ? '/' : '/dashboard'}
+                    className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 transition"
+                >
+                    <ArrowLeft className="w-4 h-4" />
+                    Voltar
+                </Link>
+
+                {/* Delete Button - Only visible to Admins and Evaluators */}
+                {(isAdmin || isEvaluator) && (
+                    <button
+                        onClick={() => setShowDeleteModal(true)}
+                        className="inline-flex items-center gap-2 px-4 py-2 text-red-600 hover:text-white hover:bg-red-600 border border-red-600 rounded-xl transition font-medium"
+                    >
+                        <Trash2 className="w-4 h-4" />
+                        Excluir Avaliação
+                    </button>
+                )}
+            </div>
 
             {/* Header Card */}
             <div className="clean-card rounded-2xl p-6">
@@ -297,6 +340,19 @@ export function EvaluationDetail() {
                     )}
                 </div>
             )}
+
+            {/* Delete Confirmation Modal */}
+            <ConfirmModal
+                isOpen={showDeleteModal}
+                onClose={() => setShowDeleteModal(false)}
+                onConfirm={handleDelete}
+                title="Excluir Avaliação"
+                message={`Tem certeza que deseja excluir a avaliação ${evaluation?.ticketId}? Esta ação não pode ser desfeita e todos os dados relacionados serão permanentemente removidos.`}
+                confirmText="Excluir"
+                cancelText="Cancelar"
+                isDestructive={true}
+                isLoading={isDeleting}
+            />
         </div>
     )
 }
