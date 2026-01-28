@@ -13,29 +13,32 @@ import { ProtectedRoute } from './components/ProtectedRoute'
 import { AdminRoute } from './components/AdminRoute'
 import { EvaluatorRoute } from './components/EvaluatorRoute'
 import { Layout } from './components/Layout'
+import { ToastProvider } from './components/Toast'
 
 function App() {
     return (
-        <AuthProvider>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/login" element={<Login />} />
+        <ToastProvider>
+            <AuthProvider>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/login" element={<Login />} />
 
-                    <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
-                        <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/configuracoes" element={<UserSettings />} />
-                        <Route path="/nova-auditoria" element={<EvaluatorRoute><NewAudit /></EvaluatorRoute>} />
-                        <Route path="/equipe" element={<EvaluatorRoute><Team /></EvaluatorRoute>} />
-                        <Route path="/analista/:id" element={<AnalystDetail />} />
-                        <Route path="/avaliacao/:id" element={<EvaluationDetail />} />
-                        <Route path="/admin/usuarios" element={<AdminRoute><ManageUsers /></AdminRoute>} />
-                        <Route path="/admin/times" element={<AdminRoute><ManageTeams /></AdminRoute>} />
-                    </Route>
+                        <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+                            <Route path="/dashboard" element={<Dashboard />} />
+                            <Route path="/configuracoes" element={<UserSettings />} />
+                            <Route path="/nova-auditoria" element={<EvaluatorRoute><NewAudit /></EvaluatorRoute>} />
+                            <Route path="/equipe" element={<EvaluatorRoute><Team /></EvaluatorRoute>} />
+                            <Route path="/analista/:id" element={<AnalystDetail />} />
+                            <Route path="/avaliacao/:id" element={<EvaluationDetail />} />
+                            <Route path="/admin/usuarios" element={<AdminRoute><ManageUsers /></AdminRoute>} />
+                            <Route path="/admin/times" element={<AdminRoute><ManageTeams /></AdminRoute>} />
+                        </Route>
 
-                    <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                </Routes>
-            </BrowserRouter>
-        </AuthProvider>
+                        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                    </Routes>
+                </BrowserRouter>
+            </AuthProvider>
+        </ToastProvider>
     )
 }
 

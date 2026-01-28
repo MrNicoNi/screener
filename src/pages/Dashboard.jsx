@@ -197,7 +197,7 @@ export function Dashboard() {
                             <p className="text-4xl font-display font-bold text-slate-900">
                                 {stats.avgScore}%
                             </p>
-                            <p className="text-xs text-slate-400 mt-1">vs mês anterior</p>
+                            <p className="text-xs text-slate-500 mt-1">vs mês anterior</p>
                         </div>
 
                         {/* Total Auditorias */}
@@ -209,7 +209,7 @@ export function Dashboard() {
                             <p className="text-4xl font-display font-bold text-slate-900">
                                 {stats.totalAudits}
                             </p>
-                            <p className="text-xs text-slate-400 mt-1">este mês</p>
+                            <p className="text-xs text-slate-500 mt-1">este mês</p>
                         </div>
 
                         {/* Alertas */}
@@ -221,7 +221,7 @@ export function Dashboard() {
                             <p className="text-4xl font-display font-bold text-slate-900">
                                 {stats.alerts}
                             </p>
-                            <p className="text-xs text-slate-400 mt-1">reprovações</p>
+                            <p className="text-xs text-slate-500 mt-1">reprovações</p>
                         </div>
                     </div>
 

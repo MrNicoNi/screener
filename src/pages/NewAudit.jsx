@@ -184,9 +184,11 @@ export function NewAudit() {
                 }
             }
 
-            // Show success toast and navigate
-            toast.success('Avaliação criada com sucesso! Email enviado ao analista.')
-            navigate('/dashboard')
+            // Show success toast and navigate after a brief delay
+            toast.success('Avaliação criada com sucesso!')
+            setTimeout(() => {
+                navigate('/dashboard')
+            }, 1500) // 1.5s delay to show toast
         } catch (err) {
             console.error('[NewAudit] Error:', err)
             toast.error(err.message || 'Erro ao criar avaliação')
