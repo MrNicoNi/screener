@@ -4,10 +4,13 @@ import { useState, useEffect } from 'react'
 import { Plus } from 'lucide-react'
 import { TeamCard } from '../components/TeamCard'
 import { ManageTeamMembers } from '../components/ManageTeamMembers'
+import { useToast } from '../components/Toast'
+import { ConfirmModal } from '../components/ConfirmModal'
 
 export function ManageTeams() {
     const { teams, loading, createTeam, deleteTeam, getTeamWithMembers, refresh: refreshTeams } = useTeams()
     const { users, assignUserToTeam, removeUserFromTeam } = useUsers()
+    const { showToast } = useToast()
     const [showCreateModal, setShowCreateModal] = useState(false)
     const [showMembersModal, setShowMembersModal] = useState(false)
     const [showDeleteModal, setShowDeleteModal] = useState(false)
@@ -15,9 +18,7 @@ export function ManageTeams() {
     const [selectedTeam, setSelectedTeam] = useState(null)
     const [teamMembers, setTeamMembers] = useState([])
     const [name, setName] = useState('')
-    const [error, setError] = useState('')
     const [loadingMembers, setLoadingMembers] = useState(false)
-    const [deleteError, setDeleteError] = useState('')
 
     // Calculate member counts for each team
     const teamMemberCounts = teams.reduce((acc, team) => {
@@ -27,7 +28,7 @@ export function ManageTeams() {
 
     async function handleCreate() {
         if (!name.trim()) {
-            setError('Nome é obrigatório')
+            showToast('Nome é obrigatório', 'error')
             return
         }
 
@@ -35,9 +36,9 @@ export function ManageTeams() {
             await createTeam({ name })
             setName('')
             setShowCreateModal(false)
-            setError('')
+            showToast(`Time "${name}" criado com sucesso!`, 'success')
         } catch (err) {
-            setError(err.message)
+            showToast(err.message || 'Erro ao criar time', 'error')
         }
     }
 
@@ -51,26 +52,37 @@ export function ManageTeams() {
             setTeamMembers(teamWithMembers.members)
         } catch (err) {
             console.error('Failed to load team members:', err)
-            setError('Falha ao carregar membros do time')
+            showToast('Falha ao carregar membros do time', 'error')
+            setShowMembersModal(false)
         } finally {
             setLoadingMembers(false)
         }
     }
 
     async function handleAddMember(userId, teamId) {
-        await assignUserToTeam(userId, teamId)
-        // Refresh members
-        const teamWithMembers = await getTeamWithMembers(teamId)
-        setTeamMembers(teamWithMembers.members)
-        await refreshTeams()
+        try {
+            await assignUserToTeam(userId, teamId)
+            // Refresh members
+            const teamWithMembers = await getTeamWithMembers(teamId)
+            setTeamMembers(teamWithMembers.members)
+            await refreshTeams()
+            showToast('Membro adicionado com sucesso!', 'success')
+        } catch (err) {
+            showToast(err.message || 'Erro ao adicionar membro', 'error')
+        }
     }
 
     async function handleRemoveMember(userId) {
-        await removeUserFromTeam(userId)
-        // Refresh members
-        const teamWithMembers = await getTeamWithMembers(selectedTeam.id)
-        setTeamMembers(teamWithMembers.members)
-        await refreshTeams()
+        try {
+            await removeUserFromTeam(userId)
+            // Refresh members
+            const teamWithMembers = await getTeamWithMembers(selectedTeam.id)
+            setTeamMembers(teamWithMembers.members)
+            await refreshTeams()
+            showToast('Membro removido com sucesso!', 'success')
+        } catch (err) {
+            showToast(err.message || 'Erro ao remover membro', 'error')
+        }
     }
 
     function handleCloseMembersModal() {
@@ -82,26 +94,25 @@ export function ManageTeams() {
     function handleDeleteClick(team) {
         setTeamToDelete(team)
         setShowDeleteModal(true)
-        setDeleteError('')
     }
 
     async function confirmDelete() {
         if (!teamToDelete) return
 
         try {
+            const teamName = teamToDelete.name
             await deleteTeam(teamToDelete.id)
             setShowDeleteModal(false)
             setTeamToDelete(null)
-            setDeleteError('')
+            showToast(`Time "${teamName}" excluído com sucesso!`, 'success')
         } catch (err) {
-            setDeleteError(err.message)
+            showToast(err.message || 'Erro ao excluir time', 'error')
         }
     }
 
     function cancelDelete() {
         setShowDeleteModal(false)
         setTeamToDelete(null)
-        setDeleteError('')
     }
 
     // Get users without a team (available to add)
@@ -124,11 +135,7 @@ export function ManageTeams() {
                 </button>
             </div>
 
-            {error && (
-                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
-                    {error}
-                </div>
-            )}
+
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {teams.map(team => (
@@ -156,7 +163,6 @@ export function ManageTeams() {
                                     className="w-full px-3 py-2 border rounded-lg"
                                     placeholder="Ex: Suporte Nível 1"
                                 />
-                                {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
                             </div>
                             <div className="flex gap-2">
                                 <button
@@ -190,38 +196,15 @@ export function ManageTeams() {
             )}
 
             {/* Delete Confirmation Modal */}
-            {showDeleteModal && teamToDelete && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-8 max-w-md w-full">
-                        <h2 className="text-2xl font-bold mb-4 text-red-600">Confirmar Exclusão</h2>
-                        <p className="text-gray-700 mb-2">
-                            Tem certeza que deseja excluir o time <strong>{teamToDelete.name}</strong>?
-                        </p>
-                        <p className="text-sm text-gray-500 mb-4">
-                            Esta ação não pode ser desfeita.
-                        </p>
-                        {deleteError && (
-                            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
-                                {deleteError}
-                            </div>
-                        )}
-                        <div className="flex gap-2">
-                            <button
-                                onClick={cancelDelete}
-                                className="flex-1 px-4 py-2 border rounded-lg hover:bg-gray-50"
-                            >
-                                Cancelar
-                            </button>
-                            <button
-                                onClick={confirmDelete}
-                                className="flex-1 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
-                            >
-                                Excluir
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <ConfirmModal
+                isOpen={showDeleteModal}
+                onClose={cancelDelete}
+                onConfirm={confirmDelete}
+                title="Confirmar Exclusão"
+                message={`Tem certeza que deseja excluir o time "${teamToDelete?.name}"?`}
+                confirmText="Excluir"
+                isDestructive={true}
+            />
         </div>
     )
 }

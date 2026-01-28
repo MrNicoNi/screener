@@ -32,11 +32,16 @@ export function ToastProvider({ children }) {
         setToasts(prev => prev.filter(toast => toast.id !== id))
     }
 
+    const showToast = (message, type = 'info', duration) => {
+        addToast({ message, type, duration })
+    }
+
     const toast = {
         success: (message, duration) => addToast({ message, type: 'success', duration }),
         error: (message, duration) => addToast({ message, type: 'error', duration }),
         warning: (message, duration) => addToast({ message, type: 'warning', duration }),
-        info: (message, duration) => addToast({ message, type: 'info', duration })
+        info: (message, duration) => addToast({ message, type: 'info', duration }),
+        showToast // Add showToast for backward compatibility
     }
 
     return (

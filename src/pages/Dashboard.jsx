@@ -91,6 +91,7 @@ export function Dashboard() {
                 analyst: e.analyst?.name || 'N/A',
                 score: Math.round(e.final_score || 0),
                 status: e.status || 'pending',
+                acknowledged: e.analyst_acknowledged || false,
                 date: new Date(e.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })
             })))
 
@@ -336,6 +337,7 @@ export function Dashboard() {
                                         <th className="text-left py-3 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Analista</th>
                                         <th className="text-left py-3 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Score</th>
                                         <th className="text-left py-3 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
+                                        <th className="text-left py-3 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Ciência</th>
                                         <th className="text-right py-3 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Ação</th>
                                     </tr>
                                 </thead>
@@ -351,6 +353,17 @@ export function Dashboard() {
                                                     {evaluation.status === 'excellent' ? 'Excelente' :
                                                         evaluation.status === 'approved' ? 'Aprovado' : 'Reprovado'}
                                                 </span>
+                                            </td>
+                                            <td className="py-3 px-4">
+                                                {evaluation.acknowledged ? (
+                                                    <span className="px-2 py-1 text-xs font-medium rounded-lg border bg-green-50 border-green-200 text-green-700">
+                                                        ✓ Confirmado
+                                                    </span>
+                                                ) : (
+                                                    <span className="px-2 py-1 text-xs font-medium rounded-lg border bg-amber-50 border-amber-200 text-amber-700">
+                                                        Pendente
+                                                    </span>
+                                                )}
                                             </td>
                                             <td className="py-3 px-4 text-right">
                                                 <Link

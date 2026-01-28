@@ -20,8 +20,6 @@ export function ManageTeamMembers({ team, members, availableUsers, onAddMember, 
     }
 
     async function handleRemoveMember(userId) {
-        if (!confirm('Tem certeza que deseja remover este membro do time?')) return
-
         try {
             await onRemoveMember(userId)
         } catch (err) {

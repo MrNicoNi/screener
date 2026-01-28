@@ -77,7 +77,7 @@ export function NewAudit() {
         e.preventDefault()
 
         if (!analystId || !ticketId) {
-            alert('Analista e Ticket são obrigatórios')
+            toast.error('Analista e Ticket são obrigatórios')
             return
         }
 

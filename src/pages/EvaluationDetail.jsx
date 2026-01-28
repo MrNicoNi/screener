@@ -4,10 +4,12 @@ import { ArrowLeft, FileText, User, Calendar, CheckCircle2, AlertCircle } from '
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
 import { FRAMEWORK, getStatusDisplay } from '../lib/scoring'
+import { useToast } from '../components/Toast'
 
 export function EvaluationDetail() {
     const { id } = useParams()
     const { userProfile, isAnalyst } = useAuth()
+    const { showToast } = useToast()
     const [evaluation, setEvaluation] = useState(null)
     const [comment, setComment] = useState('')
     const [submitting, setSubmitting] = useState(false)
@@ -86,7 +88,7 @@ export function EvaluationDetail() {
 
         // Access control: Only allow acknowledgment if analyst email matches
         if (isAnalyst && evaluation?.analystEmail !== userProfile?.email) {
-            alert('Você não tem permissão para dar aceite nesta avaliação')
+            showToast('Você não tem permissão para dar aceite nesta avaliação', 'error')
             return
         }
 
@@ -109,9 +111,11 @@ export function EvaluationDetail() {
                 acknowledged: true,
                 analystComment: comment
             }))
+            showToast('Ciência confirmada com sucesso!', 'success')
+            setComment('') // Clear comment after success
         } catch (err) {
             console.error('Error acknowledging:', err)
-            alert('Erro ao confirmar ciência: ' + err.message)
+            showToast(err.message || 'Erro ao confirmar ciência', 'error')
         } finally {
             setSubmitting(false)
         }
