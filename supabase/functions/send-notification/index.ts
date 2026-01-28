@@ -242,7 +242,8 @@ Deno.serve(async (req: Request) => {
                     <!-- Header -->
                     <tr>
                         <td class="header" style="background: linear-gradient(135deg, #0066FF 0%, #00D4AA 100%); padding: 40px 32px; text-align: center;">
-                            <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">📋 Nova Avaliação de Qualidade</h1>
+                            <img src="${Deno.env.get('FRONTEND_URL') || 'https://screener-2-0.vercel.app'}/logo-enghouse.jpg" alt="Enghouse" style="max-width: 160px; height: auto; margin-bottom: 20px; display: block; margin-left: auto; margin-right: auto; border-radius: 12px;">
+                            <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">Nova Avaliação de Qualidade</h1>
                         </td>
                     </tr>
                     
@@ -252,7 +253,7 @@ Deno.serve(async (req: Request) => {
                             
                             <!-- Greeting -->
                             <p class="greeting">
-                                Olá, <strong>${analystName || 'Analista'}</strong>! 👋
+                                Olá, <strong>${analystName || 'Analista'}</strong>!
                             </p>
                             <p class="greeting" style="margin-top: 0;">
                                 Uma nova avaliação foi realizada para o seu atendimento:
@@ -268,14 +269,14 @@ Deno.serve(async (req: Request) => {
                                 <p class="score-label">Score Final</p>
                                 <div class="score-text">${finalScore || 0}%</div>
                                 <p class="score-status">
-                                    ${finalScore >= 90 ? '✅ Excelente!' : finalScore >= 75 ? '✓ Aprovado' : '⚠️ Atenção Necessária'}
+                                    ${finalScore >= 90 ? 'Excelente' : finalScore >= 75 ? 'Aprovado' : 'Atenção Necessária'}
                                 </p>
                             </div>
                             
                             ${feedback ? `
                             <!-- Feedback -->
                             <div class="feedback-box">
-                                <h3><span>💬</span> Feedback do Avaliador</h3>
+                                <h3>Feedback do Avaliador</h3>
                                 <p>${feedback}</p>
                             </div>
                             ` : ''}
@@ -289,7 +290,7 @@ Deno.serve(async (req: Request) => {
                             
                             <!-- Info Box -->
                             <div class="info-box">
-                                <strong>📌 Próximos Passos:</strong><br>
+                                <strong>Próximos Passos:</strong><br>
                                 Acesse o sistema para visualizar os detalhes completos da avaliação e confirmar ciência.
                             </div>
                             

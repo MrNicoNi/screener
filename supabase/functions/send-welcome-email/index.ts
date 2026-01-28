@@ -271,7 +271,8 @@ Deno.serve(async (req: Request) => {
                     <!-- Header -->
                     <tr>
                         <td class="header" style="background: linear-gradient(135deg, #0066FF 0%, #00D4AA 100%); padding: 48px 32px; text-align: center;">
-                            <h1 style="color: #ffffff; margin: 0 0 8px 0; font-size: 32px; font-weight: 700;">🎉 Bem-vindo ao Screener!</h1>
+                            <img src="${FRONTEND_URL}/logo-enghouse.jpg" alt="Enghouse" style="max-width: 160px; height: auto; margin-bottom: 20px; display: block; margin-left: auto; margin-right: auto; border-radius: 12px;">
+                            <h1 style="color: #ffffff; margin: 0 0 8px 0; font-size: 32px; font-weight: 700;">Bem-vindo ao Screener</h1>
                             <p style="color: rgba(255,255,255,0.95); margin: 0; font-size: 16px;">Sistema de Avaliação de Qualidade - Navita</p>
                         </td>
                     </tr>
@@ -283,7 +284,7 @@ Deno.serve(async (req: Request) => {
                             <!-- Welcome Box -->
                             <div class="welcome-box">
                                 <p style="margin: 0 0 12px 0; font-size: 17px;">
-                                    Olá, <strong>${userName}</strong>! 👋
+                                    Olá, <strong>${userName}</strong>!
                                 </p>
                                 <p style="margin: 0 0 12px 0; color: #64748b;">
                                     Sua conta foi criada com sucesso no sistema Screener. Você foi cadastrado como:
@@ -293,7 +294,7 @@ Deno.serve(async (req: Request) => {
                             
                             <!-- Credentials -->
                             <div class="credentials">
-                                <h3><span>🔐</span> Suas Credenciais de Acesso</h3>
+                                <h3>Suas Credenciais de Acesso</h3>
                                 <div class="credential-item">
                                     <div class="credential-label">Email</div>
                                     <div class="credential-value">${userEmail}</div>
@@ -306,7 +307,7 @@ Deno.serve(async (req: Request) => {
                             
                             <!-- Instructions -->
                             <div class="instructions">
-                                <h3><span>⚠️</span> Importante - Primeiro Acesso</h3>
+                                <h3>Importante - Primeiro Acesso</h3>
                                 <ol>
                                     <li>Acesse o sistema usando o botão abaixo</li>
                                     <li>Faça login com as credenciais fornecidas</li>
