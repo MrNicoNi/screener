@@ -16,9 +16,10 @@ import {
 export function Dashboard() {
     const [searchParams] = useSearchParams()
     const teamId = searchParams.get('teamId')
-    const { getDashboardStats, getAnalystRanking, getEvaluations } = useEvaluations()
+    const { getDashboardStats, getAnalystRanking, getEvaluations, getTeamsWithStats } = useEvaluations()
     const { userProfile, isAnalyst } = useAuth()
     const [view, setView] = useState('general') // 'general' | 'teams'
+    const [teamName, setTeamName] = useState('')
     const [stats, setStats] = useState({
         avgScore: 0,
         totalAudits: 0,
@@ -49,6 +50,13 @@ export function Dashboard() {
             if (teamId) {
                 // If teamId is in URL, filter by team
                 filterOptions.teamId = teamId
+
+                // Fetch team name
+                const teams = await getTeamsWithStats()
+                const currentTeam = teams.find(t => t.id === teamId)
+                if (currentTeam) {
+                    setTeamName(currentTeam.name)
+                }
             } else if (isAnalyst) {
                 // For analysts without teamId, filter by their email
                 filterOptions.analystEmail = userProfile?.email
@@ -129,7 +137,7 @@ export function Dashboard() {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                     <h1 className="text-2xl font-display font-bold text-slate-900">
-                        Dashboard{teamId ? ' - Filtrado por Time' : ''}
+                        {teamId && teamName ? teamName : 'Dashboard'}
                     </h1>
                     <p className="text-slate-500">
                         {view === 'teams'
