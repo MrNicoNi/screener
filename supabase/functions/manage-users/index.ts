@@ -95,7 +95,8 @@ Deno.serve(async (req: Request) => {
                 email,
                 name,
                 role,
-                team_id: teamId || null
+                team_id: teamId || null,
+                must_change_password: true  // Force password change on first login
             })
 
         if (profileError) {

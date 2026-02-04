@@ -4,7 +4,7 @@ import { ArrowLeft, FileText, User, Calendar, CheckCircle2, AlertCircle, Trash2 
 import { useAuth } from '../hooks/useAuth'
 import { useEvaluations } from '../hooks/useEvaluations'
 import { supabase } from '../lib/supabase'
-import { FRAMEWORK, getStatusDisplay } from '../lib/scoring'
+import { FRAMEWORK, getStatusDisplay, getAcknowledgmentDisplay } from '../lib/scoring'
 import { useToast } from '../components/Toast'
 import { ConfirmModal } from '../components/Modal'
 
@@ -115,7 +115,11 @@ export function EvaluationDetail() {
             setEvaluation(prev => ({
                 ...prev,
                 acknowledged: true,
-                analystComment: comment
+                analystComment: comment,
+                scores: {
+                    ...prev.scores,
+                    status: 'acknowledged'
+                }
             }))
             showToast('Ciência confirmada com sucesso!', 'success')
             setComment('') // Clear comment after success
@@ -179,7 +183,7 @@ export function EvaluationDetail() {
         )
     }
 
-    const statusDisplay = getStatusDisplay(evaluation?.scores?.status)
+    const statusDisplay = getAcknowledgmentDisplay(evaluation?.acknowledged, evaluation?.scores?.status)
 
     return (
         <div className="space-y-6 max-w-4xl mx-auto">

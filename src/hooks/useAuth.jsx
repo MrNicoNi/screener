@@ -79,7 +79,8 @@ export function AuthProvider({ children }) {
         logout,
         isAdmin: userProfile?.role === 'admin',
         isEvaluator: userProfile?.role === 'evaluator' || userProfile?.role === 'admin',
-        isAnalyst: userProfile?.role === 'analyst'
+        isAnalyst: userProfile?.role === 'analyst',
+        mustChangePassword: userProfile?.must_change_password || false
     }
 
     return (

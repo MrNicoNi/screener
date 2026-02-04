@@ -25,7 +25,8 @@ export const FRAMEWORK = {
         color: 'green',
         items: [
             { id: 'E1', text: 'First Contact Resolution (FCR)?', weight: 0.25 },
-            { id: 'E2', text: 'Tempo de resposta dentro do esperado (SLA)?', weight: 0.25 },
+            { id: 'E2A', text: 'SLA de Atendimento (tempo até primeiro contato)', weight: 0.10 },  // 40% of 0.25
+            { id: 'E2B', text: 'SLA de Solução (tempo até resolução completa)', weight: 0.15 },  // 60% of 0.25
             { id: 'E3', text: 'A solução apresentada foi efetiva e definitiva?', weight: 0.25 },
             { id: 'E4', text: 'Demonstrou domínio técnico da ferramenta?', weight: 0.15 },
             { id: 'E5', text: 'Evitou transferências desnecessárias?', weight: 0.10 },
@@ -129,6 +130,22 @@ export const getStatusDisplay = (status) => {
         pending: { text: 'Pendente', color: 'slate', bgClass: 'bg-slate-100 text-slate-400 border-slate-200' }
     }
     return displays[status] || displays.pending
+}
+
+/**
+ * Get acknowledgment status display properties
+ * @param {boolean} acknowledged - Whether evaluation was acknowledged
+ * @param {string} status - Database status (pending/acknowledged/disputed)
+ * @returns {Object} - Display properties
+ */
+export const getAcknowledgmentDisplay = (acknowledged, status) => {
+    if (acknowledged || status === 'acknowledged') {
+        return { text: 'Confirmado', color: 'green', bgClass: 'bg-green-50 text-green-600 border-green-200' }
+    }
+    if (status === 'disputed') {
+        return { text: 'Contestado', color: 'orange', bgClass: 'bg-orange-50 text-orange-600 border-orange-200' }
+    }
+    return { text: 'Pendente', color: 'slate', bgClass: 'bg-slate-100 text-slate-600 border-slate-200' }
 }
 
 /**

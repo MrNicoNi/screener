@@ -64,10 +64,37 @@ export function useEvaluations() {
                 const { data, error: createError } = await supabase
                     .from('evaluations')
                     .insert(evaluationData)
-                    .select()
+                    .select(`
+                        *,
+                        analyst:users!analyst_id(id, name, email)
+                    `)
                     .single()
 
                 if (createError) throw createError
+
+                // Send email notification to analyst
+                try {
+                    const { data: { session } } = await supabase.auth.getSession()
+
+                    await supabase.functions.invoke('send-notification', {
+                        body: {
+                            evaluationId: data.id,
+                            analystEmail: data.analyst?.email,
+                            analystName: data.analyst?.name,
+                            ticketId: data.ticket_id,
+                            finalScore: data.final_score,
+                            feedback: data.feedback
+                        },
+                        headers: {
+                            Authorization: `Bearer ${session?.access_token}`
+                        }
+                    })
+
+                    console.log('[useEvaluations] Email notification sent to:', data.analyst?.email)
+                } catch (emailError) {
+                    // Log error but don't fail the evaluation creation
+                    console.error('[useEvaluations] Email notification failed:', emailError.message)
+                }
 
                 await fetchEvaluations()
                 return data
