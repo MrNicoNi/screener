@@ -76,19 +76,29 @@ export function useEvaluations() {
                 try {
                     const { data: { session } } = await supabase.auth.getSession()
 
-                    await supabase.functions.invoke('send-notification', {
-                        body: {
-                            evaluationId: data.id,
-                            analystEmail: data.analyst?.email,
-                            analystName: data.analyst?.name,
-                            ticketId: data.ticket_id,
-                            finalScore: data.final_score,
-                            feedback: data.feedback
-                        },
-                        headers: {
-                            Authorization: `Bearer ${session?.access_token}`
+                    const response = await fetch(
+                        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-notification`,
+                        {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${session?.access_token}`,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                evaluationId: data.id,
+                                analystEmail: data.analyst?.email,
+                                analystName: data.analyst?.name,
+                                ticketId: data.ticket_id,
+                                finalScore: data.final_score,
+                                feedback: data.feedback
+                            })
                         }
-                    })
+                    )
+
+                    if (!response.ok) {
+                        const error = await response.json()
+                        throw new Error(error.error || 'Email send failed')
+                    }
 
                     console.log('[useEvaluations] Email notification sent to:', data.analyst?.email)
                 } catch (emailError) {

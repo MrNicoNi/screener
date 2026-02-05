@@ -12,6 +12,8 @@ Deno.serve(async (req: Request) => {
     }
 
     try {
+        console.log('[send-notification] Request received')
+
         const { evaluationId, analystEmail, analystName, ticketId, finalScore, feedback } = await req.json()
         const SENDGRID_API_KEY = Deno.env.get('SENDGRID_API_KEY')
 
