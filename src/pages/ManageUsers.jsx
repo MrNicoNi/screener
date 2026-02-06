@@ -4,10 +4,11 @@ import { useTeams } from '../hooks/useTeams'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Plus, Edit2, Trash2, Upload, Download, Loader2, Check, X, AlertCircle } from 'lucide-react'
+import { Plus, Edit2, Trash2, Upload, Download, Loader2, Check, X, AlertCircle, KeyRound } from 'lucide-react'
 import * as XLSX from 'xlsx'
 import { ConfirmModal } from '../components/Modal'
 import { useToast } from '../components/Toast'
+import { supabase } from '../lib/supabase'
 
 const userSchema = z.object({
     name: z.string().min(3, 'Nome deve ter no mínimo 3 caracteres'),
@@ -37,6 +38,10 @@ export function ManageUsers() {
 
     // Delete Confirmation Modal
     const [deleteConfirm, setDeleteConfirm] = useState({ isOpen: false, userId: null, userName: '' })
+
+    // Reset Password Modal
+    const [resetPasswordConfirm, setResetPasswordConfirm] = useState({ isOpen: false, userId: null, userName: '' })
+    const [isResettingPassword, setIsResettingPassword] = useState(false)
 
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm({
         resolver: zodResolver(userSchema)
@@ -69,6 +74,45 @@ export function ManageUsers() {
         } catch (err) {
             toast.error(err.message)
             setDeleteConfirm({ isOpen: false, userId: null, userName: '' })
+        }
+    }
+
+    function confirmResetPassword(userId, userName) {
+        setResetPasswordConfirm({ isOpen: true, userId, userName })
+    }
+
+    async function handleResetPassword() {
+        setIsResettingPassword(true)
+        try {
+            const { data: { session } } = await supabase.auth.getSession()
+
+            const response = await fetch(
+                `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/reset-password`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${session?.access_token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: resetPasswordConfirm.userId
+                    })
+                }
+            )
+
+            if (!response.ok) {
+                const error = await response.json()
+                throw new Error(error.error || 'Erro ao resetar senha')
+            }
+
+            const result = await response.json()
+            toast.success(`Senha resetada para: ${result.defaultPassword}`)
+            setResetPasswordConfirm({ isOpen: false, userId: null, userName: '' })
+        } catch (err) {
+            toast.error(err.message)
+            setResetPasswordConfirm({ isOpen: false, userId: null, userName: '' })
+        } finally {
+            setIsResettingPassword(false)
         }
     }
 
@@ -326,13 +370,22 @@ export function ManageUsers() {
                                     </span>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <button
-                                        onClick={() => confirmDelete(user.id, user.name)}
-                                        className="text-red-600 hover:text-red-800"
-                                        title="Desativar usuário"
-                                    >
-                                        <Trash2 size={18} />
-                                    </button>
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={() => confirmResetPassword(user.id, user.name)}
+                                            className="text-blue-600 hover:text-blue-800"
+                                            title="Resetar senha"
+                                        >
+                                            <KeyRound size={18} />
+                                        </button>
+                                        <button
+                                            onClick={() => confirmDelete(user.id, user.name)}
+                                            className="text-red-600 hover:text-red-800"
+                                            title="Desativar usuário"
+                                        >
+                                            <Trash2 size={18} />
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
@@ -574,6 +627,18 @@ export function ManageUsers() {
                 confirmText="Desativar"
                 cancelText="Cancelar"
                 isDestructive={true}
+            />
+
+            {/* Reset Password Confirmation Modal */}
+            <ConfirmModal
+                isOpen={resetPasswordConfirm.isOpen}
+                onClose={() => setResetPasswordConfirm({ isOpen: false, userId: null, userName: '' })}
+                onConfirm={handleResetPassword}
+                title="Resetar Senha"
+                message={`Tem certeza que deseja resetar a senha de "${resetPasswordConfirm.userName}"? A nova senha será: Enghouse@2025 e o usuário será forçado a alterá-la no próximo login.`}
+                confirmText={isResettingPassword ? "Resetando..." : "Resetar Senha"}
+                cancelText="Cancelar"
+                isDestructive={false}
             />
         </div>
     )

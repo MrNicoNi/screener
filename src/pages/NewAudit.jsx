@@ -103,6 +103,15 @@ export function NewAudit() {
             const efficiencyScore = calculatePillarScore('efficiency')
             const processScore = calculatePillarScore('process')
 
+            // Determine status based on score and critical pass
+            let evaluationStatus = 'failed'
+            if (criticalPass) {
+                if (finalScore >= 90) evaluationStatus = 'excellent'
+                else if (finalScore >= 75) evaluationStatus = 'approved'
+                else evaluationStatus = 'failed'
+            }
+            // If critical item failed, status is always 'failed' regardless of score
+
             // Create evaluation with evaluator_id and pillar scores
             const evaluation = await createEvaluation({
                 analyst_id: analystId,
@@ -113,7 +122,7 @@ export function NewAudit() {
                 score_process: processScore,
                 final_score: finalScore,
                 feedback,
-                status: criticalPass ? (finalScore >= 90 ? 'excellent' : finalScore >= 75 ? 'approved' : 'failed') : 'failed'
+                status: evaluationStatus
             })
 
             // Create evaluation items - save ALL items (checked and unchecked)

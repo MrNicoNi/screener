@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { useAuth } from '../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { ForgotPasswordModal } from '../components/ForgotPasswordModal'
 
 const loginSchema = z.object({
     email: z.string().email('Email inválido'),
@@ -14,6 +15,7 @@ export function Login() {
     const { login } = useAuth()
     const navigate = useNavigate()
     const [error, setError] = useState('')
+    const [showForgotPassword, setShowForgotPassword] = useState(false)
 
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
         resolver: zodResolver(loginSchema)
@@ -88,7 +90,22 @@ export function Login() {
                         {isSubmitting ? 'Entrando...' : 'Entrar'}
                     </button>
                 </form>
+
+                <div className="mt-4 text-center">
+                    <button
+                        type="button"
+                        onClick={() => setShowForgotPassword(true)}
+                        className="text-sm text-navita-blue hover:text-navita-dark-blue font-medium transition"
+                    >
+                        Esqueci minha senha
+                    </button>
+                </div>
             </div>
+
+            <ForgotPasswordModal
+                isOpen={showForgotPassword}
+                onClose={() => setShowForgotPassword(false)}
+            />
         </div>
     )
 }
