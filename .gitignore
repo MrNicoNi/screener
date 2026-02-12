@@ -53,6 +53,7 @@ scripts/temp
 
 # Supabase (local development)
 .supabase
+supabase/.temp
 
 # Debug logs
 npm-debug.log*
