@@ -1,12 +1,62 @@
+# Dependencies
 node_modules
+.pnp
+.pnp.js
+
+# Build outputs
 dist
 dist-ssr
+build
 *.local
+
+# Environment variables
 .env
 .env.local
-.DS_Store
+.env.production.local
+.env.development.local
+.env.test.local
+
+# Testing
 coverage
-.vite
-.vercel
+.nyc_output
 playwright-report
 test-results
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE / Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.swp
+*.swo
+*~
+
+# Vite
+.vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Vercel
+.vercel
+
+# Agent AI
+.agentai
+
+# Scripts output (temporary data)
+scripts/*.log
+scripts/temp
+
+# Supabase (local development)
+.supabase
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
