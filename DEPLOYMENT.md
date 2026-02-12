@@ -48,14 +48,16 @@ git push -u origin main
 
 #### Variáveis de Ambiente
 
+
 Adicione no Vercel (Settings → Environment Variables):
 
 ```
-VITE_SUPABASE_URL=https://gyktdmahkifnsrbaxodl.supabase.co
+VITE_SUPABASE_URL=https://your-project-ref.supabase.co
 VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
 ⚠️ **IMPORTANTE**: Use as mesmas credenciais do `.env` local
+
 
 6. Clique em **"Deploy"**
 
@@ -73,7 +75,7 @@ npm install -g supabase
 supabase login
 
 # Link ao projeto
-supabase link --project-ref gyktdmahkifnsrbaxodl
+supabase link --project-ref your-project-ref
 
 # Deploy Edge Functions
 supabase functions deploy manage-users
