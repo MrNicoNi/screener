@@ -1,0 +1,51 @@
+
+
+MOBI ALL TECNOLOGIA LTDA
+#98112 - SITE NÃO FAZ LOGINTICKET FECHADO
+MOBI ALL TECNOLOGIA LTDA
+ENDEREÇOS DO CLIENTESOLICITANTETELEFONE DO SOLICITANTE
+Vinicius - TI COTAC 
+(cpd@cotac.com.br)
+INFORMAÇÕES DO TICKET
+MESARESPONSÁVELABERTO EMFECHADO EMREVISADO EMPRIORIDADE
+NOVA MDMGabriella Regina Barbosa Pichelli05/03/202609/03/2026-SLA Padrão SAAS
+GRUPO DE RECURSO/LOCAL/USUÁRIO DO EQUIPAMENTO
+CATÁLOGO DE SERVIÇOS
+NOMEÁREAITEM
+CATÁLOGO SAAS EMM/MDMIncidentesInstabilidade no Sistema
+DESCRIÇÃO DO TICKET
+Boa tarde, tudo bem? estou tentando entrar no site do MDM, porém ao clicar em login fica em um ciclo infinito, ele loga mas assim que ele entra
+na tela, ele desloga 
+E só fica assim, já limpei cache, fiz em 3 navegadores e nada.
+-----------------------------------------
+Atenciosamente,
+Vinicius Martins
+Grupo Cotac - Depto. TI
+Tel: 4795-8323
+COMUNICAÇÃO COM CLIENTE
+DATAAUTORARQUIVOS
+09/03/2026 18:12Gabriella Regina Barbosa Pichelli
+Olá, Vinicius - TI COTAC
+Informamos que o seu ticket de número #98112 foi finalizado.
+Como não tivemos retorno no prazo, entendemos que a sua solicitação foi atendida.
+Caso o problema persista, solicitamos que seja aberto uma nova solicitação para revisão.
+Seguimos à disposição,
+Suporte Nativa
+Página 1 de 2
+
+06/03/2026 17:26Gabriella Regina Barbosa Pichelli
+Boa tarde! 
+Algum retorno referente ao CNPJ? 
+Caso não haja retorno em até 24 horas úteis, o chamado será encerrado. 
+Aguardo retorno,
+Suporte Navita
+05/03/2026 17:56Gabriella Regina Barbosa Pichelli
+O Sla foi pausado. Motivo: Aguardando informações
+05/03/2026 17:56Gabriella Regina Barbosa Pichelli
+Olá, Vinicius. Boa tarde! 
+Antes de prosseguirmos, por gentileza, nos informe o CNPJ da empresa.
+Aguardo retorno, 
+Suporte Navita
+Declaro estar ciente do trabalho acima realizado e concordo com a realização do mesmo.
+Mobi All Tecnologia LTDA
+Página 2 de 2

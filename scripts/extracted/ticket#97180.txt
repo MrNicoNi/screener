@@ -1,0 +1,109 @@
+
+
+#97180 - Fatura 170690049-DADOS em reprocessamentoTICKET FECHADO
+ITAU UNIBANCO S/A (NAVITA CONSULTING)
+ENDEREÇOS DO CLIENTESOLICITANTETELEFONE DO SOLICITANTE
+Camila Martins Barduchi 
+(camila.barduchi@itau-unibanco.com.br)
++551127333858
+INFORMAÇÕES DO TICKET
+MESARESPONSÁVELABERTO EMFECHADO EMREVISADO EMPRIORIDADE
+ITAÚArthur Ferreira09/02/202610/02/202610/02/2026Incidente de Baixa Prioridade
+GRUPO DE RECURSO/LOCAL/USUÁRIO DO EQUIPAMENTO
+CATÁLOGO DE SERVIÇOS
+NOMEÁREAITEM
+SAAS / BPO CONNECT(Cat)IncidentesFalha Importação de Contas
+CAMPO PERSONALIZADO SAAS / BPO CONNECT(CAT) (1)
+SISTEMA
+AFETADO 
+ 
+ 
+ 
+ 
+ 
+CONNECT
+EMM NAVITA
+KNOX
+MAAS
+MOBILE
+IRON
+SGT
+Página 1 de 3
+
+DESCRIÇÃO DO TICKET
+@Fernanda Duarte Bispo Oliveira
+ 
+Tudo bem!
+ 
+Por favor, pode verificar a fatura da EBT 170690049-DADOS venc 10/01, eu coloquei para reprocessar e ela não está aparecendo nem na tela de Fatura e nem na Fila de Faturas.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Camila Martins Barduchi
+ 
+CTO2 -  Ger Efic Gest De Forn Infra Ti
+Coord Gest Custos Portfolio
+Telefone: 11 27333858 / TEAMS7063858
+camila.barduchi@itau-unibanco.com.br
+ 
+ Itaú Unibanco S.A
+ 
+ 
+Corporativo | Interno
+Esta mensagem é reservada e sua divulgação, distribuição, reprodução ou qualquer forma de uso é proibida e depende de prévia autorização desta instituição. O remetente utiliza o correio eletrônico no exercício do seu trabalho
+ou em razão dele, eximindo esta instituição de qualquer responsabilidade por utilização indevida. Se você recebeu esta mensagem por engano, favor eliminá-la imediatamente.
+This message is reserved and its disclosure, distribution, reproduction or any other form of use is prohibited and shall depend upon previous proper authorization. The sender uses the electronic mail in the exercise of his/her work
+or by virtue thereof, and the institution takes no liability for its undue use. If you have received this e-mail by mistake, please delete it immediately.
+COMUNICAÇÃO COM CLIENTE
+DATAAUTORARQUIVOS
+09/02/2026 17:18Camila Martins Barduchiimage007.png image006.png image005.png image004.png image003.png image002.png
+Página 2 de 3
+
+Tiflux
+@arthur.ferreira@enghouse.com
+ 
+Logo depois que abri o ticket, atualizei a tela novamente e a fatura apareceu reprocessada.
+ 
+Obrigada!
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Camila Martins Barduchi
+ 
+CTO2 -  Ger Efic Gest De Forn Infra Ti
+Coord Gest Custos Portfolio
+Telefone: 11 27333858 / TEAMS 7063858
+camila.barduchi@itau-unibanco.com.br
+ 
+ Itaú Unibanco S.A
+ 
+ 
+ 
+Corporativo | Interno
+De: Navita <servicedesk@navita.com.br> 
+Enviada em: segunda-feira, 9 de fevereiro de 2026 15:10
+Para: Camila Martins Barduchi <camila.barduchi@itau-unibanco.com.br>; fernanda.oliveira@enghouse.com; arthur.ferreira@enghouse.com; lucas.oliver@enghouse.com; matheus.silva@enghouse.com
+Assunto: Re: Fatura 170690049-DADOS em reprocessamento
+ 
+09/02/2026 15:09Arthur Ferreira
+Boa tarde, Camila.
+O arquivo tem 10 faturas e muitas delas estão pagas, ai o sistema recusou algumas o reprocessar e acaba não aparecendo na fila de processamento por isso, mas pelo BC achei o processar da fatura, é esse registro:
+E vi que já conseguiu enviar para pagamento, só explicando mesmo porque essa fatura em especifico não apareceu devidamente na fila para você acompanhar o reprocessamento.
+Qualquer dúvida ou necessitando de mais informações, estou à disposição.
+Atenciosamente,
+Arthur F.
+Customer Support Engineer N2
+Navita Customer Support.
+Declaro estar ciente do trabalho acima realizado e concordo com a realização do mesmo.
+ITAU UNIBANCO S/A (NAVITA CONSULTING)
+Página 3 de 3

@@ -37,6 +37,7 @@ function AppContent() {
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/configuracoes" element={<UserSettings />} />
                         <Route path="/nova-auditoria" element={<EvaluatorRoute><NewAudit /></EvaluatorRoute>} />
+                        <Route path="/editar-avaliacao/:id" element={<EvaluatorRoute><NewAudit /></EvaluatorRoute>} />
                         <Route path="/avaliacoes" element={<EvaluatorRoute><ManageEvaluations /></EvaluatorRoute>} />
                         <Route path="/equipe" element={<EvaluatorRoute><Team /></EvaluatorRoute>} />
                         <Route path="/analista/:id" element={<AnalystDetail />} />

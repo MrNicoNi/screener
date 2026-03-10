@@ -1,0 +1,100 @@
+
+
+AUSTA
+#96810 - AJUDA PARA VOLTAR MEU DISPOSITIVOTICKET FECHADO
+AUSTA
+ENDEREÇOS DO CLIENTESOLICITANTETELEFONE DO SOLICITANTE
+Vitor Hugo Portelo Ferreira 
+(vitor.ferreira@austa.com.br)
++
+INFORMAÇÕES DO TICKET
+MESARESPONSÁVELABERTO EMFECHADO EMREVISADO EMPRIORIDADE
+NOVA MDMGabriella Regina Barbosa Pichelli30/01/202602/02/202609/02/2026SLA Padrão SAAS
+GRUPO DE RECURSO/LOCAL/USUÁRIO DO EQUIPAMENTO
+CATÁLOGO DE SERVIÇOS
+NOMEÁREAITEM
+CATÁLOGO SAAS EMM/MDMIncidentesFalha Políticas
+DESCRIÇÃO DO TICKET
+Bom dia.
+Meu dispositivo estava desligado e, ao ligá-lo novamente, não conseguiu se conectar à rede Wi-Fi, mesmo com a política configurada para conexão
+automática à rede previamente definida.
+Essa rede só conecta quando o MAC Address do celular é liberado manualmente, e percebi que o dispositivo estava utilizando MAC aleatorizado,
+mesmo com essa opção desabilitada na política.
+Além disso, não consegui remover o dispositivo do modo quiosque. Como última alternativa, removi o MDM pelo portal de gerenciamento e
+realizei a formatação do aparelho.
+Após a formatação, durante a etapa de configuração inicial (ao inserir afw#maas360), o dispositivo foi bloqueado solicitando uma conta Google,
+impossibilitando a continuidade da configuração. Com isso, acabei perdendo o acesso ao dispositivo.
+Poderiam, por gentileza, me orientar sobre como proceder nesse caso?
+COMUNICAÇÃO COM CLIENTE
+DATAAUTORARQUIVOS
+30/01/2026 14:35Gabriella Regina Barbosa Pichelli
+Página 1 de 4
+
+Boa tarde! 
+Entendemos sua informação, porém o bloqueio FRP só é acionado quando existe uma conta Google registrada no dispositivo antes do reset.
+Mesmo que essa conta não tenha sido configurada manualmente, ela pode ter sido adicionada durante o processo inicial de configuração ou
+por algum serviço do sistema.
+Para desbloquear, é necessário inserir essa conta Google. Caso não tenha acesso a ela, será necessário procurar uma assistência técnica
+autorizada.
+Seguimos à disposição, 
+Suporte Navita
+30/01/2026 14:11Vitor Hugo Portelo Ferreiratablet.mp4 1.png 2.jpg 6.jpg 4.jpg 5.png 3.jpg
+Estou encaminhando um video para mostra o ocorrido lembrando que o dispositivo estava identificado no anexo que enviei agora a pouco
+De: Navita <servicedesk@navita.com.br>
+Para: <vitor.ferreira@austa.com.br>
+Data: sex., 30 jan. 2026 12:35:58 -0300
+Assunto: Re: AJUDA PARA VOLTAR MEU DISPOSITIVO
+30/01/2026 12:35Gabriella Regina Barbosa Pichelli
+Boa tarde!
+Por gentileza, nos encaminhar uma foto do dispositivo para visualizarmos o bloqueio. 
+Aguardo retorno, 
+Suporte Navita
+30/01/2026 12:24Vitor Hugo Portelo Ferreira1.png 2.jpg 5.jpg 3.jpg 4.png
+Não tinha nenhuma conta cadastrada !
+De: Navita <servicedesk@navita.com.br>
+Para: <vitor.ferreira@austa.com.br>
+Data: sex., 30 jan. 2026 11:27:23 -0300
+Assunto: Re: AJUDA PARA VOLTAR MEU DISPOSITIVO
+30/01/2026 11:26Gabriella Regina Barbosa Pichelli
+Página 2 de 4
+
+Bom dia! 
+Você deve utilizar a conta google (@gmail.com) que foi registrada no dispositivo antes do reset. 
+A conta enviada não pertence ao Google. 
+Seguimos à disposição, 
+Suporte Navita
+30/01/2026 11:04Vitor Hugo Portelo Ferreira1.png 2.jpg 3.jpg
+Bom dia Gabriella, no caso eu entrei com a conta que o QRCode me gera quando vou incluir, e a conta google que eu coloco não da certo, essa mesmo
+que está ai na imagem em anexo
+De: Navita <servicedesk@navita.com.br>
+Para: <vitor.ferreira@austa.com.br>
+Data: sex., 30 jan. 2026 10:59:12 -0300
+Assunto: Re: AJUDA PARA VOLTAR MEU DISPOSITIVO
+30/01/2026 10:59Gabriella Regina Barbosa Pichelli
+O Sla foi pausado. Motivo: -
+30/01/2026 10:58Gabriella Regina Barbosa Pichelli
+Bom dia!
+Iremos realizar os teste. Nesse caso, o dispositivo ficou bloqueado pelo FRP (Factory Reset Protection) após a formatação.
+Para desbloquear, é necessário inserir a conta Google que estava configurada no aparelho antes do reset.
+Caso essa conta não seja conhecida, será necessário encaminhar o dispositivo para uma assistência técnica, pois não é possível desbloquear
+sem a conta google. 
+Seguimos à disposição, 
+Suporte Navita
+30/01/2026 10:37Vitor Hugo Portelo Ferreira1.png 2.jpg
+Página 3 de 4
+
+Centro Médico Rio Preto LTDA - 48.310.098/0001-00
+De: Navita <servicedesk@navita.com.br>
+Para: <vitor.ferreira@austa.com.br>
+Data: sex., 30 jan. 2026 10:31:20 -0300
+Assunto: Re: AJUDA PARA VOLTAR MEU DISPOSITIVO
+30/01/2026 10:30Gabriella Regina Barbosa Pichelli
+Olá, Victor. Bom dia! 
+Tudo bem? 
+Antes de prosseguirmos, por gentileza, nos enviar o CNPJ da empresa. 
+Você lembra a conta google que estava registrada no aparelho? 
+Aguardo retorno, 
+Suporte Navita
+Declaro estar ciente do trabalho acima realizado e concordo com a realização do mesmo.
+AUSTA
+Página 4 de 4

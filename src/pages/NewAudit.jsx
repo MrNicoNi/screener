@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useUsers } from '../hooks/useUsers'
 import { useEvaluations } from '../hooks/useEvaluations'
@@ -9,20 +9,70 @@ import { useToast } from '../components/Toast'
 
 export function NewAudit() {
     const navigate = useNavigate()
+    const { id: editId } = useParams() // present when editing
+    const isEditMode = Boolean(editId)
+
     const { userProfile } = useAuth()
-    const { users: allUsers } = useUsers() // Renamed to avoid conflict with filtered 'analysts'
+    const { users: allUsers } = useUsers()
     const toast = useToast()
     const { createEvaluation } = useEvaluations()
 
     const [analystId, setAnalystId] = useState('')
     const [ticketId, setTicketId] = useState('')
+    const [ticketSubject, setTicketSubject] = useState('')
     const [feedback, setFeedback] = useState('')
     const [criticalPass, setCriticalPass] = useState(true)
     const [checkedItems, setCheckedItems] = useState({})
     const [finalScore, setFinalScore] = useState(0)
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [loadingEdit, setLoadingEdit] = useState(isEditMode)
 
     const analysts = allUsers.filter(u => u.role === 'analyst' && u.is_active)
+
+    // Load existing evaluation data in edit mode
+    useEffect(() => {
+        if (!isEditMode) return
+
+        async function loadEvaluation() {
+            try {
+                setLoadingEdit(true)
+                const { data, error } = await supabase
+                    .from('evaluations')
+                    .select(`*, items:evaluation_items(*)`)
+                    .eq('id', editId)
+                    .single()
+
+                if (error) throw error
+                if (!data) throw new Error('Avaliação não encontrada')
+
+                // Pre-populate form fields
+                setAnalystId(data.analyst_id || '')
+                setTicketId(data.ticket_id || '')
+                setTicketSubject(data.ticket_subject || '')
+                setFeedback(data.feedback || '')
+
+                // Reconstruct checkedItems from evaluation_items
+                // value >= 3 means checked (value=5 = yes, value=1 = no)
+                const items = {}
+                ;(data.items || []).forEach(item => {
+                    items[item.criterion_key] = item.value >= 3
+                })
+                setCheckedItems(items)
+
+                // Detect critical pass from final_score
+                // If score was 0 and there are items checked, it was a critical fail
+                setCriticalPass(data.final_score > 0 || Object.values(items).every(v => !v))
+            } catch (err) {
+                console.error('[NewAudit] Error loading evaluation for edit:', err)
+                toast.error('Erro ao carregar avaliação para edição')
+                navigate('/dashboard')
+            } finally {
+                setLoadingEdit(false)
+            }
+        }
+
+        loadEvaluation()
+    }, [editId, isEditMode])
 
     useEffect(() => {
         calculateScore()
@@ -37,7 +87,6 @@ export function NewAudit() {
         let score = 0
         Object.keys(FRAMEWORK).forEach(section => {
             const sectionScore = FRAMEWORK[section].items.reduce((sum, item) => {
-                // Each item contributes its weight (0-1) to the section score
                 return sum + (checkedItems[item.id] ? item.weight * 100 : 0)
             }, 0)
             score += sectionScore * FRAMEWORK[section].weight
@@ -110,74 +159,118 @@ export function NewAudit() {
                 else if (finalScore >= 75) evaluationStatus = 'approved'
                 else evaluationStatus = 'failed'
             }
-            // If critical item failed, status is always 'failed' regardless of score
 
-            // Create evaluation with evaluator_id and pillar scores
-            const evaluation = await createEvaluation({
-                analyst_id: analystId,
-                evaluator_id: userProfile.id,
-                ticket_id: ticketId,
-                score_communication: communicationScore,
-                score_efficiency: efficiencyScore,
-                score_process: processScore,
-                final_score: finalScore,
-                feedback,
-                status: evaluationStatus
-            })
-
-            // Create evaluation items - save ALL items (checked and unchecked)
+            // Build evaluation items list
             const items = []
             Object.keys(FRAMEWORK).forEach(section => {
                 FRAMEWORK[section].items.forEach(item => {
                     items.push({
-                        evaluation_id: evaluation.id,
                         criterion_key: item.id,
-                        value: checkedItems[item.id] ? 5 : 1, // 5 = Yes (checked), 1 = No (unchecked) - matches DB constraint
-                        notes: `Weight: ${(item.weight * 100).toFixed(0)}%` // Store percentage in notes
+                        value: checkedItems[item.id] ? 5 : 1,
+                        notes: `Weight: ${(item.weight * 100).toFixed(0)}%`
                     })
                 })
             })
 
-            // Insert all evaluation items
-            const isDevMode = localStorage.getItem('devMode') === 'true'
+            if (isEditMode) {
+                // ── EDIT MODE ─────────────────────────────────────────────
+                // 1. Update the evaluation, resetting acknowledgment state
+                const { error: updateError } = await supabase
+                    .from('evaluations')
+                    .update({
+                        analyst_id: analystId,
+                        ticket_id: ticketId,
+                        ticket_subject: ticketSubject || null,
+                        score_communication: communicationScore,
+                        score_efficiency: efficiencyScore,
+                        score_process: processScore,
+                        final_score: Math.round(finalScore * 100) / 100,
+                        feedback,
+                        status: evaluationStatus,
+                        // Reset analyst acknowledgment so they must review again
+                        analyst_acknowledged: false,
+                        acknowledged_at: null,
+                        analyst_comment: null,
+                        dispute_reason: null,
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('id', editId)
 
-            if (isDevMode) {
-                // Dev Mode: Save to localStorage
-                const mockDB = JSON.parse(localStorage.getItem('mockDB') || '{"evaluations":[],"evaluation_items":[]}')
+                if (updateError) throw updateError
 
-                // Add IDs and timestamps to items
-                const itemsWithIds = items.map(item => ({
-                    ...item,
-                    id: crypto.randomUUID(),
-                    created_at: new Date().toISOString()
-                }))
+                // 2. Delete old items and re-insert updated ones
+                const { error: deleteError } = await supabase
+                    .from('evaluation_items')
+                    .delete()
+                    .eq('evaluation_id', editId)
 
-                mockDB.evaluation_items.push(...itemsWithIds)
-                localStorage.setItem('mockDB', JSON.stringify(mockDB))
+                if (deleteError) throw deleteError
 
-                console.log('[NewAudit] Dev Mode: Saved', itemsWithIds.length, 'items to mockDB')
+                const { error: insertError } = await supabase
+                    .from('evaluation_items')
+                    .insert(items.map(item => ({ ...item, evaluation_id: editId })))
+
+                if (insertError) throw insertError
+
+                toast.success('Avaliação atualizada com sucesso! O analista precisará dar nova ciência.')
+                setTimeout(() => navigate(`/avaliacao/${editId}`), 1500)
             } else {
-                // Production Mode: Save to Supabase
-                await supabase.from('evaluation_items').insert(items)
+                // ── CREATE MODE ───────────────────────────────────────────
+                const evaluation = await createEvaluation({
+                    analyst_id: analystId,
+                    evaluator_id: userProfile.id,
+                    ticket_id: ticketId,
+                    ticket_subject: ticketSubject || null,
+                    score_communication: communicationScore,
+                    score_efficiency: efficiencyScore,
+                    score_process: processScore,
+                    final_score: finalScore,
+                    feedback,
+                    status: evaluationStatus
+                })
 
-                // Email notification is handled by useEvaluations.createEvaluation()
-                console.log('[NewAudit] Evaluation items saved, email sent by useEvaluations')
+                const isDevMode = localStorage.getItem('devMode') === 'true'
+
+                if (isDevMode) {
+                    const mockDB = JSON.parse(localStorage.getItem('mockDB') || '{"evaluations":[],"evaluation_items":[]}')
+                    const itemsWithIds = items.map(item => ({
+                        ...item,
+                        evaluation_id: evaluation.id,
+                        id: crypto.randomUUID(),
+                        created_at: new Date().toISOString()
+                    }))
+                    mockDB.evaluation_items.push(...itemsWithIds)
+                    localStorage.setItem('mockDB', JSON.stringify(mockDB))
+                    console.log('[NewAudit] Dev Mode: Saved', itemsWithIds.length, 'items to mockDB')
+                } else {
+                    await supabase
+                        .from('evaluation_items')
+                        .insert(items.map(item => ({ ...item, evaluation_id: evaluation.id })))
+                    console.log('[NewAudit] Evaluation items saved, email sent by useEvaluations')
+                }
+
+                toast.success('Avaliação criada com sucesso!')
+                setTimeout(() => navigate('/dashboard'), 1500)
             }
-
-            // Show success toast and navigate after a brief delay
-            toast.success('Avaliação criada com sucesso!')
-            setTimeout(() => {
-                navigate('/dashboard')
-            }, 1500) // 1.5s delay to show toast
         } catch (err) {
             console.error('[NewAudit] Error:', err)
-            toast.error(err.message || 'Erro ao criar avaliação')
+            toast.error(err.message || `Erro ao ${isEditMode ? 'salvar' : 'criar'} avaliação`)
         } finally {
             setIsSubmitting(false)
         }
     }
 
     const status = getStatusBadge()
+
+    if (loadingEdit) {
+        return (
+            <div className="animate-pulse space-y-6 max-w-4xl mx-auto">
+                <div className="h-16 bg-slate-200 rounded-2xl" />
+                <div className="h-32 bg-slate-200 rounded-2xl" />
+                <div className="h-64 bg-slate-200 rounded-2xl" />
+            </div>
+        )
+    }
 
     return (
         <div className="min-h-screen pb-20">
@@ -186,10 +279,14 @@ export function NewAudit() {
                 <div className="max-w-4xl mx-auto py-4 flex justify-between items-center">
                     <div>
                         <h1 className="text-xl font-display font-bold text-slate-900">
-                            Quality Framework <span className="text-navita-green">FY26</span>
+                            {isEditMode ? (
+                                <>Editar Avaliação <span className="text-amber-500">#{ticketId || '...'}</span></>
+                            ) : (
+                                <>Quality Framework <span className="text-navita-green">FY26</span></>
+                            )}
                         </h1>
                         <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">
-                            Operations & Support Audit
+                            {isEditMode ? 'O analista precisará dar nova ciência após salvar' : 'Operations & Support Audit'}
                         </p>
                     </div>
 
@@ -211,8 +308,21 @@ export function NewAudit() {
             </div>
 
             <div className="max-w-4xl mx-auto space-y-12">
-                {/* Form Header */}
+                {/* Edit mode warning banner */}
+                {isEditMode && (
+                    <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start gap-3">
+                        <svg className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <div>
+                            <p className="font-semibold text-amber-800">Modo de Edição</p>
+                            <p className="text-sm text-amber-700">Ao salvar, o status retornará para <strong>Pendente</strong> e o analista precisará dar nova ciência (ou contestar).</p>
+                        </div>
+                    </div>
+                )}
+
                 <form onSubmit={handleSubmit} className="space-y-8">
+                    {/* Form Header */}
                     <div className="clean-card rounded-2xl p-6">
                         <h3 className="text-lg font-semibold text-slate-900 mb-4">Informações da Auditoria</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -239,6 +349,16 @@ export function NewAudit() {
                                     className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-navita-blue focus:border-transparent"
                                     placeholder="Ex: TICKET-12345"
                                     required
+                                />
+                            </div>
+                            <div className="md:col-span-2">
+                                <label className="block text-sm font-medium text-slate-700 mb-2">Assunto do Ticket <span className="text-slate-400">(opcional)</span></label>
+                                <input
+                                    type="text"
+                                    value={ticketSubject}
+                                    onChange={(e) => setTicketSubject(e.target.value)}
+                                    className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-navita-blue focus:border-transparent"
+                                    placeholder="Ex: Problema com acesso ao sistema"
                                 />
                             </div>
                         </div>
@@ -346,7 +466,7 @@ export function NewAudit() {
                     <div className="flex gap-4">
                         <button
                             type="button"
-                            onClick={() => navigate('/dashboard')}
+                            onClick={() => navigate(isEditMode ? `/avaliacao/${editId}` : '/dashboard')}
                             className="flex-1 px-6 py-3 border border-slate-300 rounded-xl hover:bg-slate-50 font-medium transition"
                         >
                             Cancelar
@@ -354,9 +474,15 @@ export function NewAudit() {
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="flex-1 bg-navita-blue text-white px-6 py-3 rounded-xl hover:bg-navita-dark-blue disabled:opacity-50 font-medium transition shadow-lg shadow-blue-900/20"
+                            className={`flex-1 text-white px-6 py-3 rounded-xl disabled:opacity-50 font-medium transition shadow-lg ${
+                                isEditMode
+                                    ? 'bg-amber-500 hover:bg-amber-600 shadow-amber-900/20'
+                                    : 'bg-navita-blue hover:bg-navita-dark-blue shadow-blue-900/20'
+                            }`}
                         >
-                            {isSubmitting ? 'Salvando...' : 'Criar Avaliação'}
+                            {isSubmitting
+                                ? (isEditMode ? 'Salvando...' : 'Criando...')
+                                : (isEditMode ? 'Salvar Alterações' : 'Criar Avaliação')}
                         </button>
                     </div>
                 </form>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { ArrowLeft, FileText, User, Calendar, CheckCircle2, AlertCircle, Trash2 } from 'lucide-react'
+import { ArrowLeft, FileText, User, Calendar, CheckCircle2, AlertCircle, Trash2, Edit3, MessageSquare, XCircle } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import { useEvaluations } from '../hooks/useEvaluations'
 import { supabase } from '../lib/supabase'
@@ -17,6 +17,7 @@ export function EvaluationDetail() {
     const [evaluation, setEvaluation] = useState(null)
     const [comment, setComment] = useState('')
     const [submitting, setSubmitting] = useState(false)
+    const [disputeMode, setDisputeMode] = useState(false) // true = contestar, false = confirmar
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [showDeleteModal, setShowDeleteModal] = useState(false)
@@ -77,7 +78,8 @@ export function EvaluationDetail() {
                 }, {}) || {},
                 feedback: data.feedback || 'Sem feedback.',
                 acknowledged: data.analyst_acknowledged || false,
-                analystComment: data.analyst_comment
+                analystComment: data.analyst_comment,
+                disputeReason: data.dispute_reason
             }
 
             setEvaluation(transformedEval)
@@ -106,6 +108,7 @@ export function EvaluationDetail() {
                     analyst_acknowledged: true,
                     acknowledged_at: new Date().toISOString(),
                     analyst_comment: comment,
+                    dispute_reason: null,
                     status: 'acknowledged'
                 })
                 .eq('id', id)
@@ -116,16 +119,54 @@ export function EvaluationDetail() {
                 ...prev,
                 acknowledged: true,
                 analystComment: comment,
-                scores: {
-                    ...prev.scores,
-                    status: 'acknowledged'
-                }
+                disputeReason: null,
+                scores: { ...prev.scores, status: 'acknowledged' }
             }))
             showToast('Ciência confirmada com sucesso!', 'success')
-            setComment('') // Clear comment after success
+            setComment('')
         } catch (err) {
             console.error('Error acknowledging:', err)
             showToast(err.message || 'Erro ao confirmar ciência', 'error')
+        } finally {
+            setSubmitting(false)
+        }
+    }
+
+    const handleDispute = async () => {
+        if (!comment.trim()) return
+
+        if (isAnalyst && evaluation?.analystEmail !== userProfile?.email) {
+            showToast('Você não tem permissão para contestar esta avaliação', 'error')
+            return
+        }
+
+        setSubmitting(true)
+        try {
+            const { error: updateError } = await supabase
+                .from('evaluations')
+                .update({
+                    analyst_acknowledged: false,
+                    analyst_comment: null,
+                    dispute_reason: comment,
+                    status: 'disputed'
+                })
+                .eq('id', id)
+
+            if (updateError) throw updateError
+
+            setEvaluation(prev => ({
+                ...prev,
+                acknowledged: false,
+                analystComment: null,
+                disputeReason: comment,
+                scores: { ...prev.scores, status: 'disputed' }
+            }))
+            showToast('Contestação registrada com sucesso!', 'success')
+            setComment('')
+            setDisputeMode(false)
+        } catch (err) {
+            console.error('Error disputing:', err)
+            showToast(err.message || 'Erro ao registrar contestação', 'error')
         } finally {
             setSubmitting(false)
         }
@@ -197,15 +238,24 @@ export function EvaluationDetail() {
                     Voltar
                 </Link>
 
-                {/* Delete Button - Only visible to Admins and Evaluators */}
+                {/* Edit & Delete Buttons - Only visible to Admins and Evaluators */}
                 {(isAdmin || isEvaluator) && (
-                    <button
-                        onClick={() => setShowDeleteModal(true)}
-                        className="inline-flex items-center gap-2 px-4 py-2 text-red-600 hover:text-white hover:bg-red-600 border border-red-600 rounded-xl transition font-medium"
-                    >
-                        <Trash2 className="w-4 h-4" />
-                        Excluir Avaliação
-                    </button>
+                    <div className="flex gap-2">
+                        <button
+                            onClick={() => navigate(`/editar-avaliacao/${id}`)}
+                            className="inline-flex items-center gap-2 px-4 py-2 text-amber-600 hover:text-white hover:bg-amber-500 border border-amber-400 rounded-xl transition font-medium"
+                        >
+                            <Edit3 className="w-4 h-4" />
+                            Editar
+                        </button>
+                        <button
+                            onClick={() => setShowDeleteModal(true)}
+                            className="inline-flex items-center gap-2 px-4 py-2 text-red-600 hover:text-white hover:bg-red-600 border border-red-600 rounded-xl transition font-medium"
+                        >
+                            <Trash2 className="w-4 h-4" />
+                            Excluir
+                        </button>
+                    </div>
                 )}
             </div>
 
@@ -308,7 +358,7 @@ export function EvaluationDetail() {
                 <p className="text-slate-700 bg-slate-50 p-4 rounded-xl whitespace-pre-wrap">{evaluation?.feedback}</p>
             </div>
 
-            {/* Analyst Acknowledgment (only for analysts viewing their own evaluations) */}
+            {/* Analyst Acknowledgment / Dispute Section */}
             {isAnalyst && (
                 <div className="clean-card rounded-2xl p-6">
                     <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
@@ -316,32 +366,111 @@ export function EvaluationDetail() {
                         Confirmação de Ciência
                     </h3>
 
-                    {evaluation?.acknowledged ? (
+                    {/* Already acknowledged */}
+                    {evaluation?.scores?.status === 'acknowledged' && (
                         <div className="bg-green-50 border border-green-200 rounded-xl p-4">
-                            <p className="text-green-700 font-medium mb-2">✓ Avaliação confirmada</p>
-                            <p className="text-sm text-green-600">{evaluation?.analystComment || comment}</p>
+                            <p className="text-green-700 font-semibold mb-1 flex items-center gap-2">
+                                <CheckCircle2 className="w-4 h-4" /> Avaliação confirmada
+                            </p>
+                            {evaluation?.analystComment && (
+                                <p className="text-sm text-green-700 mt-1">{evaluation.analystComment}</p>
+                            )}
                         </div>
-                    ) : (
+                    )}
+
+                    {/* Already disputed */}
+                    {evaluation?.scores?.status === 'disputed' && (
+                        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+                            <p className="text-amber-700 font-semibold mb-1 flex items-center gap-2">
+                                <XCircle className="w-4 h-4" /> Avaliação contestada
+                            </p>
+                            {evaluation?.disputeReason && (
+                                <p className="text-sm text-amber-700 mt-1">{evaluation.disputeReason}</p>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Pending — show confirm + dispute buttons */}
+                    {evaluation?.scores?.status !== 'acknowledged' && evaluation?.scores?.status !== 'disputed' && (
                         <>
                             <p className="text-slate-600 mb-4">
-                                Adicione um comentário para confirmar que você leu e entendeu o feedback.
+                                Leia o feedback e confirme sua ciência, ou registre uma contestação se discordar.
                             </p>
+
+                            {/* Toggle buttons for mode */}
+                            <div className="flex gap-2 mb-4">
+                                <button
+                                    type="button"
+                                    onClick={() => setDisputeMode(false)}
+                                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border font-medium text-sm transition ${
+                                        !disputeMode
+                                            ? 'bg-navita-green text-white border-navita-green shadow-lg shadow-green-900/20'
+                                            : 'border-slate-300 text-slate-600 hover:bg-slate-50'
+                                    }`}
+                                >
+                                    <CheckCircle2 className="w-4 h-4" />
+                                    Confirmar Ciência
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setDisputeMode(true)}
+                                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border font-medium text-sm transition ${
+                                        disputeMode
+                                            ? 'bg-amber-500 text-white border-amber-500 shadow-lg shadow-amber-900/20'
+                                            : 'border-slate-300 text-slate-600 hover:bg-slate-50'
+                                    }`}
+                                >
+                                    <MessageSquare className="w-4 h-4" />
+                                    Contestar
+                                </button>
+                            </div>
+
                             <textarea
                                 value={comment}
                                 onChange={(e) => setComment(e.target.value)}
-                                placeholder="Escreva seu comentário..."
+                                placeholder={disputeMode
+                                    ? 'Descreva o motivo da contestação...'
+                                    : 'Escreva seu comentário (opcional, mas recomendado)...'}
                                 rows={3}
-                                className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-navita-blue focus:ring-2 focus:ring-navita-blue/20 outline-none resize-none mb-4"
+                                className={`w-full border rounded-xl px-4 py-3 text-sm outline-none resize-none mb-4 transition ${
+                                    disputeMode
+                                        ? 'border-amber-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
+                                        : 'border-slate-200 focus:border-navita-blue focus:ring-2 focus:ring-navita-blue/20'
+                                }`}
                             />
-                            <button
-                                onClick={handleAcknowledge}
-                                disabled={!comment.trim() || submitting}
-                                className="w-full sm:w-auto px-6 py-2.5 bg-navita-green text-white font-medium rounded-xl hover:bg-green-600 transition shadow-lg shadow-green-900/20 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                {submitting ? 'Confirmando...' : 'Confirmar Ciência'}
-                            </button>
+
+                            {disputeMode ? (
+                                <button
+                                    onClick={handleDispute}
+                                    disabled={!comment.trim() || submitting}
+                                    className="w-full sm:w-auto px-6 py-2.5 bg-amber-500 text-white font-medium rounded-xl hover:bg-amber-600 transition shadow-lg shadow-amber-900/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {submitting ? 'Registrando...' : 'Registrar Contestação'}
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={handleAcknowledge}
+                                    disabled={submitting}
+                                    className="w-full sm:w-auto px-6 py-2.5 bg-navita-green text-white font-medium rounded-xl hover:bg-green-600 transition shadow-lg shadow-green-900/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {submitting ? 'Confirmando...' : 'Confirmar Ciência'}
+                                </button>
+                            )}
                         </>
                     )}
+                </div>
+            )}
+
+            {/* Dispute reason visible to evaluators/admins too */}
+            {(isAdmin || isEvaluator) && evaluation?.scores?.status === 'disputed' && (
+                <div className="clean-card rounded-2xl p-6 border-l-4 border-amber-400">
+                    <h3 className="text-lg font-semibold text-slate-900 mb-3 flex items-center gap-2">
+                        <MessageSquare className="w-5 h-5 text-amber-500" />
+                        Motivo da Contestação
+                    </h3>
+                    <p className="text-slate-700 bg-amber-50 p-4 rounded-xl whitespace-pre-wrap">
+                        {evaluation?.disputeReason || '—'}
+                    </p>
                 </div>
             )}
 

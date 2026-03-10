@@ -1,0 +1,105 @@
+
+
+NETCINE ASSESSORIA DE NEGOCIO E INGRE...
+#96709 - Novos aparelhos CineflixTICKET FECHADO
+NETCINE ASSESSORIA DE NEGOCIO E INGRESSOS LTDA (VIVO)
+ENDEREÇOS DO CLIENTESOLICITANTETELEFONE DO SOLICITANTE
+Fabricio Souza - Suporte
+Operacional Cineflix 
+(fabricio@cineflix.com.br)
++
+INFORMAÇÕES DO TICKET
+MESARESPONSÁVELABERTO EMFECHADO EMREVISADO EMPRIORIDADE
+NOVA VIVO - EMMAmanda Rodrigues27/01/202602/02/202609/02/20262 - Média Prioridade
+GRUPO DE RECURSO/LOCAL/USUÁRIO DO EQUIPAMENTO
+CATÁLOGO DE SERVIÇOS
+NOMEÁREAITEM
+Catálogo Vivo 2023RequisiçõesZero Touch
+DESCRIÇÃO DO TICKET
+Página 1 de 3
+
+Boa tarde,
+Preciso inserir os equipamentos abaixo em nosso ambiente, havia feito recentemente treinamento com o Daniel, mas tenho maior urgência para
+concluir a atividade, num segundo momento farei o cadastro pessoalmente.
+APARELHO SAL [MOTO G84 5G]
+VERSÃO ANDROID: 15
+IMEI (slot para chip 1): 353685811806778 / 37
+IMEI (slot para chip 2): 353685811806786 / 37
+ICCID (slot para chip 2): 89550644164000815765
+EID (slot para chip 2): 890330234263000000000033189515590
+Número de série: ZF524GVJ4G
+APARELHO TAQ [MOTOROLA e22]
+VERSÃO ANDROID: 12
+IMEI 1: 359296844179813 / 28
+IMEI 2: 359296844179821 / 28
+ICCID 2: 89550531990075145852
+Número de série: 0081457460
+APARELHO RIO [MOTO G84 5G]
+VERSÃO ANDROID: 15
+IMEI 1: 353685811815019 / 37
+IMEI 2: 353685811815027 / 37
+ICCID 2: 89550644164000666606
+MSISDN 2: +5544991573607
+EID 2: 890330234263000000000033103452146
+Número de série: ZF524GRHQF
+APARELHO NAT [GALAXY A03 CORE]
+VERSÃO ANDROID: 13
+IMEI 1: 352081309978660 / 01
+IMEI 2: 357299759978668 / 01
+SN (Número de série): R9XTB00EZTL
+Caixa A [CWC]
+IMEI 1: 353044841731830
+IMEI 2: 353044841731848
+EID: 89033023423399010000050361317154
+Caixa B [MOC]
+IMEI 1: 350321975156874
+IMEI 2: 350321975156882
+EID: 89033023423399010000052019565037
+Caixa C [JERUZA]
+IMEI 1: 350321975150315
+IMEI 2: 350321975150323
+EID: 89033023423399010000052019410613
+Cordialmente,
+FABRICIO SOUZA | ANALISTA DE TI   fabricio@cineflix.com.br |  44 3112.9066 | VOTE CINEFLIX!
+ Av. Humaitá, 411. Edifício Itaocara, sala 305 – Maringá PR – CEP: 87014-200
+ 
+Página 2 de 3
+
+COMUNICAÇÃO COM CLIENTE
+DATAAUTORARQUIVOS
+02/02/2026 14:35Amanda Rodrigues
+Olá Fabricio Souza - Suporte Operacional Cineflix,
+Informamos que este ticket está sendo finalizado por falta de retorno. 
+Você receberá um e-mail com o link de avaliação de atendimento. Sua avaliação é importante!
+Seguimos à disposição.
+Equipe Navita
+30/01/2026 14:27Amanda Rodrigues
+Olá Fabricio Souza,
+Teve a oportunidade de ver o e-mail abaixo para seguirmos com o atendimento?
+Caso não haja retorno em até 24horas, o ticket será encerrado.
+Cordialmente,
+Equipe Navita
+29/01/2026 10:21Amanda Rodrigues
+Bom dia, Fabricio!
+Os IMEIs 353685811806778 (SAL), 353044841731830 (CWC) e 350321975150315 (JERUZA) já foram adicionados ao Zero-Touch, com os
+respectivos grupos indicados.
+Por gentileza, realize o reset dos dispositivos para que eles possam ser ativados corretamente.
+Os IMEIs 359296844179813 (TAQ) e 352081309978660 (NAT) já se encontram ativos na plataforma, nos grupos corretos. Poderia nos
+confirmar se deseja que esses dispositivos também sejam cadastrados no Zero-Touch?
+Já o IMEI 350321975156874 (MOC) está ativo na plataforma, porém vinculado ao grupo Icleuber. Poderia nos confirmar se deseja que ele
+seja cadastrado no Zero-Touch em outro grupo (MOC)?
+Por fim, o IMEI 353685811815019 (RIO) ainda não foi adicionado ao Zero-Touch, pois é necessário que o grupo indicado seja criado
+previamente na plataforma.
+Fico no aguardo de seu retorno para prosseguirmos.
+Atenciosamente,
+Suporte Navita
+28/01/2026 12:36Amanda Rodrigues
+O Sla foi pausado. Motivo: em analise
+28/01/2026 12:32Amanda Rodrigues
+Olá Fabricio Souza - Suporte Operacional Cineflix,
+Informo que o ticket #96709 segue em análise, retornaremos em breve.
+Seguimos à disposição.
+Equipe Navita
+Declaro estar ciente do trabalho acima realizado e concordo com a realização do mesmo.
+NETCINE ASSESSORIA DE NEGOCIO E INGRESSOS LTDA (VIVO)
+Página 3 de 3

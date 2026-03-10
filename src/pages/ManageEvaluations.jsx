@@ -288,10 +288,11 @@ export function ManageEvaluations() {
                         className="px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-navita-blue focus:border-transparent"
                     >
                         <option value="all">Todos os Status</option>
-                        <option value="excellent">Excellent</option>
-                        <option value="approved">Approved</option>
-                        <option value="failed">Failed</option>
-                        <option value="acknowledged">Acknowledged</option>
+                        <option value="excellent">Excelente</option>
+                        <option value="approved">Aprovado</option>
+                        <option value="failed">Reprovado</option>
+                        <option value="acknowledged">Confirmado</option>
+                        <option value="disputed">Contestado</option>
                     </select>
 
                     <select

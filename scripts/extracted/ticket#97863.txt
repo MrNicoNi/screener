@@ -1,0 +1,169 @@
+
+
+#97863 - AJUSTE NO RELATORIO DE CONTA CONTABILTICKET FECHADO
+ITAU UNIBANCO S/A (NAVITA CONSULTING)
+ENDEREÇOS DO CLIENTESOLICITANTETELEFONE DO SOLICITANTE
+Luciana Fernandes da Silva Benjamim 
+(luciana.benjamim@itau-unibanco.com.br)
++551127333838
+INFORMAÇÕES DO TICKET
+MESARESPONSÁVELABERTO EMFECHADO EMREVISADO EMPRIORIDADE
+ITAÚLucas Guthierrez Oliver02/03/202609/03/202610/03/2026Incidente de Baixa Prioridade
+GRUPO DE RECURSO/LOCAL/USUÁRIO DO EQUIPAMENTO
+CATÁLOGO DE SERVIÇOS
+NOMEÁREAITEM
+SAAS / BPO CONNECT(Cat)RequisiçõesRelatório Connect
+CAMPO PERSONALIZADO SAAS / BPO CONNECT(CAT) (1)
+SISTEMA
+AFETADO 
+ 
+ 
+ 
+ 
+ 
+CONNECT
+EMM NAVITA
+KNOX
+MAAS
+MOBILE
+IRON
+SGT
+Página 1 de 6
+
+DESCRIÇÃO DO TICKET
+Dani, bom dia!
+ 
+Hoje deparei-me com a tela nova para extração do relatório de conta contábil (vide evidência abaixo), contudo, solicito ajuste de modo que tenha como filtro “DATA DA REQUISIÇÃO”.
+ 
+Segue anexo modelo de relatório no qual utilizávamos.
+ 
+ 
+ 
+ 
+Luciana Fernandes da Silva Benjamim
+CTO2 -  Ger Efic Gest De Forn Infra Ti
+Coord Gest Custos Portfolio
+Telefone: 11  2733-3838
+Itaú Unibanco
+ 
+ 
+Corporativo | Interno
+Esta mensagem é reservada e sua divulgação, distribuição, reprodução ou qualquer forma de uso é proibida e depende de prévia autorização desta instituição. O remetente utiliza o correio eletrônico no exercício
+do seu trabalho ou em razão dele, eximindo esta instituição de qualquer responsabilidade por utilização indevida. Se você recebeu esta mensagem por engano, favor eliminá-la imediatamente.
+This message is reserved and its disclosure, distribution, reproduction or any other form of use is prohibited and shall depend upon previous proper authorization. The sender uses the electronic mail in the exercise
+of his/her work or by virtue thereof, and the institution takes no liability for its undue use. If you have received this e-mail by mistake, please delete it immediately.
+COMUNICAÇÃO COM CLIENTE
+DATAAUTORARQUIVOS
+09/03/2026 11:00Lucas Guthierrez Oliver
+Página 2 de 6
+
+Luciana, bom dia!
+Como o relatório saiu como o esperado, irei dar encerramento ao ticket.
+Qualquer outro problema ou dúvida estou a disposição.
+Att,
+Lucas Guthierrez Oliver
+ 
+Customer Support Engineer I
+Customer Support
+lucas.oliver@enghouse.com
+                                                                                
+05/03/2026 10:16Lucas Guthierrez Oliver
+Luciana, bom dia!
+Validei e seu relatório foi gerado, poderia verificar se as informações estão corretas?
+Att,
+Lucas Guthierrez Oliver
+ 
+Customer Support Engineer I
+Customer Support
+lucas.oliver@enghouse.com
+                                                                                
+04/03/2026 16:24Luciana Fernandes da Silva Benjamimimage005.png image004.png image003.png image002.png
+Página 3 de 6
+
+Tiflux
+Lucas,
+Coloquei o arquivo para processar, contudo, fazem mais de 20 minutos e o status da fila permanece o mesmo:
+ 
+Pode verificar?
+At.te.
+ 
+Luciana Fernandes da Silva Benjamim
+CTO2 -  Ger Efic Gest De Forn Infra Ti
+Coord Gest Custos Portfolio
+Telefone: 11  2733-3838
+Itaú Unibanco
+ 
+ 
+Corporativo | Interno
+De: Navita <servicedesk@navita.com.br> 
+Enviada em: quarta-feira, 4 de março de 2026 15:59
+Para: Luciana Fernandes da Silva Benjamim <luciana.benjamim@itau-unibanco.com.br>; daniel.oliveira@enghouse.com; Camila Martins Barduchi <camila.barduchi@itau-unibanco.com.br>; Ivonete
+Santos Pereira <ivonete.pereira@itau-unibanco.com.br>
+Assunto: Re: AJUSTE NO RELATORIO DE CONTA CONTABIL
+ 
+04/03/2026 15:58Lucas Guthierrez Oliver
+Luciana,
+Ajustei o relatório, agora não existe mais o filtro Linha - Conta Contábil.
+Poderia validar depois se está conforme você necessita?
+Att,
+ 
+Lucas Guthierrez Oliver
+ 
+Customer Support Engineer I
+Customer Support
+lucas.oliver@enghouse.com
+                                                                                
+02/03/2026 15:35Lucas Guthierrez Oliver
+Página 4 de 6
+
+Luciana,
+Valida para nós como ele esta aparecendo agora você.
+Att,
+Lucas Guthierrez Oliver
+ 
+Customer Support Engineer I
+Customer Support
+lucas.oliver@enghouse.com
+                                                                                
+02/03/2026 15:35Lucas Guthierrez Oliver
+O Sla foi pausado. Motivo: Aguardando a validação do cliente sobre o relatório.
+02/03/2026 15:34Luciana Fernandes da Silva Benjamimimage005.png image004.png image003.png image002.png
+Tiflux
+Lucas, boa tarde!
+ 
+Correto. É este formato.
+ 
+Vale destacar que para a extração do relatório apenas informávamos a data da requisição.
+ 
+At.te.
+ 
+ 
+Luciana Fernandes da Silva Benjamim
+CTO2 -  Ger Efic Gest De Forn Infra Ti
+Coord Gest Custos Portfolio
+Telefone: 11  2733-3838
+Itaú Unibanco
+ 
+ 
+Corporativo | Interno
+De: Navita <servicedesk@navita.com.br> 
+Enviada em: segunda-feira, 2 de março de 2026 15:29
+Para: Luciana Fernandes da Silva Benjamim <luciana.benjamim@itau-unibanco.com.br>; daniel.oliveira@enghouse.com; Camila Martins Barduchi <camila.barduchi@itau-unibanco.com.br>; Ivonete
+Santos Pereira <ivonete.pereira@itau-unibanco.com.br>
+Assunto: Re: AJUSTE NO RELATORIO DE CONTA CONTABIL
+ 
+02/03/2026 15:28Lucas Guthierrez Oliver
+Página 5 de 6
+
+Luciana, boa tarde!
+Efetuei uma validação do relatório é nesse o formato que estava Luciana?
+ 
+Lucas Guthierrez Oliver
+ 
+Customer Support Engineer I
+Customer Support
+lucas.oliver@enghouse.com
+                                                                                
+Declaro estar ciente do trabalho acima realizado e concordo com a realização do mesmo.
+ITAU UNIBANCO S/A (NAVITA CONSULTING)
+Página 6 de 6

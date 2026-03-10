@@ -127,6 +127,8 @@ export const getStatusDisplay = (status) => {
         excellent: { text: 'Excelente', color: 'green', bgClass: 'bg-green-50 text-green-600 border-green-200' },
         approved: { text: 'Aprovado', color: 'blue', bgClass: 'bg-blue-50 text-blue-600 border-blue-200' },
         failed: { text: 'Reprovado', color: 'red', bgClass: 'bg-red-50 text-red-600 border-red-200' },
+        acknowledged: { text: 'Confirmado', color: 'green', bgClass: 'bg-green-50 text-green-600 border-green-200' },
+        disputed: { text: 'Contestado', color: 'amber', bgClass: 'bg-amber-50 text-amber-600 border-amber-200' },
         pending: { text: 'Pendente', color: 'slate', bgClass: 'bg-slate-100 text-slate-400 border-slate-200' }
     }
     return displays[status] || displays.pending

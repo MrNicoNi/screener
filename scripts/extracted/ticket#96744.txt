@@ -1,0 +1,786 @@
+
+
+MOBI ALL TECNOLOGIA LTDA
+#96744 - Fila de processamento de fatura travadaTICKET FECHADO
+MOBI ALL TECNOLOGIA LTDA
+ENDEREÇOS DO CLIENTESOLICITANTETELEFONE DO SOLICITANTE
+Selma Martins Mauricio 
+(selma.mauricio@enghouse.com)
+INFORMAÇÕES DO TICKET
+MESARESPONSÁVELABERTO EMFECHADO EMREVISADO EMPRIORIDADE
+NOVA SaaS - CONNECTLucas Guthierrez Oliver28/01/202605/02/202606/02/2026SLA Padrão SAAS
+GRUPO DE RECURSO/LOCAL/USUÁRIO DO EQUIPAMENTO
+CATÁLOGO DE SERVIÇOS
+NOMEÁREAITEM
+Catálogo SAAS TEM ConnectIncidentesFalha Fila de Faturas
+DESCRIÇÃO DO TICKET
+Prezados, boa tarde!
+ 
+Fui colocar uma fatura para processar e identifiquei que não foi para fila ao olhar no BC a ultima fatura que entrou na fila foi as 13h07, pode verificar o que está ocorrendo por favor.
+ 
+ 
+ 
+Atenciosamente,
+Selma Martins Mauricio
+Team Leader – Onboarding – TEM | ITEM
+55 11 9.6594-1766
+Selma.mauricio@enghouse.com  
+  
+ 
+COMUNICAÇÃO COM CLIENTE
+DATAAUTORARQUIVOS
+03/02/2026 14:11Nicolas Melgaço de Andradeimage020.png 
+Página 1 de 15
+
+Boa tarde, time! 
+Vou mandar uma reunião para falarmos, ok? 
+Bora que vamo. A meta é mitigarmos definitivamente o problema. 
+ 
+Nicolas De Andrade
+ 
+ 
+Onboarding & Support
+Manager
+ 
+nicolas.andrade@enghouse.com
+ 
++55 11 94484-8082
+ 
+    
+ 
+                                       
+  
+ 
+ 
+De: Arthur Brás de Jesus Ferreira <ARTHUR.FERREIRA@enghouse.com> 
+Enviada em: quinta-feira, 29 de janeiro de 2026 15:35
+Para: Selma Martins Mauricio <Selma.Mauricio@enghouse.com>; Navita Service Desk <Navita.ServiceDesk@enghouse.com>; Jucilene Aparecida Silva Santos <JUCILENE.SANTOS@enghouse.com>; Nicolas Melgaço de Andrade <NICOLAS.ANDRADE@enghouse.com>; Lucas Guthierrez 
+<LUCAS.OLIVER@enghouse.com>; Tiago Cabral Albuquerque <TIAGO.ALBUQUERQUE@enghouse.com>
+Assunto: RE: Fila de processamento de fatura travada
+ 
+Boa tarde, 
+ 
+@Nicolas, precisamos alinhar com os times esse processo, já limpamos a fila 3 vezes e novamente subiram faturas maiores do que o esperado e causaram lentidão na fila.
+ 
+Já chequei os serviços e logs das maquinas a fila esta rodando, lenta por conta do volume mas esta rodando, temos como avaliar melhorias das maquinas mas não nesta semana, o time de dev esta focado em no projeto do Gateway SAP para o Itaú e só irá conseguir fazer esse tipo de avaliação semana que vem.
+ 
+Antes de limparmos a fila uma quarta vez eu gostaria de primeiro evitar que o problema aconteça de novo, temos que ver com o Tiago como esta sendo importado esses arquivos da Porto.
+ 
+Atenciosamente,
+ 
+ 
+Arthur Ferreira 
+ 
+Customer Support Engineer II
+ 
+Customer Support
+arthur.ferreira@enghouse.com
+ 
+ 
+De: Selma Martins Mauricio <Selma.Mauricio@enghouse.com>
+Enviado: quinta-feira, 29 de janeiro de 2026 12:19
+Para: Arthur Brás de Jesus Ferreira <ARTHUR.FERREIRA@enghouse.com>; Navita Service Desk <Navita.ServiceDesk@enghouse.com>; Jucilene Aparecida Silva Santos <JUCILENE.SANTOS@enghouse.com>; Nicolas Melgaço de Andrade <
+<LUCAS.OLIVER@enghouse.com>; Tiago Cabral Albuquerque <TIAGO.ALBUQUERQUE@enghouse.com>
+Assunto: RES: Fila de processamento de fatura travada
+ 
+...
+30/01/2026 11:43Gilmar Aparecido da Silvaimage008.png 
+Bom dia @Tiago Cabral Albuquerque
+eu pesquisei essas faturas: 90391000450, 90397303055, 90398102258, 91591000451
+e elas estão com status 'desativadas' no robô desde nov/2025, ou seja, o robô não esta nem fazendo download delas.
+Gilmar Silva
+Esp Contininuous Improvement
+R&D
+gilmar.silva@enghouse.com
+  
+ 
+  
+Página 2 de 15
+
+De: Tiago Cabral Albuquerque <TIAGO.ALBUQUERQUE@enghouse.com>
+Enviado: sexta-feira, 30 de janeiro de 2026 10:20
+Para: Selma Martins Mauricio <Selma.Mauricio@enghouse.com>; Gilmar Aparecido da Silva <GILMAR.SILVA@enghouse.com>; Arthur Brás de Jesus Ferreira <ARTHUR.FERREIRA@enghouse.com>; Jucilene Aparecida Silva Santos <JUCILENE.SANTOS@enghouse.com>; Navita Service 
+<Navita.ServiceDesk@enghouse.com>; Nicolas Melgaço de Andrade <NICOLAS.ANDRADE@enghouse.com>; Lucas Guthierrez Oliver <LUCAS.OLIVER@enghouse.com>; Daniel Carvalho de Oliveira <DANIEL.OLIVEIRA@enghouse.com>
+Assunto: RE: Fila de processamento de fatura travada
+ 
+Bom dia, pessoal.
+Pelo que identificamos as faturas abaixo estariam impactando a fila, mas para esses exemplo, seriam as faturas do mês.
+Nome do arquivo - PORTO SEGURO_08007041207_2026-02-18_Febraban.zip.
+As faturas que identificamos que foram reprocessadas apenas da Porto são:
+Relatório do dia 29/01/2026, onde temos os vencimentos de dez/25 com data de importação em janeiro/26.
+ClienteFornecedorCNPJFaturaTipo de Serviço
+Porto SeguroVIVO6119816400016090391000450_0800
+30/01/2026 11:34Tiago Cabral Albuquerqueimage008.png image007.png
+@Fernanda Duarte Bispo Oliveira, bom dia.
+Conforme falamos, por gentileza siga com o time de suporte nesse entendimento para buscarmos a origem desses eventos e solucionarmos essa questão.
+Obrigado.
+Tiago Albuquerque
+ 
+ 
+BPO Operations
+ 
+tiago.albuquerque@enghouse.com
++55 11 988559256
+    
+                                       
+De: Tiago Cabral Albuquerque <TIAGO.ALBUQUERQUE@enghouse.com>
+Enviadas: Sexta-feira, 30 de Janeiro de 2026 10:20
+Para: Selma Martins Mauricio <Selma.Mauricio@enghouse.com>; Gilmar Aparecido da Silva <GILMAR.SILVA@enghouse.com>; Arthur Brás de Jesus Ferreira <ARTHUR.FERREIRA@enghouse.com>; Jucilene Aparecida Silva Santos
+<JUCILENE.SANTOS@enghouse.com>; Navita Service Desk <Navita.ServiceDesk@enghouse.com>; Nicolas Melgaço de Andrade <NICOLAS.ANDRADE@enghouse.com>; Lucas Guthierrez Oliver <LUCAS.OLIVER@enghouse.com>; Daniel Carvalho
+de Oliveira <DANIEL.OLIVEIRA@enghouse.com>
+Assunto: RE: Fila de processamento de fatura travada
+Bom dia, pessoal.
+Pelo que identificamos as faturas abaixo estariam impactando a fila, mas para esses exemplo, seriam as faturas do mês.
+Nome do arquivo - PORTO SEGURO_08007041207_2026-02-18_Febraban.zip.
+As faturas que identificamos que foram reprocessadas apenas da Porto são:
+Relatório do dia 29/01/2026, onde temos os vencimentos de dez/25 com data de importação em janeiro/26.
+ClienteFornecedorCNPJFaturaTipo de ServiçoVencimento
+30/01/2026 10:20Tiago Cabral Albuquerqueimage008.png image007.png
+Bom dia, pessoal.
+Pelo que identificamos as faturas abaixo estariam impactando a fila, mas para esses exemplo, seriam as faturas do mês.
+Nome do arquivo - PORTO SEGURO_08007041207_2026-02-18_Febraban.zip.
+As faturas que identificamos que foram reprocessadas apenas da Porto são:
+Relatório do dia 29/01/2026, onde temos os vencimentos de dez/25 com data de importação em janeiro/26.
+...
+ClienteFornecedorCNPJFaturaTipo de ServiçoVencimentoData da Importação
+Porto SeguroVIVO6119816400016090391000450_080003/12/202514/01/2026
+Porto SeguroVIVO6119816400016090397303055_080003/12/202513/01/2026
+Porto SeguroVIVO6119816400016090398102258_080003/12/202511/01/2026
+Porto Seguro
+29/01/2026 18:33
+Selma Martins
+Mauricio
+image008.png image007.png
+@Gilmar Aparecido da Silva, bom dia!
+Página 3 de 15
+
+ 
+ 
+Então não tem eu não pedia, porém as faturas foram para fila sem a minha interação estranho né.
+ 
+ 
+Atenciosamente,
+Selma Martins Mauricio
+Team Leader – Onboarding – TEM | ITEM
+55 11 9.6594-1766
+Selma.mauricio@enghouse.com  
+  
+ 
+De: Gilmar Aparecido da Silva <GILMAR.SILVA@enghouse.com> 
+Enviada em: quinta-feira, 29 de janeiro de 2026 18:20
+Para: Selma Martins Mauricio <Selma.Mauricio@enghouse.com>; Arthur Brás de Jesus Ferreira <ARTHUR.FERREIRA@enghouse.com>; Jucilene Aparecida Silva Santos
+<JUCILENE.SANTOS@enghouse.com>; Navita Service Desk <Navita.ServiceDesk@enghouse.com>; Nicolas Melgaço de Andrade <NICOLAS.ANDRADE@enghouse.com>; Lucas Guthierrez
+Oliver <LUCAS.OLIVER@enghouse.com>; Tiago Cabral Albuquerque <TIAGO.ALBUQUERQUE@enghouse.com>; Daniel Carvalho de Oliveira <DANIEL.OLIVEIRA@enghouse.com>
+Assunto: RE: Fila de processamento de fatura travada
+ 
+@Selma Martins Mauricio
+ 
+Não há automação (RPA) que processe arquivos da Xerox ou Simpress. Verifiquei nos robôs ativos e não encontrei nenhuma referência a esses arquivos.
+ 
+Gilmar Silva
+ 
+Esp Contininuous Improvement
+R&D
+gilmar.silva@enghouse.com
+  
+ 
+  
+ 
+ 
+De: Selma Martins Mauricio <Selma.Mauricio@enghouse.com>
+Enviado: quinta-feira, 29 de janeiro de 2026 18:02
+Para: Arthur Brás de Jesus Ferreira <ARTHUR.FERREIRA@enghouse.com>; Jucilene Aparecida Silva Santos <JUCILENE.SANTOS@enghouse.com>; Navita Service Desk
+<Navita.ServiceDesk@enghouse.com>; Nicolas Melgaço de Andrade <NICOLAS.ANDRADE@enghouse.com>; Lucas Guthierrez Oliver <LUCAS.OLIVER@enghouse.com>; Tiago Cabral
+Albuquerque <TIAGO.ALBUQUERQUE@enghouse.com>; Daniel Carvalho de Oliveira <DANIEL.OLIVEIRA@enghouse.com>; Gilmar Aparecido da Silva <GILMAR.SILVA@enghouse.com>
+Assunto: RES: Fila de processamento de fatura travada
+ 
+@Jucilene Aparecida Silva Santos e @Tiago Cabral Albuquerque, bom dia!
+ 
+ 
+Eu não coloquei faturas da simpress e xerox para subir e estavam na fila . Pode usar esse de exemplo com o Gilmar e validar se houve alguma automação que colocou essas faturas na fila.
+Página 4 de 15
+
+ 
+ 
+ 
+Atenciosamente,
+Selma Martins Mauricio
+Team Leader – Onboarding – TEM | ITEM
+55 11 9.6594-1766
+Selma.mauricio@enghouse.com  
+  
+ ... ...
+29/01/2026 18:20
+Gilmar Aparecido da
+Silva
+image014.png image013.png
+@Selma Martins Mauricio
+Não há automação (RPA) que processe arquivos da Xerox ou Simpress. Verifiquei nos robôs ativos e não encontrei nenhuma referência a esses arquivos.
+Gilmar Silva
+Esp Contininuous Improvement
+R&D
+gilmar.silva@enghouse.com
+  
+ 
+  
+De: Selma Martins Mauricio <Selma.Mauricio@enghouse.com>
+Enviado: quinta-feira, 29 de janeiro de 2026 18:02
+Para: Arthur Brás de Jesus Ferreira <ARTHUR.FERREIRA@enghouse.com>; Jucilene Aparecida Silva Santos <JUCILENE.SANTOS@enghouse.com>; Navita Service Desk
+<Navita.ServiceDesk@enghouse.com>; Nicolas Melgaço de Andrade <NICOLAS.ANDRADE@enghouse.com>; Lucas Guthierrez Oliver <LUCAS.OLIVER@enghouse.com>; Tiago Cabral
+Albuquerque <TIAGO.ALBUQUERQUE@enghouse.com>; Daniel Carvalho de Oliveira <DANIEL.OLIVEIRA@enghouse.com>; Gilmar Aparecido da Silva <GILMAR.SILVA@enghouse.com>
+Assunto: RES: Fila de processamento de fatura travada
+ 
+@Jucilene Aparecida Silva Santos e @Tiago Cabral Albuquerque, bom dia!
+ 
+ 
+Eu não coloquei faturas da simpress e xerox para subir e estavam na fila . Pode usar esse de exemplo com o Gilmar e validar se houve alguma automação que colocou essas faturas na fila.
+ 
+ 
+ 
+Atenciosamente,
+Selma Martins Mauricio
+Team Leader – Onboarding – TEM | ITEM
+55 11 9.6594-1766
+Selma.mauricio@enghouse.com  
+  
+Página 5 de 15
+
+ 
+De: Arthur Brás de Jesus Ferreira <ARTHUR.FERREIRA@enghouse.com>
+Enviada em: quinta-feira, 29 de janeiro de 2026 16:38
+Para: Jucilene Aparecida Silva Santos <JUCILENE.SANTOS@enghouse.com>; Selma Martins Mauricio <Selma.Mauricio@enghouse.com>; Navita Service Desk
+<Navita.ServiceDesk@enghouse.com>; Nicolas Melgaço de Andrade <NICOLAS.ANDRADE@enghouse.com>; Lucas Guthierrez Oliver <LUCAS.OLIVER@enghouse.com>; Tiago Cabral
+Albuquerque <TIAGO.ALBUQUERQUE@enghouse.com>; Daniel Carvalho de Oliveira <DANIEL.OLIVEIRA@enghouse.com>; Gilmar Aparecido da Silva <GILMAR.SILVA@enghouse.com>
+Assunto: RE: Fila de processamento de fatura travada
+ 
+Boa tarde, @Jucilene,
+ 
+Tudo bem, aguardo o retorno, mas reforço que suporte não tem envolvimento com os processos de automação do time de RPA quando o assunto é importação de faturas.
+E vale notar que nos tickets anteriores já tinha sido posicionado a origem do problema ser o volume das faturas sendo importada.
+ 
+Atenciosamente,
+ 
+ 
+Arthur Ferreira  ...
+29/01/2026 18:03Selma Martins Mauricio
+image014.png image013.png
+@Jucilene Aparecida Silva Santos e @Tiago Cabral Albuquerque, bom dia!
+ 
+ 
+Eu não coloquei faturas da simpress e xerox para subir e estavam na fila . Pode usar esse de exemplo com o Gilmar e validar se houve alguma automação que colocou essas faturas na fila.
+ 
+ 
+ 
+Atenciosamente,
+Selma Martins Mauricio
+Team Leader – Onboarding – TEM | ITEM
+55 11 9.6594-1766
+Selma.mauricio@enghouse.com  
+  
+ 
+De: Arthur Brás de Jesus Ferreira <ARTHUR.FERREIRA@enghouse.com> 
+Enviada em: quinta-feira, 29 de janeiro de 2026 16:38
+Para: Jucilene Aparecida Silva Santos <JUCILENE.SANTOS@enghouse.com>; Selma Martins Mauricio <Selma.Mauricio@enghouse.com>; Navita Service Desk
+<Navita.ServiceDesk@enghouse.com>; Nicolas Melgaço de Andrade <NICOLAS.ANDRADE@enghouse.com>; Lucas Guthierrez Oliver <LUCAS.OLIVER@enghouse.com>; Tiago Cabral
+Albuquerque <TIAGO.ALBUQUERQUE@enghouse.com>; Daniel Carvalho de Oliveira <DANIEL.OLIVEIRA@enghouse.com>; Gilmar Aparecido da Silva <GILMAR.SILVA@enghouse.com>
+Assunto: RE: Fila de processamento de fatura travada
+ 
+Boa tarde, @Jucilene,
+ 
+Tudo bem, aguardo o retorno, mas reforço que suporte não tem envolvimento com os processos de automação do time de RPA quando o assunto é importação de faturas.
+E vale notar que nos tickets anteriores já tinha sido posicionado a origem do problema ser o volume das faturas sendo importada.
+Página 6 de 15
+
+ 
+Atenciosamente,
+ 
+ 
+Arthur Ferreira 
+ 
+Customer Support Engineer II
+ 
+Customer Support
+arthur.ferreira@enghouse.com
+ 
+ 
+De: Jucilene Aparecida Silva Santos <JUCILENE.SANTOS@enghouse.com>
+Enviado: quinta-feira, 29 de janeiro de 2026 16:00
+Para: Arthur Brás de Jesus Ferreira <ARTHUR.FERREIRA@enghouse.com>; Selma Martins Mauricio <Selma.Mauricio@enghouse.com>; Navita Service Desk
+<Navita.ServiceDesk@enghouse.com>; Nicolas Melgaço de Andrade <NICOLAS.ANDRADE@enghouse.com>; Lucas Guthierrez Oliver <LUCAS.OLIVER@enghouse.com>; Tiago Cabral
+Albuquerque <TIAGO.ALBUQUERQUE@enghouse.com>; Daniel Carvalho de Oliveira <DANIEL.OLIVEIRA@enghouse.com>; Gilmar Aparecido da Silva <GILMAR.SILVA@enghouse.com>
+Assunto: RES: Fila de processamento de fatura travada
+ 
+@Arthur Brás de Jesus Ferreira, boa tarde.
+Não se trata de um lançamento manual realizado pelos analistas.
+ 
+As faturas já se encontravam previamente importadas no sistema. Precisamos entender por que estão retornando para a fila do BC e sendo processadas novamente em formato compactado.
+ 
+Solicitei ao @Tiago Cabral Albuquerque que selecione uma fatura como exemplo para validação e que avalie o cenário junto ao @Gilmar Aparecido da Silva, a fim de verificar se há alguma ação ou
+comportamento do robô que possa estar ocasionando esse reprocessamento.
+ 
+Sugiro alinharmos uma reunião entre operação, suporte e automação para identificar a causa raiz e implementar a correção definitiva.
+ 
+Ressalto que este é o segundo incidente com a mesma natureza. Do lado da operação, já é um procedimento conhecido que faturas de maior volume devem ser inseridas no final do dia, justamente para evitar
+impacto na fila como um todo.
+ 
+Jucilene Santos
+ 
+Operations Manager
+ 
+...
+29/01/2026 16:38Arthur Brás de Jesus Ferreiraimage008.png image007.png
+Boa tarde, @Jucilene,
+Tudo bem, aguardo o retorno, mas reforço que suporte não tem envolvimento com os processos de automação do time de RPA quando o assunto é importação de faturas.
+E vale notar que nos tickets anteriores já tinha sido posicionado a origem do problema ser o volume das faturas sendo importada.
+Atenciosamente,
+Arthur Ferreira 
+ 
+Customer Support Engineer II
+ 
+Customer Support
+arthur.ferreira@enghouse.com
+ 
+De: Jucilene Aparecida Silva Santos <JUCILENE.SANTOS@enghouse.com>
+Enviado: quinta-feira, 29 de janeiro de 2026 16:00
+Para: Arthur Brás de Jesus Ferreira <ARTHUR.FERREIRA@enghouse.com>; Selma Martins Mauricio <Selma.Mauricio@enghouse.com>; Navita Service Desk <Navita.ServiceDesk@enghouse.com>; Nicolas
+Melgaço de Andrade <NICOLAS.ANDRADE@enghouse.com>; Lucas Guthierrez Oliver <LUCAS.OLIVER@enghouse.com>; Tiago Cabral Albuquerque <TIAGO.ALBUQUERQUE@enghouse.com>; Daniel
+Carvalho de Oliveira <DANIEL.OLIVEIRA@enghouse.com>; Gilmar Aparecido da Silva <GILMAR.SILVA@enghouse.com>
+Assunto: RES: Fila de processamento de fatura travada
+ 
+@Arthur Brás de Jesus Ferreira, boa tarde.
+Não se trata de um lançamento manual realizado pelos analistas.
+ 
+Página 7 de 15
+
+As faturas já se encontravam previamente importadas no sistema. Precisamos entender por que estão retornando para a fila do BC e sendo processadas novamente em formato compactado.
+ 
+Solicitei ao @Tiago Cabral Albuquerque que selecione uma fatura como exemplo para validação e que avalie o cenário junto ao @Gilmar Aparecido da Silva, a fim de verificar se há alguma ação ou
+comportamento do robô que possa estar ocasionando esse reprocessamento.
+ 
+Sugiro alinharmos uma reunião entre operação, suporte e automação para identificar a causa raiz e implementar a correção definitiva.
+ 
+Ressalto que este é o segundo incidente com a mesma natureza. Do lado da operação, já é um procedimento conhecido que faturas de maior volume devem ser inseridas no final do dia, justamente para evitar
+impacto na fila como um todo.
+ 
+Jucilene Santos
+ 
+Operations Manager
+ 
+jucilene.santos@enghouse.com
++55 11 99102-7660
+   
+ 
+ 
+De: Arthur Brás de Jesus Ferreira <ARTHUR.FERREIRA@enghouse.com> 
+Enviada em: quinta-feira, 29 de janeiro de 2026 15:35
+Para: Selma Martins Mauricio <Selma.Mauricio@enghouse.com>; Navita Service Desk <Navita.ServiceDesk@enghouse.com>; Jucilene Aparecida Silva Santos <JUCILENE.SANTOS@enghouse.com>;
+Nicolas Melgaço de Andrade <NICOLAS.ANDRADE@enghouse.com>; Lucas Guthierrez Oliver <LUCAS.OLIVER@enghouse.com>; Tiago Cabral Albuquerque <TIAGO.ALBUQUERQUE@enghouse.com>
+Assunto: RE: Fila de processamento de fatura travada
+ 
+Boa tarde, 
+ 
+@Nicolas, precisamos alinhar com os times esse processo, já limpamos a fila 3 vezes e novamente subiram faturas maiores do que o esperado e causaram lentidão na fila.
+ 
+Já chequei os serviços e logs das maquinas a fila esta rodando, lenta por conta do volume mas esta rodando, temos como avaliar melhorias das maquinas mas não nesta semana, o
+time de dev esta focado em no projeto do Gateway SAP para o Itaú e só irá conseguir fazer esse tipo de avaliação semana que vem.
+ 
+Antes de limparmos a fila uma quarta vez eu gostaria de primeiro evitar que o problema aconteça de novo, temos que ver com o Tiago como esta sendo importado esses arquivos da
+Porto.
+ 
+Atenciosamente,
+ 
+ 
+...
+Arthur Ferreira
+29/01/2026 16:00
+Jucilene Aparecida Silva Santosimage008.png image007.png
+@Arthur Brás de Jesus Ferreira, boa tarde.
+Não se trata de um lançamento manual realizado pelos analistas.
+ 
+As faturas já se encontravam previamente importadas no sistema. Precisamos entender por que estão retornando para a fila
+do BC e sendo processadas novamente em formato compactado.
+ 
+Solicitei ao @Tiago Cabral Albuquerque que selecione uma fatura como exemplo para validação e que avalie o cenário junto
+ao @Gilmar Aparecido da Silva, a fim de verificar se há alguma ação ou comportamento do robô que possa estar
+ocasionando esse reprocessamento.
+ 
+Sugiro alinharmos uma reunião entre operação, suporte e automação para identificar a causa raiz e implementar a
+correção definitiva.
+ 
+Ressalto que este é o segundo incidente com a mesma natureza. Do lado da operação, já é um procedimento conhecido que
+faturas de maior volume devem ser inseridas no final do dia, justamente para evitar impacto na fila como um todo.
+ 
+Jucilene Santos
+ 
+Operations Manager
+ 
+jucilene.santos@enghouse.com
++55 11 99102-7660
+Página 8 de 15
+
+   
+ 
+ 
+De: Arthur Brás de Jesus Ferreira <ARTHUR.FERREIRA@enghouse.com> 
+Enviada em: quinta-feira, 29 de janeiro de 2026 15:35
+Para: Selma Martins Mauricio <Selma.Mauricio@enghouse.com>; Navita Service Desk
+<Navita.ServiceDesk@enghouse.com>; Jucilene Aparecida Silva Santos <JUCILENE.SANTOS@enghouse.com>; Nicolas
+Melgaço de Andrade <NICOLAS.ANDRADE@enghouse.com>; Lucas Guthierrez Oliver <LUCAS.OLIVER@enghouse.com>;
+Tiago Cabral Albuquerque <TIAGO.ALBUQUERQUE@enghouse.com>
+Assunto: RE: Fila de processamento de fatura travada
+ 
+Boa tarde, 
+ 
+@Nicolas, precisamos alinhar com os times esse processo, já limpamos a fila 3 vezes e novamente subiram
+faturas maiores do que o esperado e causaram lentidão na fila.
+ 
+Já chequei os serviços e logs das maquinas a fila esta rodando, lenta por conta do volume mas esta rodando,
+temos como avaliar melhorias das maquinas mas não nesta semana, o time de dev esta focado em no
+projeto do Gateway SAP para o Itaú e só irá conseguir fazer esse tipo de avaliação semana que vem.
+ 
+Antes de limparmos a fila uma quarta vez eu gostaria de primeiro evitar que o problema aconteça de novo,
+temos que ver com o Tiago como esta sendo importado esses arquivos da Porto.
+ 
+Atenciosamente,
+ 
+ 
+Arthur Ferreira 
+ 
+Customer Support Engineer II
+ 
+Customer Support
+arthur.ferreira@enghouse.com
+ 
+ 
+De: Selma Martins Mauricio <Selma.Mauricio@enghouse.com>
+Enviado: quinta-feira, 29 de janeiro de 2026 12:19
+Para: Arthur Brás de Jesus Ferreira <ARTHUR.FERREIRA@enghouse.com>; Navita Service Desk
+<Navita.ServiceDesk@enghouse.com>; Jucilene Aparecida Silva Santos <JUCILENE.SANTOS@enghouse.com>; Nicolas
+Melgaço de Andrade <NICOLAS.ANDRADE@enghouse.com>; Lucas Guthierrez Oliver <LUCAS.OLIVER@enghouse.com>;
+Tiago Cabral Albuquerque <TIAGO.ALBUQUERQUE@enghouse.com>
+Assunto: RES: Fila de processamento de fatura travada
+ 
+@Arthur Brás de Jesus Ferreira, bom dia!
+ 
+ 
+Tudo bem, entendo que um alto volume de faturas possa impactar a fila de processamento. Porém, como cliente
+interno da Navita Enghouse, preciso reforçar que essa ocorrência tem sido frequente e está impactando diretamente
+minhas atividades e entregas.
+ 
+Se você acessar o Bill Crush, verá que nenhuma fatura entrou na fila de processamento desde ontem às 13h07, e
+agora já são 12h05 do dia seguinte, ou seja, estamos há quase 24 horas sem qualquer entrada de faturas na fila, o
+que não pode ser considerado normal.
+ 
+Mesmo que ajustássemos os horários de envio das faturas para períodos de menor movimento, o problema
+permaneceria. Não podemos simplesmente transferir a responsabilidade para a equipe que importa as faturas, como
+se o correto fosse medir, a cada momento, se é possível ou não colocar faturas na fila. Precisamos que o
+processamento funcione de forma estável e previsível.
+ 
+...
+29/01/2026 15:34Arthur Brás de Jesus Ferreiraimage008.png image007.png
+Boa tarde, 
+@Nicolas, precisamos alinhar com os times esse processo, já limpamos a fila 3 vezes e novamente subiram
+faturas maiores do que o esperado e causaram lentidão na fila.
+Página 9 de 15
+
+Já chequei os serviços e logs das maquinas a fila esta rodando, lenta por conta do volume mas esta rodando,
+temos como avaliar melhorias das maquinas mas não nesta semana, o time de dev esta focado em no
+projeto do Gateway SAP para o Itaú e só irá conseguir fazer esse tipo de avaliação semana que vem.
+Antes de limparmos a fila uma quarta vez eu gostaria de primeiro evitar que o problema aconteça de novo,
+temos que ver com o Tiago como esta sendo importado esses arquivos da Porto.
+Atenciosamente,
+Arthur Ferreira 
+ 
+Customer Support Engineer II
+ 
+Customer Support
+arthur.ferreira@enghouse.com
+ 
+De: Selma Martins Mauricio <Selma.Mauricio@enghouse.com>
+Enviado: quinta-feira, 29 de janeiro de 2026 12:19
+Para: Arthur Brás de Jesus Ferreira <ARTHUR.FERREIRA@enghouse.com>; Navita Service Desk
+<Navita.ServiceDesk@enghouse.com>; Jucilene Aparecida Silva Santos <JUCILENE.SANTOS@enghouse.com>; Nicolas
+Melgaço de Andrade <NICOLAS.ANDRADE@enghouse.com>; Lucas Guthierrez Oliver <LUCAS.OLIVER@enghouse.com>;
+Tiago Cabral Albuquerque <TIAGO.ALBUQUERQUE@enghouse.com>
+Assunto: RES: Fila de processamento de fatura travada
+ 
+@Arthur Brás de Jesus Ferreira, bom dia!
+ 
+ 
+Tudo bem, entendo que um alto volume de faturas possa impactar a fila de processamento. Porém, como cliente
+interno da Navita Enghouse, preciso reforçar que essa ocorrência tem sido frequente e está impactando diretamente
+minhas atividades e entregas.
+ 
+Se você acessar o Bill Crush, verá que nenhuma fatura entrou na fila de processamento desde ontem às 13h07, e
+agora já são 12h05 do dia seguinte, ou seja, estamos há quase 24 horas sem qualquer entrada de faturas na fila, o
+que não pode ser considerado normal.
+ 
+Mesmo que ajustássemos os horários de envio das faturas para períodos de menor movimento, o problema
+permaneceria. Não podemos simplesmente transferir a responsabilidade para a equipe que importa as faturas, como
+se o correto fosse medir, a cada momento, se é possível ou não colocar faturas na fila. Precisamos que o
+processamento funcione de forma estável e previsível.
+ 
+Reforço que precisamos de uma solução primária e definitiva com urgência, pois não podemos passar o dia de hoje
+inteiro novamente sem importar as faturas.
+Sobre a sugestão de falar com o @Tiago Cabral Albuquerque, entendo que possa ajudar como uma ação
+secundária, mas neste momento precisamos priorizar a resolução do problema na raiz.
+ 
+Conversei com o @Tiago Cabral Albuquerque pelo Teams, e ele informou que realizou a validação com o time. Foi
+confirmado que não houve qualquer intervenção manual para que as faturas da Porto Seguro fossem inseridas na fila
+de processamento.
+ 
+Diante disso, é necessário identificar a origem do evento que gerou a inclusão dessas faturas na fila, considerando
+que não se tratou de uma ação humana. Essa análise é importante para compreender se houve disparo automático
+por algum serviço, rotina sistêmica ou comportamento inesperado do ambiente.
+ 
+ 
+Atenciosamente,
+Selma Martins Mauricio
+Página 10 de 15
+
+Team Leader – Onboarding – TEM | ITEM
+55 11 9.6594-1766
+Selma.mauricio@enghouse.com  
+  
+ 
+De: Arthur Brás de Jesus Ferreira <ARTHUR.FERREIRA@enghouse.com> 
+Enviada em: quinta-feira, 29 de janeiro de 2026 10:51
+Para: Selma Martins Mauricio <Selma.Mauricio@enghouse.com>; Navita Service Desk
+<Navita.ServiceDesk@enghouse.com>; Jucilene Aparecida Silva Santos <JUCILENE.SANTOS@enghouse.com>;
+Nicolas Melgaço de Andrade <NICOLAS.ANDRADE@enghouse.com>; Lucas Guthierrez Oliver
+<LUCAS.OLIVER@enghouse.com>; Tiago Cabral Albuquerque <TIAGO.ALBUQUERQUE@enghouse.com>
+Assunto: RE: Fila de processamento de fatura travada
+ 
+Bom dia, Selma.
+ 
+Existem alguns pontos que precisam ser esclarecidos, e o primeiro é que não temos um problema na fila.
+ 
+O que ocorre é simplesmente lentidão causada pelo volume de faturas importadas, o sistema em sí não trava, tanto que as
+ações que fizemos neste momento foi remover faturas problematicas da fila e depois jogar elas em horarios mais oportunos.
+ 
+Outra questão é que nós em suporte ... ...
+29/01/2026 12:19Selma Martins Mauricioimage008.png image007.png
+@Arthur Brás de Jesus Ferreira, bom dia!
+ 
+ 
+Tudo bem, entendo que um alto volume de faturas possa impactar a fila de processamento. Porém, como cliente
+interno da Navita Enghouse, preciso reforçar que essa ocorrência tem sido frequente e está impactando diretamente
+minhas atividades e entregas.
+ 
+Se você acessar o Bill Crush, verá que nenhuma fatura entrou na fila de processamento desde ontem às 13h07, e
+agora já são 12h05 do dia seguinte, ou seja, estamos há quase 24 horas sem qualquer entrada de faturas na fila, o
+que não pode ser considerado normal.
+ 
+Mesmo que ajustássemos os horários de envio das faturas para períodos de menor movimento, o problema
+permaneceria. Não podemos simplesmente transferir a responsabilidade para a equipe que importa as faturas, como
+se o correto fosse medir, a cada momento, se é possível ou não colocar faturas na fila. Precisamos que o
+processamento funcione de forma estável e previsível.
+ 
+Reforço que precisamos de uma solução primária e definitiva com urgência, pois não podemos passar o dia de hoje
+inteiro novamente sem importar as faturas.
+Sobre a sugestão de falar com o @Tiago Cabral Albuquerque, entendo que possa ajudar como uma ação
+secundária, mas neste momento precisamos priorizar a resolução do problema na raiz.
+ 
+Conversei com o @Tiago Cabral Albuquerque pelo Teams, e ele informou que realizou a validação com o time. Foi
+confirmado que não houve qualquer intervenção manual para que as faturas da Porto Seguro fossem inseridas na fila
+de processamento.
+ 
+Diante disso, é necessário identificar a origem do evento que gerou a inclusão dessas faturas na fila, considerando
+que não se tratou de uma ação humana. Essa análise é importante para compreender se houve disparo automático
+por algum serviço, rotina sistêmica ou comportamento inesperado do ambiente.
+ 
+ 
+Atenciosamente,
+Selma Martins Mauricio
+Team Leader – Onboarding – TEM | ITEM
+55 11 9.6594-1766
+Selma.mauricio@enghouse.com  
+Página 11 de 15
+
+  
+ 
+De: Arthur Brás de Jesus Ferreira <ARTHUR.FERREIRA@enghouse.com> 
+Enviada em: quinta-feira, 29 de janeiro de 2026 10:51
+Para: Selma Martins Mauricio <Selma.Mauricio@enghouse.com>; Navita Service Desk
+<Navita.ServiceDesk@enghouse.com>; Jucilene Aparecida Silva Santos <JUCILENE.SANTOS@enghouse.com>;
+Nicolas Melgaço de Andrade <NICOLAS.ANDRADE@enghouse.com>; Lucas Guthierrez Oliver
+<LUCAS.OLIVER@enghouse.com>; Tiago Cabral Albuquerque <TIAGO.ALBUQUERQUE@enghouse.com>
+Assunto: RE: Fila de processamento de fatura travada
+ 
+Bom dia, Selma.
+ 
+Existem alguns pontos que precisam ser esclarecidos, e o primeiro é que não temos um problema na fila.
+ 
+O que ocorre é simplesmente lentidão causada pelo volume de faturas importadas, o sistema em sí não trava, tanto que as
+ações que fizemos neste momento foi remover faturas problematicas da fila e depois jogar elas em horarios mais oportunos.
+ 
+Outra questão é que nós em suporte e em desenvolvimento não realizamos nem controlamos nenhuma importação, já
+solicitamos ao time de importação de contas que controlem o fluxo de faturas grandes para que a fila não encontre
+problemas, mas ainda assim subiram faturas grandes, principalmente da porto seguro, mas não só exclusivamente dela.
+ 
+O que podemos fazer, e isso, infelizmente não pode ser feito agora por conta de um projeto importante que o time esta
+entregando para o Itaú, mas podemos solicitar ao time uma avaliação, para entender se precisamos melhorar o recurso de
+maquina das maquinas do BC e Connect.
+ 
+No entanto, esse é um processo que envolve custos e geralmente precisa de uma boa justificativa e melhora real para ser
+aprovado.
+ 
+Outra coisa que podemos realizar, é conversar com o @Tiago Cabral Albuquerque, para entender como esse volume tão
+grande de faturas acabou sendo jogado na fila e ver planos para planejar a importação das contas de formas que não vamos
+travar a fila de importação por inteiro.
+ 
+Mas reforço que hoje não temos problemas ou bugs na fila de processamento, é apenas volume x tempo de processamento e
+a fila processa um número limitado de faturas ao mesmo tempo.
+ 
+Qualquer dúvida ou necessitando de mais informações, estou à disposição.
+ 
+Atenciosamente,
+ 
+ 
+Arthur Ferreira 
+ 
+Customer Support Engineer II
+ 
+Customer Support
+arthur.ferreira@enghouse.com
+ 
+ 
+...
+29/01/2026 10:51Arthur Brás de Jesus Ferreiraimage005.png image004.png
+Bom dia, Selma.
+Existem alguns pontos que precisam ser esclarecidos, e o primeiro é que não temos um problema na fila.
+Página 12 de 15
+
+O que ocorre é simplesmente lentidão causada pelo volume de faturas importadas, o sistema em sí não trava,
+tanto que as ações que fizemos neste momento foi remover faturas problematicas da fila e depois jogar elas
+em horarios mais oportunos.
+Outra questão é que nós em suporte e em desenvolvimento não realizamos nem controlamos nenhuma
+importação, já solicitamos ao time de importação de contas que controlem o fluxo de faturas grandes para
+que a fila não encontre problemas, mas ainda assim subiram faturas grandes, principalmente da porto
+seguro, mas não só exclusivamente dela.
+O que podemos fazer, e isso, infelizmente não pode ser feito agora por conta de um projeto importante que o
+time esta entregando para o Itaú, mas podemos solicitar ao time uma avaliação, para entender se precisamos
+melhorar o recurso de maquina das maquinas do BC e Connect.
+No entanto, esse é um processo que envolve custos e geralmente precisa de uma boa justificativa e melhora
+real para ser aprovado.
+Outra coisa que podemos realizar, é conversar com o @Tiago Cabral Albuquerque, para entender como esse
+volume tão grande de faturas acabou sendo jogado na fila e ver planos para planejar a importação das contas
+de formas que não vamos travar a fila de importação por inteiro.
+Mas reforço que hoje não temos problemas ou bugs na fila de processamento, é apenas volume x tempo de
+processamento e a fila processa um número limitado de faturas ao mesmo tempo.
+Qualquer dúvida ou necessitando de mais informações, estou à disposição.
+Atenciosamente,
+Arthur Ferreira 
+ 
+Customer Support Engineer II
+ 
+Customer Support
+arthur.ferreira@enghouse.com
+ 
+De: Selma Martins Mauricio <Selma.Mauricio@enghouse.com>
+Enviado: quinta-feira, 29 de janeiro de 2026 10:07
+Para: Navita Service Desk <Navita.ServiceDesk@enghouse.com>; Navita Service Desk
+<Navita.ServiceDesk@enghouse.com>; Jucilene Aparecida Silva Santos <JUCILENE.SANTOS@enghouse.com>; Arthur
+Brás de Jesus Ferreira <ARTHUR.FERREIRA@enghouse.com>; Nicolas Melgaço de Andrade
+<NICOLAS.ANDRADE@enghouse.com>; Lucas Guthierrez Oliver <LUCAS.OLIVER@enghouse.com>; Tiago Cabral
+Albuquerque <TIAGO.ALBUQUERQUE@enghouse.com>
+Assunto: RES: Fila de processamento de fatura travada
+ 
+@Lucas Guthierrez Oliver, bom dia!
+ 
+Obrigada pelo retorno. Porém, gostaria de reforçar que, na semana passada, já tivemos a fila com “problema no
+processamento” devido à grande quantidade de faturas disponibilizadas para importação. Nesta semana, o problema
+voltou a ocorrer.
+ 
+Estou bastante preocupada, pois estou implantando um cliente e estou prestes a iniciar a implantação de um cliente
+com cerca de 250 faturas por mês, abrangendo os últimos três meses + o mês atual, totalizando aproximadamente
+1.000 faturas. Diante do cenário atual de travamento no processamento em alto volume, fico apreensiva com o
+impacto que isso pode gerar quando iniciarmos esse novo cliente.
+ 
+Infelizmente, esses travamentos já estão afetando diretamente minhas entregas. Seria muito importante
+conseguirmos uma solução para esse problema de processamento o quanto antes.
+ 
+Acredito também que a equipe de faturas esteja sendo bastante impactada em suas rotinas por conta dessa
+instabilidade.
+ 
+Fico no aguardo, por favor.
+ 
+Atenciosamente,
+Selma Martins Mauricio
+Team Leader – Onboarding – TEM | ITEM
+55 11 9.6594-1766
+Selma.mauricio@enghouse.com  
+  
+ 
+Página 13 de 15
+
+De: Navita <servicedesk@navita.com.br> 
+Enviada em: quinta-feira, 29 de janeiro de 2026 09:39
+Para: Selma Martins Mauricio <Selma.Mauricio@enghouse.com>; Navita Service Desk
+<Navita.ServiceDesk@enghouse.com>; Jucilene Aparecida Silva Santos <JUCILENE.SANTOS@enghouse.com>;
+Arthur Brás de Jesus Ferreira <ARTHUR.FERREIRA@enghouse.com>; Nicolas Melgaço de Andrade
+<NICOLAS.ANDRADE@enghouse.com>
+Assunto: Re: Fila de processamento de fatura travada
+ 
+29/01/2026 10:07Selma Martins Mauricioimage005.png image004.png
+Tiflux
+@Lucas Guthierrez Oliver, bom dia!
+ 
+Obrigada pelo retorno. Porém, gostaria de reforçar que, na semana passada, já tivemos a fila com “problema no
+processamento” devido à grande quantidade de faturas disponibilizadas para importação. Nesta semana, o problema
+voltou a ocorrer.
+ 
+Estou bastante preocupada, pois estou implantando um cliente e estou prestes a iniciar a implantação de um cliente
+com cerca de 250 faturas por mês, abrangendo os últimos três meses + o mês atual, totalizando aproximadamente
+1.000 faturas. Diante do cenário atual de travamento no processamento em alto volume, fico apreensiva com o
+impacto que isso pode gerar quando iniciarmos esse novo cliente.
+ 
+Infelizmente, esses travamentos já estão afetando diretamente minhas entregas. Seria muito importante
+conseguirmos uma solução para esse problema de processamento o quanto antes.
+ 
+Acredito também que a equipe de faturas esteja sendo bastante impactada em suas rotinas por conta dessa
+instabilidade.
+ 
+Fico no aguardo, por favor.
+ 
+Atenciosamente,
+Selma Martins Mauricio
+Team Leader – Onboarding – TEM | ITEM
+55 11 9.6594-1766
+Selma.mauricio@enghouse.com  
+  
+ 
+De: Navita <servicedesk@navita.com.br> 
+Enviada em: quinta-feira, 29 de janeiro de 2026 09:39
+Para: Selma Martins Mauricio <Selma.Mauricio@enghouse.com>; Navita Service Desk
+<Navita.ServiceDesk@enghouse.com>; Jucilene Aparecida Silva Santos <JUCILENE.SANTOS@enghouse.com>;
+Arthur Brás de Jesus Ferreira <ARTHUR.FERREIRA@enghouse.com>; Nicolas Melgaço de Andrade
+<NICOLAS.ANDRADE@enghouse.com>
+Assunto: Re: Fila de processamento de fatura travada
+ 
+29/01/2026 09:39Lucas Guthierrez Oliver
+O Sla foi pausado. Motivo: Aguardando validação do time de desenvolvimento, sobre a importação de faturas
+29/01/2026 09:38Lucas Guthierrez Oliver
+Selma, bom dia!
+A fila de fatura apresentou problemas no processamento devido a alta quantidade de faturas da Porto que acabam
+impactando diretamente o processamento do connect All no geral.
+No dia de ontem o time fez algumas limpezas de algumas faturas para conseguimos restabelecer a importação, no dia de
+hoje vamos continuar a validação para verificar o restabelecimento das importações.
+Assim que tivemos novidades te informo aqui no ticket.
+Att.
+Lucas Guthierrez Oliver
+ 
+Customer Support Engineer I
+Customer Support
+lucas.oliver@enghouse.com
+                                                                                
+28/01/2026 17:22Rosana Fatima Lourenço da Costa Rosana
+Página 14 de 15
+
+Olá, Selma, boa tarde!
+A sua solicitação #96744 está sendo encaminhada para o departamento responsável para análise e retorno.
+Seguimos à disposição,
+Suporte Navita
+Declaro estar ciente do trabalho acima realizado e concordo com a realização do mesmo.
+Mobi All Tecnologia LTDA
+Página 15 de 15

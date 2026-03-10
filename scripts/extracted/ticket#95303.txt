@@ -1,0 +1,901 @@
+
+
+OMNI TAXI AEREO S/A (MAAS 360)
+#95303 - Perfil de acessos e instalação moblieTICKET FECHADO
+OMNI TAXI AEREO S/A (MAAS 360)
+ENDEREÇOS DO CLIENTESOLICITANTETELEFONE DO SOLICITANTE
+Vitor Flavio Gomes Kaizer Gaio 
+(vitor.gaio@omnibrasil.com.br)
+INFORMAÇÕES DO TICKET
+MESARESPONSÁVELABERTO EMFECHADO EMREVISADO EMPRIORIDADE
+NOVA MDMDaniel de Souza Silva11/12/202519/02/202626/02/2026SLA Padrão SAAS
+GRUPO DE RECURSO/LOCAL/USUÁRIO DO EQUIPAMENTO
+CATÁLOGO DE SERVIÇOS
+NOMEÁREAITEM
+CATÁLOGO SAAS EMM/MDMDúvidaDuvidas Politica de Restrição
+DESCRIÇÃO DO TICKET
+Boa tarde!
+Tudo bem?
+Surgiram algumas dúvidas e gostaríamos do apoio de vocês para esclarecê-las:
+1. Sobre o acesso remoto no portal MaaS360:
+É possível definir um grupo específico com permissão para realizar acesso remoto, ou essa função fica disponível para
+todos os diretórios?
+2. Instalação do MaaS360 em dispositivo já em uso:
+Caso o MaaS360 seja instalado em um celular que já está em utilização, o sistema criará a pasta “Trabalho”. Nesse
+cenário, o usuário poderá continuar instalando aplicativos pessoais normalmente no perfil pessoal do dispositivo?
+Agradecemos desde já e aguardamos o retorno.
+Att,
+Vitor Flavio Gomes Kaizer Gaio
+Analista de Suporte Jr
+vitor.gaio@omnibrasil.com.br
+www.omnibrasil.com.br
+Página 1 de 24
+
+COMUNICAÇÃO COM CLIENTE
+DATAAUTORARQUIVOS
+19/02/2026
+09:05
+Daniel de Souza Silva
+Olá, Leonardo. Bom dia!
+Como não tivemos um retorno, o ticket está sendo finalizado.
+Caso o problema persista, poderá sempre nos acionar através dos canais de atendimento.
+Você receberá um e-mail com o link de avaliação de atendimento. Sua avaliação é importante!
+Seguimos à disposição.
+Equipe Navita
+11/02/2026
+09:33
+Daniel de Souza Silva
+Olá, Leonardo. Bom dia!
+Teve a oportunidade de ver o e-mail abaixo? Conseguiu efetuar os testes?
+Caso não haja retorno em até 24horas, o ticket será encerrado.
+Cordialmente,
+Equipe Navita
+09/02/2026
+16:35
+Daniel de Souza Silva
+Olá, Leonardo. Boa tarde!
+Tivemos o retorno da IBM agora à tarde, informando que a correção para o problema nas funções de acesso já foi implementada. Para que a
+solução seja aplicada, as funções locais afetadas devem ser recriadas.
+Para agilizar, você pode utilizar uma função existente como base seguindo estes passos:
+1. Acesse Configurar > Funções e clique em Incluir Função.
+2. Escolha Selecione Existente e use uma função atual como modelo.
+3. Após criar a nova, exclua a função antiga.
+4. Vá em Configurar > Administradores, edite o usuário desejado e vincule a nova função.
+5. Por fim, remova a função global que havia sido adicionada temporariamente.
+Isso restabelecerá o controle de acesso às funcionalidades e páginas. Por favor, realize os testes e nos confirme se está funcionando
+corretamente.
+Caso não haja retorno em até 24horas, o ticket será encerrado.
+Cordialmente,
+Equipe Navita
+Página 2 de 24
+
+09/02/2026
+09:49
+Daniel de Souza Silva
+Olá, Leonardo. Bom dia!
+Gostaria de informar que a funcionalidade de limitação de acesso de usuários a grupos já está disponível. Para configurar a restrição de
+dispositivos na plataforma, siga os passos abaixo:
+1. Acesse Configurar > Administradores.
+2. Selecione o usuário desejado e clique em Editar.
+3. Habilite a opção: "Limitar acesso de administrador do portal aos Grupos...".
+Entendendo a interface:
+Caixa à direita (destaque verde): Lista os grupos aos quais o usuário terá acesso.
+Caixa à esquerda: Lista os grupos restritos ao usuário.
+Nota: No exemplo acima, apenas o grupo "Hums" é exibido por ser o único criado para este fim até o momento.
+Observação importante: Apenas grupos com a opção "Controle de acesso administrativo" habilitada podem ser utilizados para essa
+limitação. Certifique-se de ativar essa função ao criar ou editar um grupo de usuários.
+Por favor, realize o teste e nos confirme se tudo funcionou como esperado. Quanto às funções de acesso, nossa equipe interna continua
+analisando o caso e traremos atualizações em breve.
+Seguimos à disposição.
+Equipe Navita
+06/02/2026
+17:46
+Daniel de Souza Silva
+Página 3 de 24
+
+Olá, Leonardo. Boa tarde!
+Conforme alinhamos em nossa call, gostaria de formalizar os três pontos principais discutidos:
+1. Correção das Funções de Acesso
+Entendemos que o controle de permissões é um pilar importante de segurança para a sua operação, garantindo que cada usuário acesse
+apenas as páginas e informações pertinentes à sua função. Sendo assim, com o apoio da minha gerência, entraremos em contato com a IBM,
+para verificar uma estimativa de prazo para a entrega da correção.
+2. Acesso Limitado de Usuários a Grupos (Dispositivos)
+Além das permissões de sistema, conversamos sobre a necessidade de restringir o acesso apenas a determinados grupos de
+dispositivos. Estou trabalhando para garantir que essa configuração seja funcional em seu ambiente. Retornarei entre segunda e terça-feira
+com a confirmação para prosseguirmos com a configuração.
+3. Relatórios de Localização para Auditoria
+Atualmente, a plataforma gera relatórios de localização individualmente por dispositivo, não havendo um recurso nativo para um relatório
+consolidado/geral. Sendo assim, apresentamos as seguintes alternativas:
+Uso de APIs (MaaS360): Podemos liberar o acesso às APIs e fornecer as instruções técnicas. Para isso, basta abrir um novo chamado
+com o time de suporte. Ressaltamos que o desenvolvimento de scripts ou ferramentas de consumo da API fica sob responsabilidade do
+cliente.
+Solução Customizada: Caso prefiram uma solução pronta, nossa área de automações pode desenvolver um projeto sob medida para
+gerar esses relatórios periódicos. Para orçar este projeto, você pode falar com a Yasmin ou diretamente com o time comercial pelo e-
+mail: navita.commercial@enghouse.com.
+Seguiremos acompanhando os pontos pendentes e traremos novas atualizações em breve. Caso surja qualquer dúvida, estamos à disposição!
+Cordialmente,
+Equipe Navita
+14/01/2026
+15:43
+Daniel de Souza Silva
+Olá, Leonardo. Boa tarde!
+Ainda não tivemos novidades. O time da IBM continua trabalhando no caso, mas, devido à sua complexidade, a identificação da causa e a
+solução estão levando mais tempo do que o esperado.
+O caso já foi escalado, e estamos monitorando de perto. Assim que houver qualquer atualização, irei informá-lo.
+Seguimos à disposição.
+Equipe Navita
+14/01/2026
+12:24
+Leonardo Pereira
+Vitorino
+file_17475755_desc_fileimage.png file_17478406_desc_filearchive.png
+file_17479801_desc_filearchive.png file_17514167_desc_fileimage.png
+file_17514265_desc_fileimage.png favicon.png
+Página 4 de 24
+
+Prezados, boa tarde!
+Já temos alguma evolução na situação?
+Att.
+Leonardo Pereira Vitorino
+Analista de Infraestrutura Pl
+leonardo.vitorino@omnibrasil.com.br
+www.omnibrasil.com.br
+DECLARAÇÃO
+Esta mensagem e quaisquer anexos são confidenciais e destinados exclusivamente aos destinatários indicados. Se você a recebeu por
+engano, por favor, notifique-nos imediatamente e exclua-a do seu sistema. Qualquer uso, cópia ou divulgação não autorizada é proibida. 
+Embora tomemos precauções razoáveis para verificar a existência de vírus, não assumimos qualquer responsabilidade por danos resultantes
+de vírus ou outras ameaças eletrônicas. Nada nesta mensagem constitui uma oferta contratual. Tratamos os seus dados pessoais de acordo
+com a Lei Geral de Proteção de Dados (LGPD).
+DISCLAIMER
+This message, including any attachments, is confidential and intended exclusively for the designated recipients. If you are not the intended
+recipient, any form of access, use, reproduction, storage, or sharing of the information contained herein is strictly prohibited. Its content may
+contain information protected by legal, contractual, commercial confidentiality, and privacy regulations, including personal data, whose
+processing must comply with Law No. 13,709/2018 (Brazilian General Data Protection Law – LGPD).
+De: Navita <servicedesk@navita.com.br>
+Enviado: segunda-feira, 5 de janeiro de 2026 09:23
+Para: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>; nicolas.andrade@enghouse.com
+<nicolas.andrade@enghouse.com>; Leonardo Pereira Vitorino <leonardo.vitorino@omnibrasil.com.br>; TI Infra
+<ti.infra@omnibrasil.com.br>; yasmin.girotto@enghouse.com <yasmin.girotto@enghouse.com>; Navita.ServiceDesk@enghouse.com
+<Navita.ServiceDesk@enghouse.com>; YASMIN.GIROTTO@enghouse.com <YASMIN.GIROTTO@enghouse.com>;
+ROSANA.COSTA@enghouse.com <ROSANA.COSTA@enghouse.com>; NICOLAS.ANDRADE@enghouse.com
+<NICOLAS.ANDRADE@enghouse.com>
+Assunto: Re: Perfil de acessos e instalação moblie
+ 
+CAUTION: Este email teve origem fora da sua organização. Não clique em links nem abra anexos sem conhecer o remetente ou saber que o conteúdo é
+seguro.
+This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is
+safe.
+05/01/2026
+09:16
+Daniel de Souza Silva
+Olá, Leonardo. Bom dia!
+Agradeço pelo retorno. Entendido! Caso precise de ajuda para configurar as funções conforme o modelo sugerido, é só me avisar. 
+Sobre o caso com a IBM, confirmei nesta manhã que ainda não recebemos um retorno. Já estou acompanhando e, assim que tiver novidades,
+atualizo você por aqui.
+Seguimos à disposição.
+Equipe Navita
+02/01/2026
+09:29
+Leonardo Pereira
+Vitorino
+file_17475755_desc_fileimage.png file_17478406_desc_filearchive.png
+file_17479801_desc_filearchive.png file_17514167_desc_fileimage.png
+file_17514265_desc_fileimage.png favicon.png
+Página 5 de 24
+
+Prezados, bom dia!
+Obrigado pelas atualizações e pelo detalhamento do cenário.
+De acordo com o exposto, podemos seguir provisoriamente com o modelo sugerido, utilizando a permissão global de
+“somente visualização” em conjunto com as funções locais que permitam os comandos e ações específicas, conforme a
+necessidade de cada administrador. Dessa forma, conseguimos avançar com os acessos sem impactar o andamento das
+atividades.
+Ficamos no aguardo das evoluções junto à IBM em relação às funções personalizadas e à viabilidade futura das funções
+globais.
+Seguimos à disposição para quaisquer ajustes ou alinhamentos adicionais.
+Leonardo Pereira Vitorino
+Analista de Infraestrutura Pl
+leonardo.vitorino@omnibrasil.com.br
+www.omnibrasil.com.br
+DECLARAÇÃO
+Esta  mensagem  e  quaisquer  anexos  são  confidenciais  e  destinados  exclusivamente  aos  destinatários  indicados.  Se  você  a  recebeu  por
+engano, por favor, notifique-nos imediatamente e exclua-a do seu sistema. Qualquer uso, cópia ou divulgação não autorizada é proibido.
+Embora tomemos precauções razoáveis para verificar a existência de vírus, não assumimos qualquer responsabilidade por danos resultantes
+de vírus ou outras ameaças eletrônicas. Nada nesta mensagem constitui uma oferta contratual. Tratamos os seus dados pessoais de acordo
+com a Lei Geral de Proteção de Dados (LGPD).
+DISCLAIMER
+This message, including any attachments, is confidential and intended exclusively for the designated recipients. If you are not the intended
+recipient, any form of access, use, reproduction, storage, or sharing of the information contained herein is strictly prohibited. Its content may
+contain  information  protected  by  legal,  contractual,  commercial  confidentiality,  and  privacy  regulations,  including  personal  data,  whose
+processing must comply with Law No. 13,709/2018 (Brazilian General Data Protection Law – LGPD). 
+De: Navita <servicedesk@navita.com.br>
+Enviado: segunda-feira, 22 de dezembro de 2025 17:59
+Para: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>; nicolas.andrade@enghouse.com
+<nicolas.andrade@enghouse.com>; Leonardo Pereira Vitorino <leonardo.vitorino@omnibrasil.com.br>; TI Infra
+<ti.infra@omnibrasil.com.br>; yasmin.girotto@enghouse.com <yasmin.girotto@enghouse.com>; Navita.ServiceDesk@enghouse.com
+<Navita.ServiceDesk@enghouse.com>; YASMIN.GIROTTO@enghouse.com <YASMIN.GIROTTO@enghouse.com>;
+ROSANA.COSTA@enghouse.com <ROSANA.COSTA@enghouse.com>; NICOLAS.ANDRADE@enghouse.com
+<NICOLAS.ANDRADE@enghouse.com>
+Assunto: Re: Perfil de acessos e instalação moblie
+ 
+CAUTION: Este email teve origem fora da sua organização. Não clique em links nem abra anexos sem conhecer o remetente ou saber que o conteúdo é
+seguro.
+This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is
+safe.
+29/12/2025
+10:56
+Leonardo Pereira
+Vitorino
+file_17475755_desc_fileimage.png file_17478406_desc_filearchive.png
+file_17479801_desc_filearchive.png file_17514167_desc_fileimage.png
+file_17514265_desc_fileimage.png favicon.png
+Página 6 de 24
+
+Prezados,
+Podemos, por enquanto, seguir com as contas que possuem mais de um perfil.
+Fico no aguardo das atualizações referentes aos testes e do retorno da IBM.
+Att
+Leonardo Pereira Vitorino
+Analista de Infraestrutura Pl
+leonardo.vitorino@omnibrasil.com.br
+www.omnibrasil.com.br
+DECLARAÇÃO
+Esta  mensagem  e  quaisquer  anexos  são  confidenciais  e  destinados  exclusivamente  aos  destinatários  indicados.  Se  você  a  recebeu  por
+engano, por favor, notifique-nos imediatamente e exclua-a do seu sistema. Qualquer uso, cópia ou divulgação não autorizada é proibido.
+Embora tomemos precauções razoáveis para verificar a existência de vírus, não assumimos qualquer responsabilidade por danos resultantes
+de vírus ou outras ameaças eletrônicas. Nada nesta mensagem constitui uma oferta contratual. Tratamos os seus dados pessoais de acordo
+com a Lei Geral de Proteção de Dados (LGPD).
+DISCLAIMER
+This message, including any attachments, is confidential and intended exclusively for the designated recipients. If you are not the intended
+recipient, any form of access, use, reproduction, storage, or sharing of the information contained herein is strictly prohibited. Its content may
+contain  information  protected  by  legal,  contractual,  commercial  confidentiality,  and  privacy  regulations,  including  personal  data,  whose
+processing must comply with Law No. 13,709/2018 (Brazilian General Data Protection Law – LGPD). 
+De: Navita <servicedesk@navita.com.br>
+Enviado: segunda-feira, 29 de dezembro de 2025 10:44
+Para: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>; nicolas.andrade@enghouse.com
+<nicolas.andrade@enghouse.com>; Leonardo Pereira Vitorino <leonardo.vitorino@omnibrasil.com.br>; TI Infra
+<ti.infra@omnibrasil.com.br>; yasmin.girotto@enghouse.com <yasmin.girotto@enghouse.com>; Navita.ServiceDesk@enghouse.com
+<Navita.ServiceDesk@enghouse.com>; YASMIN.GIROTTO@enghouse.com <YASMIN.GIROTTO@enghouse.com>;
+ROSANA.COSTA@enghouse.com <ROSANA.COSTA@enghouse.com>; NICOLAS.ANDRADE@enghouse.com
+<NICOLAS.ANDRADE@enghouse.com>
+Assunto: Re: Perfil de acessos e instalação moblie
+ 
+CAUTION: Este email teve origem fora da sua organização. Não clique em links nem abra anexos sem conhecer o remetente ou saber que o conteúdo é
+seguro.
+This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is
+safe.
+29/12/2025
+10:43
+Daniel de Souza Silva
+Olá, Leonardo. Bom dia!
+Teve a oportunidade de ver o e-mail abaixo para seguirmos com o atendimento?
+Cordialmente,
+Equipe Navita
+22/12/2025
+17:58
+Daniel de Souza Silva
+Página 7 de 24
+
+Olá, Leonardo. Boa tarde!
+Gostaria de trazer algumas atualizações: 
+Em relação à segmentação de acesso para administradores em grupos específicos, confirmamos que é possível realizar essa configuração. Já
+analisamos o procedimento e podemos aplicá-lo facilmente.
+Quanto à configuração de funções personalizadas para administradores, ainda estamos enfrentando algumas dificuldades. Durante os testes
+internos, percebi que, mesmo atribuindo as 77 permissões disponíveis, o problema de deslogamento após iniciar a sessão no MaaS360
+persiste. Já estou em contato com a IBM para resolver essa questão.
+Sobre a criação de funções globais, será necessário obter algumas permissões internas, pois essa configuração também impacta o ambiente
+de outros clientes. Ainda estou investigando essa possibilidade, mas, por enquanto, não será viável implementá-la.
+Diante disso, gostaria de saber se podemos, provisoriamente, continuar utilizando a permissão global "somente visualização" para não atrasar
+a questão dos acessos. A ideia seria combinar a função global "somente visualização" com uma função local que permita comandos e funções
+específicas. Assim, atribuímos a função "somente visualização" para todos os administradores que precisam de acesso limitado e, conforme as
+atividades e demandas, designamos a função local correspondente. Esse modelo seria similar ao que conversamos na call. Podemos seguir
+dessa forma, por enquanto?
+Seguimos à disposição.
+Equipe Navita
+19/12/2025
+10:16
+Daniel de Souza Silva
+Olá, Leonardo. Bom dia!
+Conforme alinhado na call, foi reportada uma necessidade urgente de segmentar os acessos de alguns administradores do portal para que
+possam visualizar dispositivos de um diretório específico de usuários. Além disso, será essencial configurar de forma granular as permissões de
+certos administradores, garantindo que tenham acesso apenas à visualização de dispositivos e à execução de comandos específicos. Essa
+necessidade pode variar conforme o usuário, tornando importante a criação de funções customizadas, adaptadas às atividades de cada um.
+Observamos que a função criada para acesso remoto tem apresentado problemas durante o login dos usuários. Estou verificando internamente
+possíveis ajustes ou, se necessário, a criação de uma função global para garantir seu funcionamento adequado.
+Em relação à segmentação de grupos de usuários, precisamos confirmar junto à IBM se existe algum recurso que permita restringir o acesso
+dos engenheiros apenas ao diretório de usuários HUMS. Estarei entrando em contato com eles ainda hoje à tarde para obter uma resposta o
+mais rápido possível.
+Do meu lado, trabalharei na definição das funções e retornarei com um novo posicionamento até, no máximo, terça-feira (23/12).
+Sobre o problema relatado das máquinas que perdem o gerenciamento após ficarem inativas por menos de um mês, conforme conversamos,
+trataremos esse caso em um novo chamado. Assim, solicito que abram o chamado para darmos continuidade à análise da nossa parte.
+Qualquer dúvida ou problema, estamos à disposição!
+Cordialmente,
+Equipe Navita
+18/12/2025
+16:07
+Daniel de Souza Silva
+O Sla foi pausado. Motivo: Call agendada
+18/12/2025
+16:07
+Daniel de Souza Silva
+Olá Leonardo. Boa tarde!
+Encaminhei o convite para o seu e-mail para amanhã às 9h30.
+Caso não tenha recebido ou tenha algum imprevisto, por favor, me avise.
+Seguimos à disposição.
+Equipe Navita
+18/12/2025
+16:01
+Leonardo Pereira
+Vitorino
+file_17475755_desc_fileimage.png file_17478406_desc_filearchive.png
+file_17479801_desc_filearchive.png file_17514167_desc_fileimage.png
+file_17514265_desc_fileimage.png favicon.png
+Página 8 de 24
+
+Prezados,
+Podemos agendar para as 9h30.
+Aguardo o envio do convite.
+Att.
+Leonardo Pereira Vitorino
+Analista de Infraestrutura Pl
+leonardo.vitorino@omnibrasil.com.br
+www.omnibrasil.com.br
+DECLARAÇÃO
+Esta  mensagem  e  quaisquer  anexos  são  confidenciais  e  destinados  exclusivamente  aos  destinatários  indicados.  Se  você  a  recebeu  por
+engano, por favor, notifique-nos imediatamente e exclua-a do seu sistema. Qualquer uso, cópia ou divulgação não autorizada é proibido.
+Embora tomemos precauções razoáveis para verificar a existência de vírus, não assumimos qualquer responsabilidade por danos resultantes
+de vírus ou outras ameaças eletrônicas. Nada nesta mensagem constitui uma oferta contratual. Tratamos os seus dados pessoais de acordo
+com a Lei Geral de Proteção de Dados (LGPD).
+DISCLAIMER
+This message, including any attachments, is confidential and intended exclusively for the designated recipients. If you are not the intended
+recipient, any form of access, use, reproduction, storage, or sharing of the information contained herein is strictly prohibited. Its content may
+contain  information  protected  by  legal,  contractual,  commercial  confidentiality,  and  privacy  regulations,  including  personal  data,  whose
+processing must comply with Law No. 13,709/2018 (Brazilian General Data Protection Law – LGPD). 
+De: Navita <servicedesk@navita.com.br>
+Enviado: quinta-feira, 18 de dezembro de 2025 15:55
+Para: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>; nicolas.andrade@enghouse.com
+<nicolas.andrade@enghouse.com>; Leonardo Pereira Vitorino <leonardo.vitorino@omnibrasil.com.br>; TI Infra
+<ti.infra@omnibrasil.com.br>; yasmin.girotto@enghouse.com <yasmin.girotto@enghouse.com>; Navita.ServiceDesk@enghouse.com
+<Navita.ServiceDesk@enghouse.com>; YASMIN.GIROTTO@enghouse.com <YASMIN.GIROTTO@enghouse.com>;
+ROSANA.COSTA@enghouse.com <ROSANA.COSTA@enghouse.com>; NICOLAS.ANDRADE@enghouse.com
+<NICOLAS.ANDRADE@enghouse.com>
+Assunto: Re: Perfil de acessos e instalação moblie
+ 
+CAUTION: Este email teve origem fora da sua organização. Não clique em links nem abra anexos sem conhecer o remetente ou saber que o conteúdo é
+seguro.
+This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is
+safe.
+18/12/2025
+15:55
+Daniel de Souza Silva
+O Sla foi pausado. Motivo: Aguardando solicitante
+18/12/2025
+15:54
+Daniel de Souza Silva
+Olá, Vitor. Boa tarde!
+Darei continuidade ao seu atendimento no nível 2.
+Podemos agendar uma call para esclarecer as dúvidas apontadas e analisar mais de perto as dificuldades que você está enfrentando.
+Infelizmente, não tenho disponibilidade para hoje, mas podemos marcar para amanhã entre 9h30 e 11h ou, no período da tarde, entre 13h e
+14h. Qual horário seria melhor para você?
+Caso não haja retorno em até 24horas, o ticket será encerrado.
+Cordialmente,
+Equipe Navita
+16/12/2025
+17:16
+Yasmin Mendes
+Girotto
+file_17475755_desc_fileimage.png file_17478406_desc_filearchive.png
+file_17479801_desc_filearchive.png favicon.png
+Página 9 de 24
+
+Olá Rosana, boa tarde. 
+Por gentileza, conseguiríamos marcar com um técnico para verificar sobre isso? Acredito que seja algo simples de configurar,
+porém. estamos com alguns desencontros de informações por e-mail. 
+Fico no seu aguardo. 
+De: Leonardo Pereira Vitorino <leonardo.vitorino@omnibrasil.com.br>
+Enviado: Tuesday, December 16, 2025 5:11:49 PM
+Para: Yasmin Mendes Girotto <YASMIN.GIROTTO@enghouse.com>; Nicolas Melgaço de Andrade <NICOLAS.ANDRADE@enghouse.com>;
+Navita Service Desk <Navita.ServiceDesk@enghouse.com>; Navita Service Desk <Navita.ServiceDesk@enghouse.com>
+Cc: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>; TI Infra <ti.infra@omnibrasil.com.br>
+Assunto: RE: Perfil de acessos e instalação moblie
+ 
+@yasmin.girotto@enghouse.com
+Enviei a informação por mensagem direta, porém registro aqui para formalização.
+Inicialmente, tentamos utilizar os perfis de administradores disponíveis em nosso portal, porém nenhum deles atende à nossa
+necessidade.
+Ao consultar a documentação do MaaS360, encontramos a abordagem descrita anteriormente. Contudo, mesmo seguindo o
+procedimento corretamente, a conta configurada não consegue permanecer logada na plataforma.
+Por isso, precisamos marcar uma reunião para que possamos demonstrar o que está acontecendo.
+https://www.ibm.com/docs/pt-br/maas360?topic=portal-creating-admin-role-administrators
+Att.
+Leonardo Pereira Vitorino
+Analista de Infraestrutura Pl
+leonardo.vitorino@omnibrasil.com.br
+www.omnibrasil.com.br
+De: Leonardo Pereira Vitorino <leonardo.vitorino@omnibrasil.com.br>
+Enviado: terça-feira, 16 de dezembro de 2025 14:02
+Para: yasmin.girotto@enghouse.com <yasmin.girotto@enghouse.com>; nicolas.andrade@enghouse.com <nicolas.andrade@enghouse.com>;
+Navita.ServiceDesk@enghouse.com <Navita.ServiceDesk@enghouse.com>; Navita <servicedesk@navita.com.br>
+Cc: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>; TI Infra <ti.infra@omnibrasil.com.br>
+Assunto: RE: Perfil de acessos e instalação moblie
+ 
+Página 10 de 24
+
+Prezados,
+Estou adicionando a Yasmin para acompanhamento da situação.
+Yasmin,
+No encadeamento abaixo constam todas as informações.
+Att.
+Leonardo Pereira Vitorino
+Analista de Infraestrutura Pl
+leonardo.vitorino@omnibrasil.com.br
+www.omnibrasil.com.br
+De: Leonardo Pereira Vitorino <leonardo.vitorino@omnibrasil.com.br>
+Enviado: terça-feira, 16 de dezembro de 2025 09:54
+Para: Navita <servicedesk@navita.com.br>; nicolas.andrade@enghouse.com <nicolas.andrade@enghouse.com>
+Cc: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>; TI Infra <ti.infra@omnibrasil.com.br>
+Assunto: RE: Perfil de acessos e instalação moblie
+ 
+Prezados,
+Qualquer perfil criado na plataforma quando atribuído em qualquer conta criada faz com que a conta fique fazendo logoff.
+Precisamos marcar uma reunião conjunta para podermos solucionar o problema.
+Att.
+Leonardo Pereira Vitorino
+Analista de Infraestrutura Pl
+leonardo.vitorino@omnibrasil.com.br
+www.omnibrasil.com.br
+De: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>
+Enviado: segunda-feira, 15 de dezembro de 2025 09:02
+Para: Navita <servicedesk@navita.com.br>; nicolas.andrade@enghouse.com <nicolas.andrade@enghouse.com>; Leonardo Pereira
+Vitorino <leonardo.vitorino@omnibrasil.com.br>
+Assunto: RE: Perfil de acessos e instalação moblie
+ 
+Bom dia!
+Já fomos por esse caminho, porém o perfil fica deslogando quando realizamos ação.
+Vitor Flavio Gomes Kaizer Gaio
+Analista de Suporte Jr
+vitor.gaio@omnibrasil.com.br
+www.omnibrasil.com.br
+Página 11 de 24
+
+De: Navita <servicedesk@navita.com.br>
+Enviado: sexta-feira, 12 de dezembro de 2025 18:03
+Para: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>; nicolas.andrade@enghouse.com
+<nicolas.andrade@enghouse.com>; Leonardo Pereira Vitorino <leonardo.vitorino@omnibrasil.com.br>
+Assunto: Re: Perfil de acessos e instalação moblie
+ 
+CAUTION: Este email teve origem fora da sua organização. Não clique em links nem abra anexos sem conhecer o remetente ou saber que o conteúdo é
+seguro.
+This email originated from outside of the organization. Do not click links or open attachments unless you recognize...
+16/12/2025
+17:12
+Leonardo Pereira
+Vitorino
+file_17475755_desc_fileimage.png file_17478406_desc_filearchive.png
+file_17479801_desc_filearchive.png favicon.png
+@yasmin.girotto@enghouse.com
+Enviei a informação por mensagem direta, porém registro aqui para formalização.
+Inicialmente, tentamos utilizar os perfis de administradores disponíveis em nosso portal, porém nenhum deles atende à nossa
+necessidade.
+Ao consultar a documentação do MaaS360, encontramos a abordagem descrita anteriormente. Contudo, mesmo seguindo o
+procedimento corretamente, a conta configurada não consegue permanecer logada na plataforma.
+Por isso, precisamos marcar uma reunião para que possamos demonstrar o que está acontecendo.
+https://www.ibm.com/docs/pt-br/maas360?topic=portal-creating-admin-role-administrators
+Att.
+Leonardo Pereira Vitorino
+Analista de Infraestrutura Pl
+leonardo.vitorino@omnibrasil.com.br
+www.omnibrasil.com.br
+Página 12 de 24
+
+De: Leonardo Pereira Vitorino <leonardo.vitorino@omnibrasil.com.br>
+Enviado: terça-feira, 16 de dezembro de 2025 14:02
+Para: yasmin.girotto@enghouse.com <yasmin.girotto@enghouse.com>; nicolas.andrade@enghouse.com <nicolas.andrade@enghouse.com>;
+Navita.ServiceDesk@enghouse.com <Navita.ServiceDesk@enghouse.com>; Navita <servicedesk@navita.com.br>
+Cc: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>; TI Infra <ti.infra@omnibrasil.com.br>
+Assunto: RE: Perfil de acessos e instalação moblie
+ 
+Prezados,
+Estou adicionando a Yasmin para acompanhamento da situação.
+Yasmin,
+No encadeamento abaixo constam todas as informações.
+Att.
+Leonardo Pereira Vitorino
+Analista de Infraestrutura Pl
+leonardo.vitorino@omnibrasil.com.br
+www.omnibrasil.com.br
+De: Leonardo Pereira Vitorino <leonardo.vitorino@omnibrasil.com.br>
+Enviado: terça-feira, 16 de dezembro de 2025 09:54
+Para: Navita <servicedesk@navita.com.br>; nicolas.andrade@enghouse.com <nicolas.andrade@enghouse.com>
+Cc: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>; TI Infra <ti.infra@omnibrasil.com.br>
+Assunto: RE: Perfil de acessos e instalação moblie
+ 
+Prezados,
+Qualquer perfil criado na plataforma quando atribuído em qualquer conta criada faz com que a conta fique fazendo logoff.
+Precisamos marcar uma reunião conjunta para podermos solucionar o problema.
+Att.
+Leonardo Pereira Vitorino
+Analista de Infraestrutura Pl
+leonardo.vitorino@omnibrasil.com.br
+www.omnibrasil.com.br
+De: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>
+Enviado: segunda-feira, 15 de dezembro de 2025 09:02
+Para: Navita <servicedesk@navita.com.br>; nicolas.andrade@enghouse.com <nicolas.andrade@enghouse.com>; Leonardo Pereira
+Vitorino <leonardo.vitorino@omnibrasil.com.br>
+Assunto: RE: Perfil de acessos e instalação moblie
+ 
+Bom dia!
+Já fomos por esse caminho, porém o perfil fica deslogando quando realizamos ação.
+Página 13 de 24
+
+Vitor Flavio Gomes Kaizer Gaio
+Analista de Suporte Jr
+vitor.gaio@omnibrasil.com.br
+www.omnibrasil.com.br
+De: Navita <servicedesk@navita.com.br>
+Enviado: sexta-feira, 12 de dezembro de 2025 18:03
+Para: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>; nicolas.andrade@enghouse.com
+<nicolas.andrade@enghouse.com>; Leonardo Pereira Vitorino <leonardo.vitorino@omnibrasil.com.br>
+Assunto: Re: Perfil de acessos e instalação moblie
+ 
+CAUTION: Este email teve origem fora da sua organização. Não clique em links nem abra anexos sem conhecer o remetente ou saber que o conteúdo é
+seguro.
+This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is
+safe.
+16/12/2025
+14:02
+Leonardo Pereira
+Vitorino
+file_17475755_desc_fileimage.png file_17478406_desc_filearchive.png
+file_17479801_desc_filearchive.png favicon.png
+Prezados,
+Estou adicionando a Yasmin para acompanhamento da situação.
+Yasmin,
+No encadeamento abaixo constam todas as informações.
+Att.
+Leonardo Pereira Vitorino
+Analista de Infraestrutura Pl
+leonardo.vitorino@omnibrasil.com.br
+www.omnibrasil.com.br
+De: Leonardo Pereira Vitorino <leonardo.vitorino@omnibrasil.com.br>
+Enviado: terça-feira, 16 de dezembro de 2025 09:54
+Para: Navita <servicedesk@navita.com.br>; nicolas.andrade@enghouse.com <nicolas.andrade@enghouse.com>
+Cc: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>; TI Infra <ti.infra@omnibrasil.com.br>
+Assunto: RE: Perfil de acessos e instalação moblie
+ 
+Prezados,
+Qualquer perfil criado na plataforma quando atribuído em qualquer conta criada faz com que a conta fique fazendo logoff.
+Precisamos marcar uma reunião conjunta para podermos solucionar o problema.
+Att.
+Leonardo Pereira Vitorino
+Página 14 de 24
+
+Analista de Infraestrutura Pl
+leonardo.vitorino@omnibrasil.com.br
+www.omnibrasil.com.br
+De: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>
+Enviado: segunda-feira, 15 de dezembro de 2025 09:02
+Para: Navita <servicedesk@navita.com.br>; nicolas.andrade@enghouse.com <nicolas.andrade@enghouse.com>; Leonardo Pereira
+Vitorino <leonardo.vitorino@omnibrasil.com.br>
+Assunto: RE: Perfil de acessos e instalação moblie
+ 
+Bom dia!
+Já fomos por esse caminho, porém o perfil fica deslogando quando realizamos ação.
+Vitor Flavio Gomes Kaizer Gaio
+Analista de Suporte Jr
+vitor.gaio@omnibrasil.com.br
+www.omnibrasil.com.br
+De: Navita <servicedesk@navita.com.br>
+Enviado: sexta-feira, 12 de dezembro de 2025 18:03
+Para: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>; nicolas.andrade@enghouse.com
+<nicolas.andrade@enghouse.com>; Leonardo Pereira Vitorino <leonardo.vitorino@omnibrasil.com.br>
+Assunto: Re: Perfil de acessos e instalação moblie
+ 
+CAUTION: Este email teve origem fora da sua organização. Não clique em links nem abra anexos sem conhecer o remetente ou saber que o conteúdo é
+seguro.
+This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is
+safe.
+16/12/2025
+09:55
+Leonardo Pereira
+Vitorino
+file_17475755_desc_fileimage.png file_17478406_desc_filearchive.png
+file_17479801_desc_filearchive.png favicon.png
+Página 15 de 24
+
+Prezados,
+Qualquer perfil criado na plataforma quando atribuído em qualquer conta criada faz com que a conta fique fazendo logoff.
+Precisamos marcar uma reunião conjunta para podermos solucionar o problema.
+Att.
+Leonardo Pereira Vitorino
+Analista de Infraestrutura Pl
+leonardo.vitorino@omnibrasil.com.br
+www.omnibrasil.com.br
+De: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>
+Enviado: segunda-feira, 15 de dezembro de 2025 09:02
+Para: Navita <servicedesk@navita.com.br>; nicolas.andrade@enghouse.com <nicolas.andrade@enghouse.com>; Leonardo Pereira
+Vitorino <leonardo.vitorino@omnibrasil.com.br>
+Assunto: RE: Perfil de acessos e instalação moblie
+ 
+Bom dia!
+Já fomos por esse caminho, porém o perfil fica deslogando quando realizamos ação.
+Vitor Flavio Gomes Kaizer Gaio
+Analista de Suporte Jr
+vitor.gaio@omnibrasil.com.br
+www.omnibrasil.com.br
+De: Navita <servicedesk@navita.com.br>
+Enviado: sexta-feira, 12 de dezembro de 2025 18:03
+Para: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>; nicolas.andrade@enghouse.com
+<nicolas.andrade@enghouse.com>; Leonardo Pereira Vitorino <leonardo.vitorino@omnibrasil.com.br>
+Assunto: Re: Perfil de acessos e instalação moblie
+ 
+CAUTION: Este email teve origem fora da sua organização. Não clique em links nem abra anexos sem conhecer o remetente ou saber que o conteúdo é
+seguro.
+This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is
+safe.
+15/12/2025
+11:31
+Rosana Fatima
+Lourenço da Costa
+Rosana
+Página 16 de 24
+
+Olá, Vitor, bom dia!
+A sua solicitação #95303 está sendo encaminhada para o departamento responsável para análise e retorno.
+Seguimos à disposição,
+Suporte Navita
+15/12/2025
+09:03
+Vitor Flavio Gomes
+Kaizer Gaio
+file_17475755_desc_fileimage.png file_17478406_desc_filearchive.png
+file_17479801_desc_filearchive.png favicon.png
+Bom dia!
+Já fomos por esse caminho, porém o perfil fica deslogando quando realizamos ação.
+Vitor Flavio Gomes Kaizer Gaio
+Analista de Suporte Jr
+vitor.gaio@omnibrasil.com.br
+www.omnibrasil.com.br
+De: Navita <servicedesk@navita.com.br>
+Enviado: sexta-feira, 12 de dezembro de 2025 18:03
+Para: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>; nicolas.andrade@enghouse.com <nicolas.andrade@enghouse.com>;
+Leonardo Pereira Vitorino <leonardo.vitorino@omnibrasil.com.br>
+Assunto: Re: Perfil de acessos e instalação moblie
+ 
+CAUTION: Este email teve origem fora da sua organização. Não clique em links nem abra anexos sem conhecer o remetente ou saber que o conteúdo é
+seguro. 
+This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is
+safe.
+12/12/2025
+18:03
+Rosana Fatima
+Lourenço da Costa
+Rosana
+O Sla foi pausado. Motivo: Aguardando cliente
+12/12/2025
+18:02
+Rosana Fatima
+Lourenço da Costa
+Rosana
+Página 17 de 24
+
+Oi Vitor, boa tarde!
+Conforme conversamos por telefone, seria esta opção para delegar as funções.
+Aí seleciona a opção que deseja que tenha acesso.
+Por favor veja se seria esta a sua dúvida ?
+Obrigada, no aguardo!
+Caso não haja retorno em até 24 horas, o chamado será encerrado.
+Atenciosamente
+Equipe Navita
+12/12/2025
+17:01
+Vitor Flavio Gomes
+Kaizer Gaio
+file_17475755_desc_fileimage.png file_17478406_desc_filearchive.png favicon.png
+Página 18 de 24
+
+(21) 97978-1465
+Att,
+Vitor Flavio Gomes Kaizer Gaio
+Analista de Suporte Jr
+vitor.gaio@omnibrasil.com.br
+www.omnibrasil.com.br
+De: Navita <servicedesk@navita.com.br>
+Enviado: sexta-feira, 12 de dezembro de 2025 17:00
+Para: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>; nicolas.andrade@enghouse.com <nicolas.andrade@enghouse.com>;
+Leonardo Pereira Vitorino <leonardo.vitorino@omnibrasil.com.br>
+Assunto: Re: Perfil de acessos e instalação moblie
+ 
+CAUTION: Este email teve origem fora da sua organização. Não clique em links nem abra anexos sem conhecer o remetente ou saber que o conteúdo é
+seguro. 
+This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is
+safe.
+12/12/2025
+17:00
+Rosana Fatima
+Lourenço da Costa
+Rosana
+O Sla foi pausado. Motivo: Aguardando cliente
+12/12/2025
+16:59
+Rosana Fatima
+Lourenço da Costa
+Rosana
+Oi Vitor, boa tarde!
+Por favor informar seu telefone de contato direto?
+Obrigada, no aguardo!
+Caso não haja retorno em até 24 horas, o chamado será encerrado.
+Atenciosamente
+Equipe Navita
+12/12/2025
+16:49
+Vitor Flavio Gomes
+Kaizer Gaio
+file_17475755_desc_fileimage.png file_17478406_desc_filearchive.png favicon.png
+Página 19 de 24
+
+Não, minha conta tem que permanecer de administrador, como estava antes.
+Queremos apenas ter permissão para editar os perfis de acesso.
+Pois a flag  "Acesso Remoto" tem botão  "Bloquear" e não queríamos isso.
+Att,
+Vitor Flavio Gomes Kaizer Gaio
+Analista de Suporte Jr
+vitor.gaio@omnibrasil.com.br
+www.omnibrasil.com.br
+De: Navita <servicedesk@navita.com.br>
+Enviado: sexta-feira, 12 de dezembro de 2025 16:45
+Para: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>; nicolas.andrade@enghouse.com <nicolas.andrade@enghouse.com>;
+Leonardo Pereira Vitorino <leonardo.vitorino@omnibrasil.com.br>
+Assunto: Re: Perfil de acessos e instalação moblie
+ 
+CAUTION: Este email teve origem fora da sua organização. Não clique em links nem abra anexos sem conhecer o remetente ou saber que o conteúdo é
+seguro. 
+This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is
+safe.
+12/12/2025
+16:45
+Rosana Fatima
+Lourenço da Costa
+Rosana
+O Sla foi pausado. Motivo: Aguardando cliente
+12/12/2025
+16:45
+Rosana Fatima
+Lourenço da Costa
+Rosana
+Página 20 de 24
+
+Oi Vitor, boa tarde!
+Efetuada a configuração de perfil conforme informações abaixo.
+Obrigada, no aguardo!
+Caso não haja retorno em até 24 horas, o chamado será encerrado.
+Atenciosamente
+Equipe Navita
+12/12/2025
+15:25
+Vitor Flavio Gomes
+Kaizer Gaio
+file_17475755_desc_fileimage.png favicon.png
+Estamos precisando editar o botão "Acesso Remoto", não podemos ter esse tipo de acesso?
+Att,
+Vitor Flavio Gomes Kaizer Gaio
+Analista de Suporte Jr
+vitor.gaio@omnibrasil.com.br
+www.omnibrasil.com.br
+De: Navita <servicedesk@navita.com.br>
+Enviado: sexta-feira, 12 de dezembro de 2025 15:18
+Para: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>; nicolas.andrade@enghouse.com <nicolas.andrade@enghouse.com>;
+Leonardo Pereira Vitorino <leonardo.vitorino@omnibrasil.com.br>
+Assunto: Re: Perfil de acessos e instalação moblie
+ 
+CAUTION: Este email teve origem fora da sua organização. Não clique em links nem abra anexos sem conhecer o remetente ou saber que o conteúdo é
+seguro. 
+This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is
+safe.
+12/12/2025
+15:18
+Rosana Fatima
+Lourenço da Costa
+Rosana
+O Sla foi pausado. Motivo: Aguardando cliente
+12/12/2025
+15:18
+Rosana Fatima
+Lourenço da Costa
+Rosana
+Página 21 de 24
+
+Oi Vitor, boa tarde!
+Entendi, deseja alterar o seu perfil como adm?
+Tem como alterar sim!
+Obrigada, no aguardo!
+Caso não haja retorno em até 24 horas, o chamado será encerrado.
+Atenciosamente
+Equipe Navita
+12/12/2025
+14:48
+Vitor Flavio Gomes
+Kaizer Gaio
+email_header_logo.png email_logo.png
+Boa tarde!
+Não teria como editar os perfils, tendo o perfil de administrador?
+Aguardo o retorno.
+Att,
+Vitor Flavio Gomes Kaizer Gaio
+Analista de Suporte Jr
+vitor.gaio@omnibrasil.com.br
+www.omnibrasil.com.br
+De: Navita <servicedesk@navita.com.br>
+Enviado: sexta-feira, 12 de dezembro de 2025 10:59
+Para: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>; nicolas.andrade@enghouse.com <nicolas.andrade@enghouse.com>;
+Leonardo Pereira Vitorino <leonardo.vitorino@omnibrasil.com.br>
+Assunto: #95303 - Perfil de acessos e instalação moblie
+ 
+CAUTION: Este email teve origem fora da sua organização. Não clique em links nem abra anexos sem conhecer o remetente ou saber que o conteúdo é
+seguro. 
+This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is
+safe.
+Página 22 de 24
+
+12/12/2025
+11:58
+Rosana Fatima
+Lourenço da Costa
+Rosana
+O Sla foi pausado. Motivo: Aguardando cliente
+12/12/2025
+11:58
+Rosana Fatima
+Lourenço da Costa
+Rosana
+Oi Vitor, bom dia!
+Seguem as informações:
+1. Sobre o acesso remoto no portal MaaS360:
+É possível definir um grupo específico com permissão para realizar acesso remoto, ou essa função fica disponível para todos os diretórios? é disponível para
+todos.
+2. Instalação do MaaS360 em dispositivo já em uso:
+Caso o MaaS360 seja instalado em um celular que já está em utilização, o sistema criará a pasta “Trabalho”. Nesse cenário, o usuário poderá continuar
+instalando aplicativos pessoais normalmente no perfil pessoal do dispositivo? Assim que o MDM for instalado ele entra no gerenciamento e o que tinha
+anteriormente perde as informações, então o correto é antes salvar os arquivos para depois ativar o MDM.
+Obrigada, no aguardo!
+Caso não haja retorno em até 24 horas, o chamado será encerrado.
+Atenciosamente
+Equipe Navita
+12/12/2025
+10:15
+Vitor Flavio Gomes
+Kaizer Gaio
+favicon.png
+Página 23 de 24
+
+Bom dia!
+Omni Taxi Aereo S/A 03.670.763/0001-38
+Att,
+Vitor Flavio Gomes Kaizer Gaio
+Analista de Suporte Jr
+vitor.gaio@omnibrasil.com.br
+www.omnibrasil.com.br
+De: Navita <servicedesk@navita.com.br>
+Enviado: sexta-feira, 12 de dezembro de 2025 09:50
+Para: Vitor Flavio Gomes Kaizer Gaio <vitor.gaio@omnibrasil.com.br>; nicolas.andrade@enghouse.com
+<nicolas.andrade@enghouse.com>; Leonardo Pereira Vitorino <leonardo.vitorino@omnibrasil.com.br>
+Assunto: Re: Perfil de acessos e instalação moblie
+ 
+CAUTION: Este email teve origem fora da sua organização. Não clique em links nem abra anexos sem conhecer o remetente ou saber que o conteúdo é
+seguro. 
+This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is
+safe.
+12/12/2025
+09:49
+Amanda Rodrigues
+O Sla foi pausado. Motivo: aguardando retorno
+12/12/2025
+09:49
+Amanda Rodrigues
+Bom dia, Vitor!
+Pode nos informar o CNPJ e a razão social da empresa, por gentileza?
+Caso não haja retorno com validação em até 24 horas, o chamado será encerrado.
+Seguimos à disposição,
+Suporte Navita
+Declaro estar ciente do trabalho acima realizado e concordo com a realização do mesmo.
+Omni Taxi Aereo S/A (Maas 360)
+Página 24 de 24

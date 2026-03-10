@@ -1,0 +1,85 @@
+
+
+DROGARIA DPSP S.A. (VIVO)
+#97406 - Implantação WI FI através do MDMTICKET FECHADO
+DROGARIA DPSP S.A. (VIVO)
+ENDEREÇOS DO CLIENTESOLICITANTETELEFONE DO SOLICITANTE
+Erica Ferrante Gimenez 
+(erica.gimenez@dpsp.com.br)
++
+INFORMAÇÕES DO TICKET
+MESARESPONSÁVELABERTO EMFECHADO EMREVISADO EMPRIORIDADE
+NOVA VIVO - MDMDaniel de Souza Silva16/02/202627/02/202606/03/20263 - Baixa Prioridade
+GRUPO DE RECURSO/LOCAL/USUÁRIO DO EQUIPAMENTO
+CATÁLOGO DE SERVIÇOS
+NOMEÁREAITEM
+Catálogo Vivo 2023DúvidasDuvida Usabilidade
+DESCRIÇÃO DO TICKET
+Bom dia. 
+Prezados, 
+Segue agenda para acompanhamento e execução da implantação do WI FI através do MDM nos coletores das farmácias. 
+________________________________________________________________________________
+Reunião do Microsoft Teams
+Ingressar:https://teams.microsoft.com/meet/22439400069253?p=SARGGGpQMI4oAgQRBy
+ID da Reunião:224 394 000 692 53
+Senha:nh3Er6nX
+Precisa de ajuda? | Referência do sistema
+Para organizadores: Opções de reunião
+________________________________________________________________________________
+Esta mensagem pode conter informação confidencial ou privilegiada, sendo seu sigilo protegido por lei. Se você não for o destinatário ou a
+pessoa autorizada a receber esta mensagem, não pode usar, copiar ou divulgar as informações nela contidas e seus anexos ou tomar qualquer
+ação baseada nessas informações. Se você recebeu esta mensagem por engano, por favor, avise imediatamente ao remetente, respondendo o
+e-mail e em seguida apague-a dos servidores, juntamente com seus anexos.
+Página 1 de 3
+
+COMUNICAÇÃO COM CLIENTE
+DATAAUTORARQUIVOS
+27/02/2026 18:03Daniel de Souza Silva
+Olá, Erica. Boa tarde!
+Gostaria de informá-la que o ticket #97406 será encerrado.
+Caso precise de assistência no futuro, pode sempre nos acionar através dos canais de atendimento.
+Você receberá um e-mail com o link de avaliação de atendimento. Sua avaliação é importante!
+Seguimos à disposição.
+Equipe Navita
+26/02/2026 18:03Daniel de Souza Silva
+Olá, Erica. Boa tarde!
+Conforme alinhamos, mantivemos este chamado aberto até hoje para garantir um suporte ágil caso fosse necessário. Como não houve novas
+intercorrências, entendo que o funcionamento do MDM seguiu conforme o esperado.
+Caso ainda restem dúvidas, estou à disposição. Caso contrário, podemos prosseguir com o encerramento deste ticket?
+Caso não haja retorno em até 24horas, o ticket será encerrado.
+Cordialmente,
+Equipe Navita
+23/02/2026 17:43Daniel de Souza Silva
+Olá, Erica. Boa tarde!
+Apenas para registro: realizamos a call hoje, conforme combinado. Efetuamos a criação do grupo rollaout 0 para os dispositivos mais próximos
+e, efetuamos a atribuição da política Teste Wi-Fi. Pelo que pudemos verificar, a política está sendo aplicada aos dispositivos, porém, vocês
+ainda irão validar se os dispositivos estão conectando na rede e, caso não, qual o motivo.
+Sendo assim, manteremos o chamado em aberto e retornarei na quinta-feira para saber se precisa de algum apoio.
+Seguimos à disposição.
+Equipe Navita
+16/02/2026 11:18Gabriella Regina Barbosa Pichelli
+Esse ticket foi agrupado com o ticket 97391
+16/02/2026 10:23Erica Ferrante Gimenezfile_12367050_desc_filearchive.png favicon.png
+Página 2 de 3
+
+Bom dia. 
+Obrigada pelo retorno. 
+Irei enviar o invite, e a ação é a distribuição do ambiente Wi FI 
+ 
+De: Navita <servicedesk@navita.com.br>
+Enviado: sexta-feira, 13 de fevereiro de 2026 17:24
+Para: Erica Ferrante Gimenez <erica.gimenez@dpsp.com.br>; navita.servicedesk@enghouse.com <navita.servicedesk@enghouse.com>
+Assunto: Re: Acompanhando técnico 23.02
+ 
+13/02/2026 17:24Daniel de Souza Silva
+O Sla foi pausado. Motivo: Aguardando solicitante
+13/02/2026 17:24Daniel de Souza Silva
+Olá, Erica. Boa tarde!
+Darei continuidade em seu atendimento.
+Tenho disponibilidade para o dia 23/02 às 16h. Você prefere enviar o convite da reunião ou gostaria que eu o fizesse?
+Além disso, se puder me adiantar qual será a ação massiva realizada, eu gostaria de me inteirar sobre o assunto antes da nossa conversa.
+Seguimos à disposição.
+Equipe Navita
+Declaro estar ciente do trabalho acima realizado e concordo com a realização do mesmo.
+DROGARIA DPSP S.A. (VIVO)
+Página 3 de 3

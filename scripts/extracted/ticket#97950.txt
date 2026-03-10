@@ -1,0 +1,120 @@
+
+
+A. ANGELONI & CIA. LTDA (EVOLTI)
+#97950 - URGENTE SITE FORA DO AR - INFORMAR PREVISAOTICKET FECHADO
+A. ANGELONI & CIA. LTDA (EVOLTI)
+ENDEREÇOS DO CLIENTESOLICITANTETELEFONE DO SOLICITANTE
+"Renata C. do Prado Miranda" 
+(renata@wonit.com.br)
++5547997632098
+INFORMAÇÕES DO TICKET
+MESARESPONSÁVELABERTO EMFECHADO EMREVISADO EMPRIORIDADE
+NOVA EMMLeticia De Almeida Lima Guimarães03/03/202609/03/2026-SLA Padrão SAAS
+GRUPO DE RECURSO/LOCAL/USUÁRIO DO EQUIPAMENTO
+CATÁLOGO DE SERVIÇOS
+NOMEÁREAITEM
+CATÁLOGO SAAS EMM/MDMIncidentesInstabilidade no Sistema
+Página 1 de 4
+
+DESCRIÇÃO DO TICKET
+Boa tarde,
+Favor verificar com urgencia, site fora do ar, peço uma previsão pra informar nossos clientes:
+Sigo à disposição!
+Atenciosamente.
+Renata do Prado Miranda
+Auditora de Contas e Ativos
+  47 9 9763 2098  | 47 3431 9530
+  renata@wonit.com.br
+  www.wonit.com.br
+Sede Joinville - Rua Rio Grande do Sul, 635 - Sala 1
+Sede Blumenau - Rua Benjamin Constant, 2410
+      
+COMUNICAÇÃO COM CLIENTE
+DATAAUTORARQUIVOS
+05/03/2026 13:22Leticia De Almeida Lima Guimarães
+O Sla foi pausado. Motivo: Aguardando validação
+05/03/2026 13:21Leticia De Almeida Lima Guimarães
+Olá, boa tarde! Tudo bem? 
+ 
+Teve a oportunidade de ver o e-mail abaixo? Foi possível realizar o acesso ao ambiente normalmente? 
+Aguardo sua validação!
+ 
+Suporte Navita
+Caso não haja retorno com validação em até 24 horas, o chamado será encerrado.
+04/03/2026 17:41Leticia De Almeida Lima Guimarães
+O Sla foi pausado. Motivo: AGuardando validação
+04/03/2026 17:41Leticia De Almeida Lima Guimarães
+Página 2 de 4
+
+Olá, boa tarde! Tudo bem?
+Informamos que os serviços afetados em decorrência da instabilidade na infraestrutura da Oracle foram devidamente restabelecidos.
+No momento, o ambiente encontra-se operando normalmente e seguimos monitorando para assegurar a plena estabilidade da plataforma.
+Agradecemos pela compreensão durante o período de indisponibilidade e permanecemos à disposição para quaisquer esclarecimentos adicionais.
+Atenciosamente,
+Suporte Navita
+04/03/2026 15:53Leticia De Almeida Lima Guimarães
+O Sla foi pausado. Motivo: em analise dev
+04/03/2026 15:52Leticia De Almeida Lima Guimarães
+Olá Renata,
+No momento, ainda não temos novas atualizações. A equipe da Oracle segue atuando para restabelecer a normalização do ambiente, e nosso time continua monitorando
+de perto o andamento das análises.
+Assim que houver qualquer novidade ou progresso relevante, entraremos em contato imediatamente com novas informações.
+Seguimos à disposição.
+Suporte Navita
+04/03/2026 15:46"Renata C. do Prado Miranda"file_12503014_desc_filearchive.png favicon.png
+tarde, alguma atualização?
+Sigo à disposição!
+Atenciosamente.
+Renata do Prado Miranda
+Auditora de Contas e Ativos
+  47 9 9763 2098  | 47 3431 9530
+  renata@wonit.com.br
+  www.wonit.com.br
+Sede Joinville - Rua Rio Grande do Sul, 635 - Sala 1
+Sede Blumenau - Rua Benjamin Constant, 2410
+       
+De: Navita <servicedesk@navita.com.br>
+Enviado: quarta-feira, 4 de março de 2026 10:21
+Para: Renata C. do Prado Miranda <renata@wonit.com.br>
+Assunto: Re: URGENTE SITE FORA DO AR - INFORMAR PREVISAO
+ 
+04/03/2026 10:21Leticia De Almeida Lima Guimarães
+O Sla foi pausado. Motivo: Em análise
+04/03/2026 10:21Leticia De Almeida Lima Guimarães
+Olá Renata, 
+Assim que houver qualquer atualização sobre a instabilidade, informarei imediatamente.
+Agradecemos a compreensão. 
+Suporte Navita
+04/03/2026 08:55"Renata C. do Prado Miranda"file_12503014_desc_filearchive.png favicon.png
+Página 3 de 4
+
+bom dia,
+ok, se tiver alguma novidade, favor me avisar!
+Sigo à disposição!
+Atenciosamente.
+Renata do Prado Miranda
+Auditora de Contas e Ativos
+  47 9 9763 2098  | 47 3431 9530
+  renata@wonit.com.br
+  www.wonit.com.br
+Sede Joinville - Rua Rio Grande do Sul, 635 - Sala 1
+Sede Blumenau - Rua Benjamin Constant, 2410
+       
+De: Navita <servicedesk@navita.com.br>
+Enviado: terça-feira, 3 de março de 2026 17:26
+Para: Renata C. do Prado Miranda <renata@wonit.com.br>
+Assunto: Re: URGENTE SITE FORA DO AR - INFORMAR PREVISAO
+ 
+03/03/2026 17:26Leticia De Almeida Lima Guimarães
+O Sla foi pausado. Motivo: em analise de dev
+03/03/2026 17:26Leticia De Almeida Lima Guimarães
+Olá, boa tarde!
+Estamos identificando uma instabilidade em nosso sistema devido a um incidente confirmado na infraestrutura de rede da Oracle Cloud, especificamente na região US East
+(Ashburn), onde parte dos nossos serviços está hospedada.
+Essa falha pode causar lentidão, erros intermitentes ou falhas de conexão durante o uso da plataforma.
+A equipe da Oracle já está atuando para mitigar o impacto, e seguimos monitorando de perto até a normalização completa.
+Assim que houver atualização oficial, informaremos imediatamente.
+Suporte Navita
+Declaro estar ciente do trabalho acima realizado e concordo com a realização do mesmo.
+A. ANGELONI & CIA. LTDA (Evolti)
+Página 4 de 4

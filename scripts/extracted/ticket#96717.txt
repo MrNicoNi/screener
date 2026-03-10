@@ -1,0 +1,329 @@
+
+
+G.PANIZ IND DE EQUIP. P/ ALIMENTAÇÃO ...
+#96717 - App para Android via ChromeTICKET FECHADO
+G.PANIZ IND DE EQUIP. P/ ALIMENTAÇÃO LTDA.
+ENDEREÇOS DO CLIENTESOLICITANTETELEFONE DO SOLICITANTE
+"Vinicius Montanari | Assistente de TI
+| GPaniz" 
+(vinicius.montanari@gpaniz.com.br)
++
+INFORMAÇÕES DO TICKET
+MESARESPONSÁVELABERTO EMFECHADO EMREVISADO EMPRIORIDADE
+NOVA VIVO - MDMLeticia De Almeida Lima Guimarães28/01/202603/02/202603/02/2026SLA Padrão SAAS
+GRUPO DE RECURSO/LOCAL/USUÁRIO DO EQUIPAMENTO
+CATÁLOGO DE SERVIÇOS
+NOMEÁREAITEM
+Catálogo Vivo 2023DúvidasDuvidas Aplicativos
+DESCRIÇÃO DO TICKET
+Identificação: Vinicius Montanari
+Nome e CNPJ da empresa: G.Paniz Ind. De Equip. p/ Alimentação LTDA // 90.771.833/0001-49
+Nome e telefone para contato: Vinicius Montanari / (54) 9 9633-4404 / (54) 2101-3435
+Produto (exemplo): MDM
+Plataforma: IBM MaaS360
+Descrição detalhada do problema: Bom Dia, possuímos um aplicativo no qual utilizamos na empresa, que gostaríamos de liberar em todos os celulares,
+porém, por se tratar de um app atípico, onde não encontramos ele na Google Play, e pelo que verificamos, o mesmo é uma versão “WEB” para Android do
+site em questão.
+Ao acessar o site www.manusys.com.br, ir até os três pontinhos na direita vai aparecer a opção “Adicionar a tela inicial” e isso irá gerar um “aplicativo na
+tela inicial, no qual acredito que seja uma versão WEB deste site para o Android. Minha dúvida é, como faço para liberar este “app” utilizando o modo
+quiosque, visto que terei que ter ele em todos os celulares da empresa, pois fará parte do nosso processo?
+Abaixo, segue algumas prints do APP funcionando em um celular sem o MDM-QUIOSQUE, e prints do APP com o MDM-QUIOSQUE.
+Print ou vídeo com evidências:
+Página 1 de 16
+
+Página 2 de 16
+
+Página 3 de 16
+
+Página 4 de 16
+
+ 
+As imagens a seguir, são imagens do telefone utilizando o MDM (Fora do modo QUIOSQUE), se deixar no modo quiosque, não aparece o ícone
+baixado/instalado.
+ 
+ 
+Página 5 de 16
+
+Página 6 de 16
+
+ 
+ 
+ 
+Vinicius Montanari 
+Assistente de TI
+vinicius.montanari@gpaniz.com.br
+(54) 2101.3435
+Rua Adolfo Randazzo, 2010B. Vila
+Maestra - CEP 95046-800
+Caxias do Sul - RS - Brasil
+(54) 2101.3400
+Página 7 de 16
+
+ 
+COMUNICAÇÃO COM CLIENTE
+DATAAUTORARQUIVOS
+03/02/2026
+11:05
+"Vinicius Montanari |
+Assistente de TI | GPaniz"
+image012.png image011.png image010.png image009.png image008.png image007.png image006.png
+image005.png image004.png image003.png image002.png image001.png
+Bom Dia,
+ 
+Testei o aplicativo junto com o pessoal que irá utilizar, e sim, está certinho.
+ 
+Muito obrigado pela ajuda.
+ 
+Att.
+ 
+Vinicius Montanari 
+Assistente de TI
+vinicius.montanari@gpaniz.com.br
+(54) 2101.3435
+Rua Adolfo Randazzo, 2010 B. Vila
+Maestra - CEP 95046-800
+Caxias do Sul - RS - Brasil
+(54) 2101.3400
+ 
+De: Navita <servicedesk@navita.com.br> 
+Enviada em: segunda-feira, 2 de fevereiro de 2026 21:52
+Para: vinicius.montanari@gpaniz.com.br; rafael.viero@gpaniz.com.br
+Assunto: Re: App para Android via Chrome
+ 
+02/02/2026
+21:51
+Leticia De Almeida Lima
+Guimarães
+O Sla foi pausado. Motivo: Aguardando retorno
+Página 8 de 16
+
+02/02/2026
+21:51
+Leticia De Almeida Lima
+Guimarães
+Olá Vinicius, boa noite! Tudo bem?
+O webapp foi distribuído, peço para que valide o acesso e nos retorne!
+Seguimos à disposição,
+Suporte Navita
+02/02/2026
+11:54
+"Vinicius Montanari |
+Assistente de TI | GPaniz"
+image012.png image011.png image010.png image009.png image008.png image007.png image006.png
+image005.png image004.png image003.png image002.png image001.png
+Bom Dia,
+ 
+Sim, pode direcionar diretamente para o google.
+ 
+Att.
+ 
+Vinicius Montanari 
+Assistente de TI
+vinicius.montanari@gpaniz.com.br
+(54) 2101.3435
+Rua Adolfo Randazzo, 2010 B. Vila
+Maestra - CEP 95046-800
+Caxias do Sul - RS - Brasil
+(54) 2101.3400
+ 
+De: Navita <servicedesk@navita.com.br> 
+Enviada em: sexta-feira, 30 de janeiro de 2026 17:23
+Para: vinicius.montanari@gpaniz.com.br; rafael.viero@gpaniz.com.br
+Assunto: Re: App para Android via Chrome
+ 
+30/01/2026
+17:22
+Leticia De Almeida Lima
+Guimarães
+O Sla foi pausado. Motivo: Aguardando retorno
+30/01/2026
+17:22
+Leticia De Almeida Lima
+Guimarães
+Olá Vinicius, boa tarde! Tudo bem?
+Nosso time de nível 2 verificou que atualmente a IBM tornou o serviço de browser pago, sendo contratado a parte, por esse motivo não se ativa em seu
+aparelho. 
+Sendo assim, se permitido por você, vou redistribuir esse app diretamente para uso no navegador da google e não para o browser do MaaS360, sendo
+possível que acessem o web aplicativo por aí!
+Aguardo seu retorno!
+Suporte Navita
+30/01/2026
+13:55
+Leticia De Almeida Lima
+Guimarães
+Página 9 de 16
+
+Olá, "Vinicius Montanari | Assistente de TI | GPaniz". Boa tarde!
+A sua solicitação #96717 está sendo encaminhada para o suporte de nível 2 para análise e retorno.
+Seguimos à disposição,
+Suporte Navita
+30/01/2026
+09:24
+"Vinicius Montanari |
+Assistente de TI | GPaniz"
+image009.png image008.png image007.png image006.png image005.png image004.png image003.png
+image002.png
+Bom Dia,
+ 
+Seguindo o que foi dito:
+ 
+Foi adicionado o App MaaS360 browser no catálogo de aplicativos e distribuído a todos os aplicativos.
+Foi adicionado o aplicativo na política em questão.
+O erro segue conforme abaixo:
+ 
+Seguindo a outra alternativa, como posso estar fazendo este passo “sem configuração de aplicativo seguro/gerenciado” pois onde estou criando o
+aplicativo, não me da essa opção para marcar/desmarcar. Segue prints de como está sendo criado o WebApp, para verificar se está da forma correta:
+ 
+Página 10 de 16
+
+ 
+ 
+Página 11 de 16
+
+ 
+Att
+ 
+Vinicius Montanari 
+Assistente de TI
+vinicius.montanari@gpaniz.com.br
+(54) 2101.3435
+Rua Adolfo Randazzo, 2010 B. Vila
+Maestra - CEP 95046-800
+Caxias do Sul - RS - Brasil
+(54) 2101.3400
+ 
+De: Navita <servicedesk@navita.com.br> 
+Enviada em: quinta-feira, 29 de janeiro de 2026 19:39
+Para: vinicius.montanari@gpaniz.com.br; rafael.viero@gpaniz.com.br
+Assunto: Re: App para Android via Chrome
+ 
+29/01/2026
+19:38
+Leticia De Almeida Lima
+Guimarães
+O Sla foi pausado. Motivo: Aguardando retorno
+29/01/2026
+19:38
+Leticia De Almeida Lima
+Guimarães
+Página 12 de 16
+
+Olá Vinicius, boa tarde! Tudo bem?
+Em alguns casos para que o web app consiga rodar no aparelho a plataforma solicita o uso do browser do próprio MaaS360. Esse webapp foi distribuído
+pelo MaaS360 como um aplicativo gerenciado. Nesse formato, ele precisa abrir através do MaaS360 Secure Browser. No entanto, o Secure Browser não
+está instalado ou não está ativo no dispositivo, o que gera a mensagem de erro no momento do acesso.
+Abaixo seguem duas opções de solução que pode aplicar em sua plataforma, conforme preferir:
+Opção 1 – Utilizar o MaaS360 Secure Browser 
+Esta opção mantém o acesso ao webapp dentro do ambiente protegido do MaaS360, basta distribui o app  da IBM ''MaaS360 Secure Browser'' que serve
+exatamente para esses casos.
+Passo a passo:
+Publicar o aplicativo “MaaS360 Secure Browser” pelo catálogo de apps, na opção Android > Google Play Store
+Garantir que o app seja distribuído para os mesmos dispositivos
+Adicione o app nos aplicativos liberados dentro das configurações do modo quiosque, através da aba de design na opção ''Kiosk Experience
+Designer''
+Forçar a sincronização do dispositivo
+Após isso, o ícone do MaaS360 Browser aparecerá no aparelho e o webapp abrirá normalmente
+Opção 2 – Abrir o webapp no navegador padrão do aparelho
+Esta opção elimina a necessidade do Secure Browser, utilizando o Chrome (Android) ou navegador padrão.
+Passo a passo:
+Remover o webapp atual
+Criar novamente o webapp no MaaS360 sem configuração de aplicativo seguro/gerenciado
+Publicar o novo webapp para o dispositivo
+Forçar a sincronização
+O acesso passará a ser feito diretamente pelo navegador padrão
+Ficamos à disposição para aplicar a opção mais adequada conforme a necessidade de segurança do ambiente.
+Sobre a ocorrência relacionada a câmera no aparelho MOTOG22, peço para que abra um outro chamado detalhando o ocorrido e indicando qual o IMEI do
+aparelho, por questões de fluxo de atendimento realizamos as tratativas uma por vez, em chamados separados! 
+Estou à disposição.
+Atenciosamente,
+Suporte Navita
+29/01/2026
+16:25
+"Vinicius Montanari |
+Assistente de TI | GPaniz"
+image008.png image007.png image006.png image005.png image004.png image003.png image002.png
+Boa tarde,
+ 
+Adicionei como você informou, porém ao abrir o arquivo, aparece a mensagem a seguir:
+ 
+Página 13 de 16
+
+ 
+Não estou encontrando essa opção para liberar.
+ 
+ 
+Aproveitando o chamado, também estou tentando instalar a câmera neste dispositivo, Motorola G22 e não está funcionando nenhuma câmera, poderia
+ajudar?
+ 
+Att.
+ 
+Vinicius Montanari 
+Assistente de TI
+vinicius.montanari@gpaniz.com.br
+(54) 2101.3435
+Rua Adolfo Randazzo, 2010 B. Vila
+Maestra - CEP 95046-800
+Caxias do Sul - RS - Brasil
+(54) 2101.3400
+Página 14 de 16
+
+ 
+De: Navita <servicedesk@navita.com.br> 
+Enviada em: quarta-feira, 28 de janeiro de 2026 17:01
+Para: vinicius.montanari@gpaniz.com.br; rafael.viero@gpaniz.com.br
+Assunto: Re: App para Android via Chrome
+ 
+28/01/2026
+17:00
+Leticia De Almeida Lima
+Guimarães
+O Sla foi pausado. Motivo: Aguardando retorno
+28/01/2026
+17:00
+Leticia De Almeida Lima
+Guimarães
+Página 15 de 16
+
+Olá Vinicius, boa tarde! Tudo bem?
+Conforme sua dúvida sobre a opção “Adicionar à tela inicial” ao acessar o site www.manusys.com.br, o comportamento que você descreveu no Chrome
+acontece porque o navegador cria um atalho/atalho de Web App (PWA) no dispositivo — isso é algo criado localmente pelo próprio Chrome quando o site
+oferece essa opção.
+Entretanto, neste contexto — com dispositivos Device Owner e modo quiosque gerenciado pelo MaaS360 — não é possível liberar esse atalho que os
+usuários criam manualmente diretamente no quiosque, pois ele não é um aplicativo que o MaaS360 reconhece ou gerencia por padrão.
+Criar um Web App no MaaS360:
+No console MaaS360, vá em Apps > App Catalog.
+Escolha a opção de Web App (Android).
+Preencha os dados com:
+Nome: (Ex.: Manusys Web App)
+URL: https://www.manusys.com.br
+Ícone e nome visual que desejar usar.
+Salve e publique esse Web App.
+Incluir o Web App no qui​osque:
+Vá em Android > Quiosque (Multi-App Kiosk).
+Adicione o Web App criado à lista de apps permitidos no quiosque.
+Ajuste as políticas se necessário (ex.: bloquear Chrome “completo”, permitir apenas o Web App).
+Valide e nos retorne!
+Seguimos à disposição,
+Suporte Navita
+28/01/2026
+11:20
+Leticia De Almeida Lima
+Guimarães
+O Sla foi pausado. Motivo: em analise
+28/01/2026
+11:20
+Leticia De Almeida Lima
+Guimarães
+Olá Vinicius Montanari,
+Informo que o ticket #96717 está em análise, retornaremos em breve.
+Seguimos à disposição.
+Equipe Navita
+28/01/2026
+10:25
+Leticia De Almeida Lima
+Guimarães
+Prioridade alterada. Motivo:
+padrão
+Declaro estar ciente do trabalho acima realizado e concordo com a realização do mesmo.
+G.Paniz Ind de Equip. p/ Alimentação LTDA.
+Página 16 de 16

@@ -1,0 +1,52 @@
+
+
+LELLO CONDOMINIOS LTDA (VIVO)
+#98143 - Instalação de Zero Touch - 06/03TICKET FECHADO
+LELLO CONDOMINIOS LTDA (VIVO)
+ENDEREÇOS DO CLIENTESOLICITANTETELEFONE DO SOLICITANTE
+Lucca Cantini Murano 
+(lucca.murano@lello.com.br)
++551127977583
+INFORMAÇÕES DO TICKET
+MESARESPONSÁVELABERTO EMFECHADO EMREVISADO EMPRIORIDADE
+NOVA VIVO - MDMAmanda Rodrigues06/03/202609/03/2026-3 - Baixa Prioridade
+GRUPO DE RECURSO/LOCAL/USUÁRIO DO EQUIPAMENTO
+CATÁLOGO DE SERVIÇOS
+NOMEÁREAITEM
+Catálogo Vivo 2023RequisiçõesZero Touch
+DESCRIÇÃO DO TICKET
+Prezados, bom dia 
+Espero que estejam bem ! 
+Solicito, por gentileza, a instalação do zero touch no aparelho abaixo: 
+USUÁRIO: ti infraestrutura (corp)r
+E-MAIL: mdm@lello.com.br
+IMEI: 354326941268493 / 354326941268501
+Obrigado,
+Atte,
+-- 
+LUCCA CANTINI MURANO
+Lello Corporativo
+TELECOM - CA/MOOCA
+Este e-mail e seus anexos podem conter informações confidenciais e protegidas por lei e sem a devida autorização, não podem ser divulgados, reproduzidos ou copiados. 
+Se você recebeu esta mensagem por engano, por favor, informe o remetente e a exclua imediatamente. 
+Página 1 de 2
+
+COMUNICAÇÃO COM CLIENTE
+DATAAUTORARQUIVOS
+09/03/2026 16:49Amanda Rodrigues
+Olá,
+Informamos que este ticket está sendo finalizado por falta de retorno. 
+Você receberá um e-mail com o link de avaliação de atendimento. Sua avaliação é importante!
+Seguimos à disposição.
+Equipe Navita
+06/03/2026 14:59Amanda Rodrigues
+O Sla foi pausado. Motivo: aguardando retorno
+06/03/2026 14:56Amanda Rodrigues
+Olá, Lucca Cantini Murano. Boa tarde!
+Conforme solicitado, os IMEIs foram cadastrados no zero touch!
+Caso não haja retorno com validação em até 24 horas, o chamado será encerrado.
+Seguimos à disposição,
+Suporte Navita
+Declaro estar ciente do trabalho acima realizado e concordo com a realização do mesmo.
+LELLO CONDOMINIOS LTDA (VIVO)
+Página 2 de 2
