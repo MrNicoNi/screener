@@ -75,10 +75,16 @@ export function AnalystDetail() {
                 monthlyScores[monthKey].count++
             })
 
+            const MONTH_ORDER = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
+
             const evolution = Object.entries(monthlyScores).map(([month, data]) => ({
                 month: month.charAt(0).toUpperCase() + month.slice(1),
+                monthKey: month.replace('.', '').toLowerCase(),
                 score: Math.round(data.total / data.count)
-            })).slice(-4)
+            }))
+                .sort((a, b) => MONTH_ORDER.indexOf(a.monthKey) - MONTH_ORDER.indexOf(b.monthKey))
+                .slice(-4)
+                .map(({ month, score }) => ({ month, score }))
 
             setEvolutionData(evolution.length > 0 ? evolution : [{ month: 'Atual', score: 0 }])
 

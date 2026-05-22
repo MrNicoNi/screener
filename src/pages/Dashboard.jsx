@@ -93,15 +93,19 @@ export function Dashboard() {
 
             // Load recent evaluations
             const recent = await getEvaluations({ ...filterOptions, limit: 5 })
-            setRecentEvaluations(recent.map(e => ({
-                id: e.id,
-                ticketId: `#${e.ticket_id}`,
-                analyst: e.analyst?.name || 'N/A',
-                score: Math.round(e.final_score || 0),
-                status: e.status || 'pending',
-                acknowledged: e.analyst_acknowledged || false,
-                date: new Date(e.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })
-            })))
+            setRecentEvaluations(recent.map(e => {
+                const score = Math.round(e.final_score || 0)
+                const computedStatus = score >= 90 ? 'excellent' : score >= 75 ? 'approved' : 'failed'
+                return {
+                    id: e.id,
+                    ticketId: `#${e.ticket_id}`,
+                    analyst: e.analyst?.name || 'N/A',
+                    score,
+                    status: computedStatus,
+                    acknowledged: e.analyst_acknowledged || false,
+                    date: new Date(e.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })
+                }
+            }))
 
         } catch (error) {
             console.error('Error loading dashboard:', error)
