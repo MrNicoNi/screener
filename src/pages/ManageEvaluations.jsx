@@ -291,6 +291,7 @@ export function ManageEvaluations() {
                         <option value="excellent">Excelente</option>
                         <option value="approved">Aprovado</option>
                         <option value="failed">Reprovado</option>
+                        <option value="pending">Pendente</option>
                         <option value="acknowledged">Confirmado</option>
                         <option value="disputed">Contestado</option>
                     </select>
