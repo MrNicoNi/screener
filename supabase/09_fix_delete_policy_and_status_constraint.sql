@@ -12,7 +12,8 @@ DROP POLICY IF EXISTS "Evaluators and admins can delete evaluations" ON evaluati
 
 CREATE POLICY "Evaluators and admins can delete evaluations" ON evaluations
   FOR DELETE USING (
-    auth.is_admin() OR evaluator_id = auth.uid()
+    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin' AND is_active = TRUE)
+    OR evaluator_id = auth.uid()
   );
 
 -- ============================================
