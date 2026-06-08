@@ -23,7 +23,6 @@ export function useEvaluations() {
           evaluator:users!evaluator_id(id, name, email)
         `)
                 .order('created_at', { ascending: false })
-                .limit(100)
 
             if (fetchError) throw fetchError
             setEvaluations(data || [])
