@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, Navigate } from 'react-router-dom'
 import { ArrowLeft, TrendingUp, TrendingDown, Download } from 'lucide-react'
 import {
     LineChart,
@@ -23,8 +23,12 @@ export function AnalystDetail() {
     const [loading, setLoading] = useState(true)
 
     const isAnalyst = userProfile?.role === 'analyst'
-    // If analyst viewing their own profile
     const targetId = isAnalyst ? userProfile?.id : id
+
+    // Redirect analyst trying to access another analyst's profile
+    if (isAnalyst && id && id !== userProfile?.id) {
+        return <Navigate to={`/analista/${userProfile.id}`} replace />
+    }
 
     useEffect(() => {
         if (targetId) {
