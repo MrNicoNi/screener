@@ -1,0 +1,42 @@
+-- ============================================
+-- SCREENER 2.0 - MIGRATION 26
+-- Security advisors cleanup (function search_path)
+--
+-- Fixes Supabase security linter warning:
+--   0011 function_search_path_mutable -> is_admin, can_evaluate, update_updated_at
+--
+-- Bodies use schema-qualified refs (public.users, auth.uid(), NOW()), so an
+-- empty search_path is safe and closes the search_path-injection surface on
+-- the two SECURITY DEFINER helpers. Verified: reading public.users as an
+-- evaluator still returns all rows after the change.
+-- ============================================
+ALTER FUNCTION public.is_admin()          SET search_path = '';
+ALTER FUNCTION public.can_evaluate()      SET search_path = '';
+ALTER FUNCTION public.update_updated_at() SET search_path = '';
+
+-- ============================================
+-- DELIBERATELY NOT DONE HERE (documented for the next pass)
+--
+-- 0028/0029 anon|authenticated_security_definer_function_executable
+--   Flags is_admin, can_evaluate, and the calib_* / close_calibration helpers
+--   as callable via /rest/v1/rpc/* by anon/authenticated.
+--   REVOKING EXECUTE IS NOT A VALID FIX HERE: these functions back RLS
+--   policies, and Postgres DOES check EXECUTE on functions referenced in a
+--   policy against the querying role. Revoking from PUBLIC/authenticated makes
+--   every SELECT on users/calibration_* fail with
+--   "permission denied for function is_admin" (observed and reverted).
+--   The correct remediation is to MOVE these helpers out of the `public`
+--   (PostgREST-exposed) schema into a private schema and repoint every policy
+--   that references them. That is a dedicated policy refactor, tracked
+--   separately — not attempted in this migration.
+--
+-- 0014 extension_in_public (pg_net)
+--   pg_net does not support ALTER EXTENSION ... SET SCHEMA
+--   (ERROR 0A000). Its callable functions already live in the `net` schema,
+--   so exposure is low. Moving it would require DROP/CREATE against the live
+--   pg_cron job (jobid 1, ack-reminders). Accepted as-is.
+--
+-- auth_leaked_password_protection
+--   Auth setting, not SQL. Enable in
+--   Dashboard > Authentication > Policies (HaveIBeenPwned check).
+-- ============================================
