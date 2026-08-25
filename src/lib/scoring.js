@@ -4,6 +4,12 @@
  */
 
 // Framework structure with weights
+/**
+ * @deprecated Superseded by DB-driven templates (see `evaluation_templates` /
+ * `template_criteria` and `calculateScore` below, introduced in Task 6+). This
+ * hard-coded FRAMEWORK is retained only for the legacy v1 scoring path and will
+ * be removed once all call sites read the active template from the database.
+ */
 export const FRAMEWORK = {
     communication: {
         name: 'Comunicação & Atitude',
@@ -185,4 +191,49 @@ export const generateFeedback = (values, scores) => {
     }
 
     return feedback.join('\n')
+}
+
+/**
+ * Template-driven score (v2). Reads a DB template shape (see `template_criteria`)
+ * instead of the hard-coded FRAMEWORK.
+ *
+ * @param {{criteria: Array<{criterion_key:string, block:string|null, block_weight:number, weight:number, allows_na:boolean, is_auto_fail:boolean}>}} template
+ * @param {Object<string, {value:number|null, is_na:boolean}>} answers - keyed by criterion_key
+ * @returns {{final:number, blocks:Object<string,number>, has_critical_flag:boolean}}
+ *
+ * Rules:
+ *  - Yes (value 5) → 100, No (value 1) → 0.
+ *  - N/A (`answers[key].is_na === true`) removes the criterion's weight and
+ *    renormalizes within its block; a block that is entirely N/A drops out and
+ *    its block_weight is renormalized across the remaining blocks.
+ *  - `is_auto_fail` criteria are excluded from the weighted math; if any is
+ *    answered with value >= 3, `has_critical_flag` is true. The flag does NOT
+ *    zero the score (spec §3.3).
+ */
+export function calculateScore(template, answers) {
+  const scored = template.criteria.filter(c => !c.is_auto_fail)
+  const blocks = {}
+  for (const c of scored) {
+    (blocks[c.block] ??= { weight: Number(c.block_weight), items: [] }).items.push(c)
+  }
+  const blockScores = {}
+  const activeBlockWeights = {}
+  for (const [key, b] of Object.entries(blocks)) {
+    const answered = b.items.filter(c => !(answers[c.criterion_key]?.is_na))
+    const wsum = answered.reduce((s, c) => s + Number(c.weight), 0)
+    if (wsum === 0) continue // bloco inteiro N/A → sai
+    const score = answered.reduce((s, c) => {
+      const v = answers[c.criterion_key]?.value
+      const pct = v === 5 ? 100 : 0
+      return s + pct * (Number(c.weight) / wsum)
+    }, 0)
+    blockScores[key] = Math.round(score * 100) / 100
+    activeBlockWeights[key] = b.weight
+  }
+  const totalBW = Object.values(activeBlockWeights).reduce((s, w) => s + w, 0)
+  const final = Object.entries(blockScores).reduce(
+    (s, [k, v]) => s + v * (activeBlockWeights[k] / totalBW), 0)
+  const has_critical_flag = template.criteria.some(
+    c => c.is_auto_fail && (answers[c.criterion_key]?.value ?? 0) >= 3)
+  return { final: Math.round(final * 100) / 100, blocks: blockScores, has_critical_flag }
 }
