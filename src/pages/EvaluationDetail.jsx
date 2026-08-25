@@ -7,6 +7,7 @@ import { supabase } from '../lib/supabase'
 import { getAcknowledgmentDisplay } from '../lib/scoring'
 import { useToast } from '../components/Toast'
 import { ConfirmModal } from '../components/Modal'
+import { SlaSidePanel } from '../components/SlaSidePanel'
 
 // Shared select shape (mirrors NewAudit's by-id template fetch).
 const TEMPLATE_SELECT = `
@@ -501,6 +502,9 @@ export function EvaluationDetail() {
                             </div>
                         </div>
                     )}
+
+                    {/* Painel lateral de SLAs — importado, fora do score (spec §3.1) */}
+                    <SlaSidePanel />
                 </>
             ) : (
                 /* Fallback for legacy v1 rows never backfilled (template_id null):
