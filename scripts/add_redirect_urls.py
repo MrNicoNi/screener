@@ -51,6 +51,9 @@ def req(method, token, data=None):
     r = urllib.request.Request(API, data=body, method=method, headers={
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/json",
+        # Cloudflare (à frente da Management API) bloqueia o UA padrão do
+        # urllib com 403/1010. Um UA normal resolve.
+        "User-Agent": "screener-admin-script/1.0",
     })
     try:
         with urllib.request.urlopen(r) as resp:
