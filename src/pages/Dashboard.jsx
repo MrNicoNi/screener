@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useEvaluations } from '../hooks/useEvaluations'
 import { useAuth } from '../hooks/useAuth'
 import { Link, useSearchParams } from 'react-router-dom'
-import { TrendingUp, TrendingDown, ClipboardCheck, AlertTriangle, Plus, ArrowRight, LayoutGrid, BarChart3 } from 'lucide-react'
+import { TrendingUp, TrendingDown, ClipboardCheck, AlertTriangle, Plus, ArrowRight, LayoutGrid, BarChart3, UserX, ShieldCheck } from 'lucide-react'
 import { TeamDashboardView } from '../components/TeamDashboardView'
 import {
     RadarChart,
@@ -16,7 +16,7 @@ import {
 export function Dashboard() {
     const [searchParams] = useSearchParams()
     const teamId = searchParams.get('teamId')
-    const { getDashboardStats, getAnalystRanking, getEvaluations, getTeamsWithStats } = useEvaluations()
+    const { getDashboardStats, getAnalystRanking, getEvaluations, getTeamsWithStats, getCoverageAlerts } = useEvaluations()
     const { userProfile, isAnalyst } = useAuth()
     const [view, setView] = useState('general') // 'general' | 'teams'
     const [teamName, setTeamName] = useState('')
@@ -34,6 +34,7 @@ export function Dashboard() {
     const [recentEvaluations, setRecentEvaluations] = useState([])
     const [topAnalysts, setTopAnalysts] = useState([])
     const [personalScores, setPersonalScores] = useState([])
+    const [coverageAlerts, setCoverageAlerts] = useState([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -89,6 +90,12 @@ export function Dashboard() {
                 // For admins/evaluators, or when filtering by team, load analyst ranking
                 const ranking = await getAnalystRanking(3, teamId || null)
                 setTopAnalysts(ranking)
+            }
+
+            // Load coverage alerts (managers/evaluators/admins only, not analysts)
+            if (!isAnalyst) {
+                const alerts = await getCoverageAlerts()
+                setCoverageAlerts(alerts)
             }
 
             // Load recent evaluations
@@ -236,6 +243,61 @@ export function Dashboard() {
                             <p className="text-xs text-slate-500 mt-1">reprovações</p>
                         </div>
                     </div>
+
+                    {/* Coverage Alert Card (managers/evaluators/admins only) */}
+                    {!isAnalyst && (
+                        coverageAlerts.length > 0 ? (
+                            <div className="clean-card rounded-2xl p-6 border-l-4 border-amber-400">
+                                <div className="flex justify-between items-start mb-4">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0">
+                                            <UserX className="w-5 h-5 text-amber-600" />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-lg font-semibold text-slate-900">
+                                                {coverageAlerts.length} {coverageAlerts.length === 1 ? 'analista descoberto' : 'analistas descobertos'}
+                                            </h3>
+                                            <p className="text-sm text-slate-500">Ativos sem cobertura de QA suficiente</p>
+                                        </div>
+                                    </div>
+                                    <Link
+                                        to="/equipe"
+                                        className="text-sm text-navita-blue hover:underline flex items-center gap-1 flex-shrink-0"
+                                    >
+                                        Ver equipe <ArrowRight className="w-4 h-4" />
+                                    </Link>
+                                </div>
+                                <div className="flex flex-wrap gap-2">
+                                    {coverageAlerts.slice(0, 5).map(a => (
+                                        <span
+                                            key={a.id}
+                                            title={a.reasons.join(' • ')}
+                                            className="px-3 py-1.5 text-xs font-medium rounded-lg border bg-amber-50 border-amber-200 text-amber-700"
+                                        >
+                                            {a.name}
+                                        </span>
+                                    ))}
+                                    {coverageAlerts.length > 5 && (
+                                        <span className="px-3 py-1.5 text-xs font-medium rounded-lg border bg-slate-50 border-slate-200 text-slate-600">
+                                            +{coverageAlerts.length - 5}
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="clean-card rounded-2xl p-6 border-l-4 border-green-400">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center flex-shrink-0">
+                                        <ShieldCheck className="w-5 h-5 text-green-600" />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-semibold text-slate-900">Cobertura em dia</h3>
+                                        <p className="text-sm text-slate-500">Todos os analistas ativos estão cobertos pelo QA</p>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    )}
 
                     {/* Charts Row */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

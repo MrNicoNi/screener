@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Search, Plus, ChevronRight } from 'lucide-react'
+import { Search, Plus, ChevronRight, AlertTriangle } from 'lucide-react'
 import { useEvaluations } from '../hooks/useEvaluations'
 import { useAuth } from '../hooks/useAuth'
 
 export function Team() {
-    const { getAnalystsWithStats } = useEvaluations()
+    const { getAnalystsWithStats, getCoverageAlerts } = useEvaluations()
     const { userProfile } = useAuth()
     const [analysts, setAnalysts] = useState([])
+    const [coverageMap, setCoverageMap] = useState({})
     const [search, setSearch] = useState('')
     const [loading, setLoading] = useState(true)
 
@@ -17,8 +18,15 @@ export function Team() {
 
     const loadAnalysts = async () => {
         try {
-            const data = await getAnalystsWithStats()
+            const [data, alerts] = await Promise.all([
+                getAnalystsWithStats(),
+                getCoverageAlerts()
+            ])
             setAnalysts(data)
+            // Index uncovered analysts by id for quick lookup
+            const map = {}
+            alerts.forEach(a => { map[a.id] = a })
+            setCoverageMap(map)
         } catch (error) {
             console.error('Error loading analysts:', error)
         } finally {
@@ -76,7 +84,9 @@ export function Team() {
 
             {/* Analysts List */}
             <div className="clean-card rounded-2xl divide-y divide-slate-100">
-                {filteredAnalysts.map(analyst => (
+                {filteredAnalysts.map(analyst => {
+                    const coverage = coverageMap[analyst.id]
+                    return (
                     <Link
                         key={analyst.id}
                         to={`/analista/${analyst.id}`}
@@ -89,8 +99,23 @@ export function Team() {
 
                         {/* Info */}
                         <div className="flex-1 min-w-0">
-                            <p className="font-medium text-slate-900 truncate">{analyst.name}</p>
-                            <p className="text-sm text-slate-500">{analyst.audits} auditorias este mês</p>
+                            <div className="flex items-center gap-2 flex-wrap">
+                                <p className="font-medium text-slate-900 truncate">{analyst.name}</p>
+                                {coverage && (
+                                    <span
+                                        title={coverage.reasons.join(' • ')}
+                                        className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded-lg border bg-amber-50 border-amber-200 text-amber-700"
+                                    >
+                                        <AlertTriangle className="w-3 h-3" />
+                                        Descoberto
+                                    </span>
+                                )}
+                            </div>
+                            {coverage ? (
+                                <p className="text-xs text-amber-700 truncate">{coverage.reasons.join(' • ')}</p>
+                            ) : (
+                                <p className="text-sm text-slate-500">{analyst.audits} auditorias este mês</p>
+                            )}
                         </div>
 
                         {/* Stats */}
@@ -105,7 +130,8 @@ export function Team() {
 
                         <ChevronRight className="w-5 h-5 text-slate-400 flex-shrink-0" />
                     </Link>
-                ))}
+                    )
+                })}
 
                 {filteredAnalysts.length === 0 && (
                     <div className="p-8 text-center text-slate-500">

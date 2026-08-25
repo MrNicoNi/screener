@@ -445,6 +445,92 @@ export function useEvaluations() {
         }
     }
 
+    async function getCoverageAlerts() {
+        try {
+            // Active analysts only (role = 'analyst' AND is_active = true)
+            const { data: analysts, error: analystsError } = await supabase
+                .from('users')
+                .select('id, name, email')
+                .eq('role', 'analyst')
+                .eq('is_active', true)
+
+            if (analystsError) throw analystsError
+
+            // All evaluations with an analyst, we only need timing fields
+            const { data: evals, error: evalsError } = await supabase
+                .from('evaluations')
+                .select('analyst_id, created_at')
+                .not('analyst_id', 'is', null)
+
+            if (evalsError) throw evalsError
+
+            const now = new Date()
+
+            // 30 calendar days ago (millisecond threshold)
+            const thirtyDaysAgo = new Date(now)
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+
+            // Current calendar month boundaries (by created_at)
+            const currentMonth = now.getMonth()
+            const currentYear = now.getFullYear()
+
+            const alerts = []
+
+            for (const analyst of analysts) {
+                const analystEvals = evals.filter(e => e.analyst_id === analyst.id)
+
+                // Most recent evaluation date
+                let lastEvalDate = null
+                for (const e of analystEvals) {
+                    const d = new Date(e.created_at)
+                    if (!lastEvalDate || d > lastEvalDate) {
+                        lastEvalDate = d
+                    }
+                }
+
+                // Days since last evaluation (null if never evaluated)
+                const daysSinceLast = lastEvalDate
+                    ? Math.floor((now - lastEvalDate) / (1000 * 60 * 60 * 24))
+                    : null
+
+                // Evaluations in the current calendar month
+                const evalsThisMonth = analystEvals.filter(e => {
+                    const d = new Date(e.created_at)
+                    return d.getMonth() === currentMonth && d.getFullYear() === currentYear
+                }).length
+
+                const reasons = []
+
+                // (a) No evaluation in the last 30 calendar days (or never evaluated)
+                if (!lastEvalDate || lastEvalDate < thirtyDaysAgo) {
+                    reasons.push('Sem avaliação há 30+ dias')
+                }
+
+                // (b) Fewer than 3 evaluations in the current calendar month
+                if (evalsThisMonth < 3) {
+                    reasons.push(`Menos de 3 no mês (${evalsThisMonth}/3)`)
+                }
+
+                if (reasons.length > 0) {
+                    alerts.push({
+                        id: analyst.id,
+                        name: analyst.name,
+                        email: analyst.email,
+                        lastEvalDate: lastEvalDate ? lastEvalDate.toISOString() : null,
+                        daysSinceLast,
+                        evalsThisMonth,
+                        reasons
+                    })
+                }
+            }
+
+            return alerts
+        } catch (err) {
+            console.error('[useEvaluations] getCoverageAlerts failed:', err.message)
+            return []
+        }
+    }
+
     async function getEvaluations(options = {}) {
         try {
             let query = supabase
@@ -630,6 +716,7 @@ export function useEvaluations() {
         getDashboardStats,
         getAnalystRanking,
         getAnalystsWithStats,
+        getCoverageAlerts,
         getEvaluations,
         getTeamsWithStats,
         getPrincipalOffenderByTeam,
