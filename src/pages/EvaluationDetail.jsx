@@ -121,7 +121,9 @@ export function EvaluationDetail() {
                 feedback: data.feedback || 'Sem feedback.',
                 acknowledged: data.analyst_acknowledged || false,
                 analystComment: data.analyst_comment,
-                disputeReason: data.dispute_reason
+                disputeReason: data.dispute_reason,
+                // Manual Sim/Não operational indicators (outside the QA score).
+                slaMetrics: data.sla_metrics || null,
             }
 
             setEvaluation(transformedEval)
@@ -503,8 +505,8 @@ export function EvaluationDetail() {
                         </div>
                     )}
 
-                    {/* Painel lateral de SLAs — importado, fora do score (spec §3.1) */}
-                    <SlaSidePanel />
+                    {/* Painel lateral de SLAs — manual, fora do score (spec §3.1) */}
+                    <SlaSidePanel values={evaluation?.slaMetrics || {}} />
                 </>
             ) : (
                 /* Fallback for legacy v1 rows never backfilled (template_id null):

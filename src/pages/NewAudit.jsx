@@ -7,6 +7,7 @@ import { useTemplates } from '../hooks/useTemplates'
 import { supabase } from '../lib/supabase'
 import { calculateScore } from '../lib/scoring'
 import { useToast } from '../components/Toast'
+import { SlaSidePanel } from '../components/SlaSidePanel'
 
 const AREA_OPTIONS = ['MDM', 'TEM']
 
@@ -80,6 +81,14 @@ export function NewAudit() {
     const [feedback, setFeedback] = useState('')
     const [area, setArea] = useState('')
     const [answers, setAnswers] = useState({}) // { [criterion_key]: { value: 5|1|null, is_na: bool } }
+    // Manual Sim/Não operational indicators, kept OUTSIDE the QA score
+    // (unweighted). Persisted in evaluations.sla_metrics. null = not filled.
+    const [slaMetrics, setSlaMetrics] = useState({
+        first_contact: null,
+        resolution: null,
+        reopen_15d: null,
+        escalation: null,
+    })
     const [result, setResult] = useState({ final: 0, blocks: {}, has_critical_flag: false })
     const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -153,6 +162,15 @@ export function NewAudit() {
                 setTicketSubject(data.ticket_subject || '')
                 setFeedback(data.feedback || '')
                 setArea(data.area || '')
+
+                // Manual operational indicators (template-independent).
+                setSlaMetrics({
+                    first_contact: null,
+                    resolution: null,
+                    reopen_15d: null,
+                    escalation: null,
+                    ...(data.sla_metrics || {}),
+                })
 
                 // Reconstruct answers from evaluation_items.
                 // is_na → N/A; else value carries 5 (Yes) or 1 (No).
@@ -348,6 +366,7 @@ export function NewAudit() {
                         final_score: score.final,
                         block_scores: score.blocks,
                         has_critical_flag: score.has_critical_flag,
+                        sla_metrics: slaMetrics,
                         status: 'pending',
                         // Reset analyst acknowledgment so they must review again
                         analyst_acknowledged: false,
@@ -388,6 +407,7 @@ export function NewAudit() {
                     final_score: score.final,
                     block_scores: score.blocks,
                     has_critical_flag: score.has_critical_flag,
+                    sla_metrics: slaMetrics,
                     status: 'pending',
                 })
 
@@ -636,6 +656,13 @@ export function NewAudit() {
                             </div>
                         </section>
                     )}
+
+                    {/* Manual operational indicators (Sim/Não) — outside the QA score */}
+                    <SlaSidePanel
+                        editable
+                        values={slaMetrics}
+                        onChange={(k, v) => setSlaMetrics((prev) => ({ ...prev, [k]: v }))}
+                    />
 
                     {/* Feedback */}
                     <div className="clean-card rounded-2xl p-6">
