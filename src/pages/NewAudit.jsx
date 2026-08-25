@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useUsers } from '../hooks/useUsers'
 import { useEvaluations } from '../hooks/useEvaluations'
-import { useActiveTemplate } from '../hooks/useActiveTemplate'
+import { useTemplates } from '../hooks/useTemplates'
 import { supabase } from '../lib/supabase'
 import { calculateScore } from '../lib/scoring'
 import { useToast } from '../components/Toast'
@@ -60,12 +60,19 @@ export function NewAudit() {
     const toast = useToast()
     const { createEvaluation } = useEvaluations()
 
-    // Create mode loads the active support-v2 template from the DB.
+    // Create mode: the evaluator picks WHICH template a new evaluation uses.
+    // The list (active/newest first) drives the selector; the selected
+    // template's full criteria are fetched by id below.
     const {
-        template: activeTemplate,
-        loading: activeLoading,
-        error: activeError,
-    } = useActiveTemplate({ code: 'support-v2' })
+        templates,
+        loading: templatesLoading,
+        error: templatesError,
+    } = useTemplates()
+
+    const [selectedTemplateId, setSelectedTemplateId] = useState('')
+    const [createTemplate, setCreateTemplate] = useState(null)
+    const [loadingCreate, setLoadingCreate] = useState(!isEditMode)
+    const [createError, setCreateError] = useState(null)
 
     const [analystId, setAnalystId] = useState('')
     const [ticketId, setTicketId] = useState('')
@@ -84,10 +91,10 @@ export function NewAudit() {
     const analysts = allUsers.filter((u) => u.role === 'analyst' && u.is_active)
 
     // The template actually driving the form: edit-mode uses the row's own
-    // template, create-mode uses the active support-v2 template.
-    const template = isEditMode ? editTemplate : activeTemplate
-    const loading = isEditMode ? loadingEdit : activeLoading
-    const error = isEditMode ? editError : activeError
+    // template, create-mode uses the evaluator's selected template.
+    const template = isEditMode ? editTemplate : createTemplate
+    const loading = isEditMode ? loadingEdit : (templatesLoading || loadingCreate)
+    const error = isEditMode ? editError : (templatesError || createError)
 
     // ── Load existing evaluation + its template in edit mode ────────────────
     useEffect(() => {
@@ -171,6 +178,65 @@ export function NewAudit() {
             cancelled = true
         }
     }, [editId, isEditMode])
+
+    // ── Create mode: default the selection to the first (active/newest) template ─
+    useEffect(() => {
+        if (isEditMode) return
+        if (!selectedTemplateId && templates.length > 0) {
+            setSelectedTemplateId(templates[0].id)
+        }
+    }, [isEditMode, templates, selectedTemplateId])
+
+    // ── Create mode: load the SELECTED template's full criteria by id ──────────
+    // When the selection changes we reset answers to {} (criteria differ between
+    // templates; stale answers must not carry over). Score recomputes off the
+    // reset answers via the live-score effect.
+    useEffect(() => {
+        if (isEditMode) return
+        if (!selectedTemplateId) return
+        let cancelled = false
+
+        async function loadSelectedTemplate() {
+            try {
+                setLoadingCreate(true)
+                setCreateError(null)
+
+                const { data: tpl, error: tplError } = await supabase
+                    .from('evaluation_templates')
+                    .select(TEMPLATE_SELECT)
+                    .eq('id', selectedTemplateId)
+                    .order('sort_order', { referencedTable: 'template_criteria', ascending: true })
+                    .maybeSingle()
+
+                if (tplError) throw tplError
+                if (!tpl) throw new Error('Template selecionado não encontrado')
+
+                if (cancelled) return
+
+                setCreateTemplate({
+                    id: tpl.id,
+                    code: tpl.code,
+                    name: tpl.name,
+                    version: tpl.version,
+                    criteria: normalizeCriteria(tpl.template_criteria),
+                })
+                // Different template → wipe any answers from the previous one.
+                setAnswers({})
+            } catch (err) {
+                if (cancelled) return
+                console.error('[NewAudit] Error loading selected template:', err)
+                setCreateTemplate(null)
+                setCreateError(err.message || 'Erro ao carregar template selecionado')
+            } finally {
+                if (!cancelled) setLoadingCreate(false)
+            }
+        }
+
+        loadSelectedTemplate()
+        return () => {
+            cancelled = true
+        }
+    }, [isEditMode, selectedTemplateId])
 
     // ── Live score ──────────────────────────────────────────────────────────
     useEffect(() => {
@@ -480,6 +546,26 @@ export function NewAudit() {
                                     ))}
                                 </select>
                             </div>
+                            {!isEditMode && (
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-700 mb-2">Template</label>
+                                    <select
+                                        value={selectedTemplateId}
+                                        onChange={(e) => setSelectedTemplateId(e.target.value)}
+                                        className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-navita-blue focus:border-transparent"
+                                        required
+                                    >
+                                        {templates.length === 0 && (
+                                            <option value="">Carregando templates...</option>
+                                        )}
+                                        {templates.map((t) => (
+                                            <option key={t.id} value={t.id}>
+                                                {t.name} (v{t.version}){!t.is_active ? ' — aposentado' : ''}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            )}
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-2">Ticket ID</label>
                                 <input
