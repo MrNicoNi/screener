@@ -9,6 +9,9 @@ import * as XLSX from 'xlsx'
 import { ConfirmModal } from '../components/Modal'
 import { useToast } from '../components/Toast'
 import { supabase } from '../lib/supabase'
+import { useAuth } from '../hooks/useAuth'
+
+const ROLE_LABELS = { admin: 'Admin', evaluator: 'Avaliador', analyst: 'Analista' }
 
 const userSchema = z.object({
     name: z.string().min(3, 'Nome deve ter no mínimo 3 caracteres'),
@@ -21,7 +24,12 @@ const userSchema = z.object({
 export function ManageUsers() {
     const { users, loading, createUser, createUsersBulk, updateUser, deleteUser } = useUsers()
     const { teams, createTeam } = useTeams()
+    const { user: currentAuthUser } = useAuth()
     const toast = useToast()
+
+    // Role Change Confirmation Modal
+    const [roleChange, setRoleChange] = useState({ isOpen: false, userId: null, userName: '', newRole: null })
+    const [isChangingRole, setIsChangingRole] = useState(false)
 
     // Single User State
     const [showModal, setShowModal] = useState(false)
@@ -113,6 +121,24 @@ export function ManageUsers() {
             setResetPasswordConfirm({ isOpen: false, userId: null, userName: '' })
         } finally {
             setIsResettingPassword(false)
+        }
+    }
+
+    function requestRoleChange(user, newRole) {
+        if (newRole === user.role) return
+        setRoleChange({ isOpen: true, userId: user.id, userName: user.name, newRole })
+    }
+
+    async function handleRoleChange() {
+        setIsChangingRole(true)
+        try {
+            await updateUser(roleChange.userId, { role: roleChange.newRole })
+            toast.success(`Nível de acesso alterado para ${ROLE_LABELS[roleChange.newRole]}`)
+            setRoleChange({ isOpen: false, userId: null, userName: '', newRole: null })
+        } catch (err) {
+            toast.error(err.message)
+        } finally {
+            setIsChangingRole(false)
         }
     }
 
@@ -355,12 +381,27 @@ export function ManageUsers() {
                                 <td className="px-6 py-4 text-sm font-medium text-gray-900">{user.name}</td>
                                 <td className="px-6 py-4 text-sm text-gray-500">{user.email}</td>
                                 <td className="px-6 py-4">
-                                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${user.role === 'admin' ? 'bg-purple-100 text-purple-800' :
-                                        user.role === 'evaluator' ? 'bg-blue-100 text-blue-800' :
-                                            'bg-gray-100 text-gray-800'
-                                        }`}>
-                                        {user.role}
-                                    </span>
+                                    {user.id === currentAuthUser?.id ? (
+                                        <span
+                                            className="px-2 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-800"
+                                            title="Você não pode alterar seu próprio nível de acesso"
+                                        >
+                                            {ROLE_LABELS[user.role] || user.role}
+                                        </span>
+                                    ) : (
+                                        <select
+                                            value={user.role}
+                                            onChange={(e) => requestRoleChange(user, e.target.value)}
+                                            className={`px-2 py-1 text-xs font-medium rounded-lg border cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400 ${user.role === 'admin' ? 'bg-purple-50 text-purple-800 border-purple-200' :
+                                                user.role === 'evaluator' ? 'bg-blue-50 text-blue-800 border-blue-200' :
+                                                    'bg-gray-50 text-gray-800 border-gray-200'
+                                                }`}
+                                        >
+                                            <option value="analyst">Analista</option>
+                                            <option value="evaluator">Avaliador</option>
+                                            <option value="admin">Admin</option>
+                                        </select>
+                                    )}
                                 </td>
                                 <td className="px-6 py-4 text-sm text-gray-500">{user.team?.name || '-'}</td>
                                 <td className="px-6 py-4">
@@ -627,6 +668,18 @@ export function ManageUsers() {
                 confirmText="Desativar"
                 cancelText="Cancelar"
                 isDestructive={true}
+            />
+
+            {/* Role Change Confirmation Modal */}
+            <ConfirmModal
+                isOpen={roleChange.isOpen}
+                onClose={() => setRoleChange({ isOpen: false, userId: null, userName: '', newRole: null })}
+                onConfirm={handleRoleChange}
+                title="Alterar Nível de Acesso"
+                message={`Alterar o nível de acesso de "${roleChange.userName}" para ${ROLE_LABELS[roleChange.newRole] || roleChange.newRole}? Isso muda imediatamente o que a pessoa pode ver e fazer no sistema.`}
+                confirmText={isChangingRole ? 'Alterando...' : 'Confirmar'}
+                cancelText="Cancelar"
+                isDestructive={roleChange.newRole === 'admin'}
             />
 
             {/* Reset Password Confirmation Modal */}

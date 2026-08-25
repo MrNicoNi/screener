@@ -79,6 +79,9 @@ export function useUsers() {
             if (updates.name) {
                 await verifyWrite('users', id, 'name', updates.name)
             }
+            if (updates.role) {
+                await verifyWrite('users', id, 'role', updates.role)
+            }
 
             // 3. Refresh list
             await fetchUsers()
