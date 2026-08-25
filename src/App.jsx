@@ -9,6 +9,9 @@ import { ManageEvaluations } from './pages/ManageEvaluations'
 import { NewAudit } from './pages/NewAudit'
 import { EvaluationDetail } from './pages/EvaluationDetail'
 import { Team } from './pages/Team'
+import { Calibrations } from './pages/Calibrations'
+import { NewCalibration } from './pages/NewCalibration'
+import { CalibrationSession } from './pages/CalibrationSession'
 import { AnalystDetail } from './pages/AnalystDetail'
 import { UserSettings } from './pages/UserSettings'
 import { ProtectedRoute } from './components/ProtectedRoute'
@@ -42,6 +45,9 @@ function AppContent() {
                         <Route path="/editar-avaliacao/:id" element={<EvaluatorRoute><NewAudit /></EvaluatorRoute>} />
                         <Route path="/avaliacoes" element={<EvaluatorRoute><ManageEvaluations /></EvaluatorRoute>} />
                         <Route path="/equipe" element={<EvaluatorRoute><Team /></EvaluatorRoute>} />
+                        <Route path="/calibracao" element={<Calibrations />} />
+                        <Route path="/calibracao/nova" element={<EvaluatorRoute><NewCalibration /></EvaluatorRoute>} />
+                        <Route path="/calibracao/:id" element={<CalibrationSession />} />
                         <Route path="/analista/:id" element={<AnalystDetail />} />
                         <Route path="/avaliacao/:id" element={<EvaluationDetail />} />
                         <Route path="/admin/usuarios" element={<AdminRoute><ManageUsers /></AdminRoute>} />
