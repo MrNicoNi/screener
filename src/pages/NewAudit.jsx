@@ -434,7 +434,9 @@ export function NewAudit() {
                 }
 
                 toast.success('Avaliação criada com sucesso!')
-                setTimeout(() => navigate('/dashboard'), 1500)
+                // Redireciona para a avaliação concluída (não o dashboard) —
+                // facilita a revisão final logo após criar.
+                setTimeout(() => navigate(`/avaliacao/${evaluation.id}`), 1500)
             }
         } catch (err) {
             console.error('[NewAudit] Error:', err)
