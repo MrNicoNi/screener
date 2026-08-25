@@ -31,7 +31,7 @@ export function SlaSidePanel({ metrics = {} }) {
             </div>
             <p className="text-sm text-slate-500 mb-4 flex items-start gap-1.5">
                 <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-slate-400" />
-                Importado do Tiflux, fora do score de QA. Mês 1: preenchimento manual.
+                A integrar com o Tiflux (ainda não conectado) — fora do score de QA. Por ora, preenchimento manual.
             </p>
             <div className="grid grid-cols-2 gap-3">
                 {rows.map(({ key, label, icon: Icon, value }) => (

@@ -39,7 +39,7 @@ Estas foram resolvidas para o plano andar. Se discordar de alguma, é aqui que m
 
 Registradas aqui; o schema e o launch andam sem elas.
 
-1. **Regra das 36h (C8):** horas comerciais vs. corridas? o relógio para enquanto aguarda cliente? o que conta como "update" (resposta ao cliente ou qualquer movimento interno)? — o spec já prevê C8 **manual no mês 1**, então só trava a query, não o formulário.
+1. ~~**Regra das 36h (C8):** horas comerciais vs. corridas?~~ **RESOLVIDO (2026-08-25 por Nicolas): horas corridas, exceto fins de semana.** Falta ainda definir o comportamento do relógio enquanto aguarda cliente e o que conta como "update". É lógica da query do C8 (Wave 60d, manual no mês 1) — não trava o schema nem o formulário.
 2. **TEM/Connect:** template próprio ou Support v2 + `area`? — afeta só o seed.
 3. **Ciência obrigatória (backlog #6):** escalar após 5 dias úteis — Wave 60d.
 
