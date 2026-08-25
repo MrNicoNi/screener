@@ -1,12 +1,45 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { ArrowLeft, FileText, User, Calendar, CheckCircle2, AlertCircle, Trash2, Edit3, MessageSquare, XCircle } from 'lucide-react'
+import { ArrowLeft, FileText, User, Calendar, CheckCircle2, AlertCircle, AlertTriangle, Trash2, Edit3, MessageSquare, XCircle } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import { useEvaluations } from '../hooks/useEvaluations'
 import { supabase } from '../lib/supabase'
-import { FRAMEWORK, getStatusDisplay, getAcknowledgmentDisplay } from '../lib/scoring'
+import { getAcknowledgmentDisplay } from '../lib/scoring'
 import { useToast } from '../components/Toast'
 import { ConfirmModal } from '../components/Modal'
+
+// Shared select shape (mirrors NewAudit's by-id template fetch).
+const TEMPLATE_SELECT = `
+    id,
+    code,
+    name,
+    version,
+    template_criteria (
+        criterion_key,
+        block,
+        block_label,
+        block_weight,
+        statement,
+        weight,
+        allows_na,
+        is_auto_fail,
+        sort_order
+    )
+`
+
+function normalizeCriteria(rows = []) {
+    return rows.map((c) => ({
+        criterion_key: c.criterion_key,
+        block: c.block,
+        block_label: c.block_label,
+        block_weight: c.block_weight === null ? null : Number(c.block_weight),
+        statement: c.statement,
+        weight: Number(c.weight),
+        allows_na: c.allows_na,
+        is_auto_fail: c.is_auto_fail,
+        sort_order: c.sort_order,
+    }))
+}
 
 export function EvaluationDetail() {
     const { id } = useParams()
@@ -15,6 +48,7 @@ export function EvaluationDetail() {
     const { deleteEvaluation } = useEvaluations()
     const { showToast } = useToast()
     const [evaluation, setEvaluation] = useState(null)
+    const [template, setTemplate] = useState(null) // evaluation's OWN template (null for un-backfilled v1)
     const [comment, setComment] = useState('')
     const [submitting, setSubmitting] = useState(false)
     const [disputeMode, setDisputeMode] = useState(false) // true = contestar, false = confirmar
@@ -65,6 +99,10 @@ export function EvaluationDetail() {
                 evaluator: data.evaluator?.name || 'Avaliador',
                 analyst: data.analyst?.name || 'Analista',
                 analystEmail: data.analyst?.email,
+                area: data.area || null,
+                templateId: data.template_id || null,
+                hasCriticalFlag: data.has_critical_flag || false,
+                blockScores: data.block_scores || null,
                 scores: {
                     communication: data.score_communication || 0,
                     efficiency: data.score_efficiency || 0,
@@ -72,10 +110,13 @@ export function EvaluationDetail() {
                     final: data.final_score || 0,
                     status: data.status || 'pending'
                 },
-                values: data.items?.reduce((acc, item) => {
-                    acc[item.criterion_key] = item.value
+                // Full answer per criterion so N/A (is_na) is distinguishable from No.
+                itemsByKey: data.items?.reduce((acc, item) => {
+                    acc[item.criterion_key] = { value: item.value, is_na: item.is_na === true }
                     return acc
                 }, {}) || {},
+                // Raw items preserved for the v1-fallback (no template) path.
+                rawItems: data.items || [],
                 feedback: data.feedback || 'Sem feedback.',
                 acknowledged: data.analyst_acknowledged || false,
                 analystComment: data.analyst_comment,
@@ -83,6 +124,35 @@ export function EvaluationDetail() {
             }
 
             setEvaluation(transformedEval)
+
+            // Fetch the evaluation's OWN template (by template_id) so we render
+            // v1 rows with v1 statements and v2 rows with v2 statements. Legacy
+            // v1 rows never backfilled (template_id null) fall back gracefully.
+            if (data.template_id) {
+                const { data: tpl, error: tplError } = await supabase
+                    .from('evaluation_templates')
+                    .select(TEMPLATE_SELECT)
+                    .eq('id', data.template_id)
+                    .order('sort_order', { referencedTable: 'template_criteria', ascending: true })
+                    .maybeSingle()
+
+                if (tplError) {
+                    console.error('Error loading template:', tplError)
+                    setTemplate(null)
+                } else if (tpl) {
+                    setTemplate({
+                        id: tpl.id,
+                        code: tpl.code,
+                        name: tpl.name,
+                        version: tpl.version,
+                        criteria: normalizeCriteria(tpl.template_criteria),
+                    })
+                } else {
+                    setTemplate(null)
+                }
+            } else {
+                setTemplate(null)
+            }
         } catch (err) {
             console.error('Error loading evaluation:', err)
             setError('Erro ao carregar avaliação')
@@ -196,6 +266,30 @@ export function EvaluationDetail() {
         }
     }
 
+    // Group the evaluation's template into scored blocks (sort_order) + auto-fail list.
+    const { blocks, autoFails } = useMemo(() => {
+        if (!template) return { blocks: [], autoFails: [] }
+        const blockOrder = []
+        const byBlock = {}
+        for (const c of template.criteria) {
+            if (c.is_auto_fail) continue
+            if (!byBlock[c.block]) {
+                byBlock[c.block] = {
+                    block: c.block,
+                    label: c.block_label,
+                    weight: c.block_weight,
+                    items: [],
+                }
+                blockOrder.push(byBlock[c.block])
+            }
+            byBlock[c.block].items.push(c)
+        }
+        return {
+            blocks: blockOrder,
+            autoFails: template.criteria.filter((c) => c.is_auto_fail),
+        }
+    }, [template])
+
     if (loading) {
         return (
             <div className="animate-pulse space-y-6">
@@ -263,12 +357,23 @@ export function EvaluationDetail() {
             <div className="clean-card rounded-2xl p-6">
                 <div className="flex flex-col sm:flex-row justify-between gap-4">
                     <div className="space-y-2">
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center flex-wrap gap-3">
                             <FileText className="w-5 h-5 text-navita-blue" />
                             <span className="text-lg font-mono font-bold text-slate-900">{evaluation?.ticketId}</span>
                             <span className={`px-3 py-1 rounded-lg text-xs font-bold uppercase border ${statusDisplay.bgClass}`}>
                                 {statusDisplay.text}
                             </span>
+                            {evaluation?.area && (
+                                <span className="px-3 py-1 rounded-lg text-xs font-bold uppercase border bg-slate-100 text-slate-600 border-slate-200">
+                                    {evaluation.area}
+                                </span>
+                            )}
+                            {evaluation?.hasCriticalFlag && (
+                                <span className="px-3 py-1 rounded-lg text-xs font-bold uppercase border bg-red-50 text-red-600 border-red-200 inline-flex items-center gap-1.5">
+                                    <AlertTriangle className="w-3.5 h-3.5" />
+                                    Flag Crítica
+                                </span>
+                            )}
                         </div>
                         <p className="text-slate-600">{evaluation?.ticketSubject}</p>
                     </div>
@@ -299,58 +404,127 @@ export function EvaluationDetail() {
                 </div>
             </div>
 
-            {/* Detailed Checklist - All Criteria Visible */}
-            <div className="clean-card rounded-2xl p-6">
-                <h3 className="text-lg font-semibold text-slate-900 mb-6">Critérios Avaliados</h3>
+            {/* Detailed Checklist - driven by the evaluation's OWN template */}
+            {template ? (
+                <>
+                    <div className="clean-card rounded-2xl p-6">
+                        <div className="flex items-center justify-between flex-wrap gap-2 mb-6">
+                            <h3 className="text-lg font-semibold text-slate-900">Critérios Avaliados</h3>
+                            <span className="text-xs font-mono text-slate-400">{template.name} · v{template.version}</span>
+                        </div>
 
-                {Object.entries(FRAMEWORK).map(([pillarKey, pillar]) => {
-                    const pillarScore = evaluation?.scores?.[pillarKey] || 0
-                    const colorClasses = {
-                        blue: { border: 'border-l-navita-blue', bg: 'bg-blue-50/50' },
-                        green: { border: 'border-l-navita-green', bg: 'bg-green-50/50' },
-                        slate: { border: 'border-l-slate-700', bg: 'bg-slate-50' }
-                    }
-                    const colors = colorClasses[pillar.color] || colorClasses.slate
+                        {blocks.map((block, index) => {
+                            const rawScore = evaluation?.blockScores?.[block.block]
+                            const blockScore = rawScore == null ? null : Number(rawScore)
+                            const accents = [
+                                { border: 'border-l-navita-blue', bg: 'bg-blue-50/50' },
+                                { border: 'border-l-navita-green', bg: 'bg-green-50/50' },
+                                { border: 'border-l-slate-700', bg: 'bg-slate-50' },
+                                { border: 'border-l-navita-purple', bg: 'bg-purple-50/50' },
+                                { border: 'border-l-amber-500', bg: 'bg-amber-50/50' },
+                            ]
+                            const colors = accents[index % accents.length]
 
-                    return (
-                        <div key={pillarKey} className={`mb-6 last:mb-0 border-l-4 ${colors.border} ${colors.bg} rounded-r-xl p-4`}>
-                            <div className="flex justify-between items-center mb-4">
-                                <h4 className="font-semibold text-slate-800">{pillar.name}</h4>
-                                <span className={`text-2xl font-bold ${pillarScore >= 90 ? 'text-navita-green' : pillarScore >= 75 ? 'text-navita-blue' : 'text-red-500'}`}>
-                                    {pillarScore}%
-                                </span>
-                            </div>
-
-                            <div className="space-y-2">
-                                {pillar.items.map(item => {
-                                    const value = evaluation?.values?.[item.id] || 1
-                                    const isChecked = value >= 3 // 3-5 = Yes, 1-2 = No
-
-                                    return (
-                                        <div key={item.id} className="flex items-center justify-between py-2 px-3 bg-white rounded-lg">
-                                            <div className="flex items-center gap-3 flex-1">
-                                                {isChecked ? (
-                                                    <svg className="w-5 h-5 text-navita-green flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
-                                                    </svg>
-                                                ) : (
-                                                    <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
-                                                    </svg>
-                                                )}
-                                                <span className="text-sm text-slate-700">{item.text}</span>
-                                            </div>
-                                            <span className="text-xs font-mono text-slate-400 ml-4">
-                                                {(item.weight * 100).toFixed(0)}%
+                            return (
+                                <div key={block.block} className={`mb-6 last:mb-0 border-l-4 ${colors.border} ${colors.bg} rounded-r-xl p-4`}>
+                                    <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
+                                        <div className="flex items-baseline gap-2 flex-wrap">
+                                            <h4 className="font-semibold text-slate-800">{block.label || block.block}</h4>
+                                            {block.weight != null && (
+                                                <span className="text-xs font-mono text-slate-400">Peso {Number(block.weight)}%</span>
+                                            )}
+                                        </div>
+                                        {blockScore != null && (
+                                            <span className={`text-2xl font-bold ${scoreColorClass(blockScore)}`}>
+                                                {blockScore}%
                                             </span>
+                                        )}
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        {block.items.map((c) => (
+                                            <CriterionDisplayRow
+                                                key={c.criterion_key}
+                                                statement={c.statement}
+                                                weight={Number(c.weight)}
+                                                answer={evaluation?.itemsByKey?.[c.criterion_key]}
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+
+                    {/* Flags Críticas — auto-fail criteria, outside the block math */}
+                    {autoFails.length > 0 && (
+                        <div className={`clean-card rounded-2xl p-6 border-l-4 ${evaluation?.hasCriticalFlag ? 'border-red-500' : 'border-slate-200'}`}>
+                            <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
+                                <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+                                    <AlertTriangle className={`w-5 h-5 ${evaluation?.hasCriticalFlag ? 'text-red-500' : 'text-slate-400'}`} />
+                                    Flags Críticas
+                                </h3>
+                                {evaluation?.hasCriticalFlag ? (
+                                    <span className="px-3 py-1 rounded-lg text-xs font-bold uppercase border bg-red-50 text-red-600 border-red-200">
+                                        Flag ativa
+                                    </span>
+                                ) : (
+                                    <span className="px-3 py-1 rounded-lg text-xs font-bold uppercase border bg-green-50 text-green-600 border-green-200">
+                                        Nenhuma violação
+                                    </span>
+                                )}
+                            </div>
+                            <p className="text-sm text-slate-500 mb-4">
+                                Violações não entram no cálculo da nota, mas levantam a flag crítica.
+                            </p>
+                            <div className="space-y-2">
+                                {autoFails.map((c) => {
+                                    const flagged = evaluation?.itemsByKey?.[c.criterion_key]?.value === 5
+                                    return (
+                                        <div
+                                            key={c.criterion_key}
+                                            className={`flex items-center justify-between gap-4 py-2 px-3 rounded-lg border ${flagged ? 'bg-red-50 border-red-200' : 'bg-white border-slate-100'}`}
+                                        >
+                                            <span className={`text-sm ${flagged ? 'text-red-700 font-medium' : 'text-slate-600'}`}>
+                                                {c.statement}
+                                            </span>
+                                            {flagged ? (
+                                                <span className="text-xs font-bold uppercase text-red-600 flex items-center gap-1 flex-shrink-0">
+                                                    <AlertTriangle className="w-4 h-4" /> Violação
+                                                </span>
+                                            ) : (
+                                                <span className="text-xs font-medium uppercase text-slate-400 flex-shrink-0">OK</span>
+                                            )}
                                         </div>
                                     )
                                 })}
                             </div>
                         </div>
-                    )
-                })}
-            </div>
+                    )}
+                </>
+            ) : (
+                /* Fallback for legacy v1 rows never backfilled (template_id null):
+                   show raw criterion_key + value without statements. */
+                <div className="clean-card rounded-2xl p-6">
+                    <h3 className="text-lg font-semibold text-slate-900 mb-2">Critérios Avaliados</h3>
+                    <p className="text-sm text-slate-500 mb-6">
+                        Esta avaliação não está vinculada a um template; exibindo os itens registrados.
+                    </p>
+                    <div className="space-y-2">
+                        {(evaluation?.rawItems || []).length === 0 && (
+                            <p className="text-sm text-slate-500">Nenhum item registrado.</p>
+                        )}
+                        {(evaluation?.rawItems || []).map((item) => (
+                            <CriterionDisplayRow
+                                key={item.criterion_key}
+                                statement={item.criterion_key}
+                                mono
+                                answer={{ value: item.value, is_na: item.is_na === true }}
+                            />
+                        ))}
+                    </div>
+                </div>
+            )}
 
             {/* Feedback */}
             <div className="clean-card rounded-2xl p-6">
@@ -486,6 +660,68 @@ export function EvaluationDetail() {
                 isDestructive={true}
                 isLoading={isDeleting}
             />
+        </div>
+    )
+}
+
+function scoreColorClass(score) {
+    if (score >= 90) return 'text-navita-green'
+    if (score >= 75) return 'text-navita-blue'
+    return 'text-red-500'
+}
+
+/**
+ * One criterion row in the read-only detail view. Renders three states:
+ *  - is_na === true   → neutral "N/A" chip (never a 0/No)
+ *  - value === 5      → Sim / pass (green check)
+ *  - value === 1      → Não / fail (red x)
+ *  - anything else    → "—" (unanswered / unknown)
+ */
+function CriterionDisplayRow({ statement, weight, answer, mono = false }) {
+    const isNa = answer?.is_na === true
+    const isYes = !isNa && answer?.value === 5
+    const isNo = !isNa && answer?.value === 1
+
+    let icon
+    let label
+    if (isNa) {
+        icon = (
+            <svg className="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M18 12H6" />
+            </svg>
+        )
+        label = <span className="text-xs font-bold uppercase text-slate-500 flex-shrink-0">N/A</span>
+    } else if (isYes) {
+        icon = (
+            <svg className="w-5 h-5 text-navita-green flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
+            </svg>
+        )
+        label = <span className="text-xs font-bold uppercase text-navita-green flex-shrink-0">Sim</span>
+    } else if (isNo) {
+        icon = (
+            <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        )
+        label = <span className="text-xs font-bold uppercase text-red-500 flex-shrink-0">Não</span>
+    } else {
+        icon = <span className="w-5 h-5 flex-shrink-0 text-center text-slate-300 font-bold">—</span>
+        label = <span className="text-xs font-bold uppercase text-slate-300 flex-shrink-0">—</span>
+    }
+
+    return (
+        <div className="flex items-center justify-between gap-3 py-2 px-3 bg-white rounded-lg">
+            <div className="flex items-center gap-3 flex-1 min-w-0">
+                {icon}
+                <span className={`text-sm text-slate-700 ${mono ? 'font-mono' : ''}`}>{statement}</span>
+            </div>
+            <div className="flex items-center gap-3 flex-shrink-0">
+                {typeof weight === 'number' && !Number.isNaN(weight) && (
+                    <span className="text-xs font-mono text-slate-400">{weight}%</span>
+                )}
+                {label}
+            </div>
         </div>
     )
 }
