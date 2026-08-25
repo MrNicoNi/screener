@@ -38,7 +38,7 @@ WITH t AS (
 INSERT INTO template_criteria (template_id, criterion_key, block, block_label, block_weight, statement, weight, allows_na, is_auto_fail, sort_order)
 SELECT t.id, c.* FROM t, (VALUES
   -- Block A — Effectiveness · 45%
-  ('E1','A','Effectiveness',45,'Resolvido no primeiro contato, sem transferência e sem segunda coleta de dados?',25,false,false,1),
+  ('E1','A','Effectiveness',45,'Resolvido em até 24h corridas, sem transferência e sem segunda coleta de dados?',25,false,false,1),
   ('E3','A','Effectiveness',45,'A solução tratou a causa raiz, sem reabertura do mesmo assunto em 15 dias?',30,true,false,2),
   ('E6','A','Effectiveness',45,'Logs, prints ou evidências foram coletados ANTES de propor a solução?',20,false,false,3),
   ('E4','A','Effectiveness',45,'O caso foi resolvido sem consultar terceiros num tópico coberto por documentação?',15,false,false,4),
