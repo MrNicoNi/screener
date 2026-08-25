@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './hooks/useAuth'
 import { Login } from './pages/Login'
+import { ResetPassword } from './pages/ResetPassword'
 import { Dashboard } from './pages/Dashboard'
 import { ManageUsers } from './pages/ManageUsers'
 import { ManageTeams } from './pages/ManageTeams'
@@ -32,6 +33,7 @@ function AppContent() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/login" element={<Login />} />
+                    <Route path="/reset-password" element={<ResetPassword />} />
 
                     <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
                         <Route path="/dashboard" element={<Dashboard />} />
