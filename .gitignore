@@ -47,6 +47,9 @@ vite.config.ts.timestamp-*
 # Agent AI
 .agentai
 
+# Flight logs (session docs, kept local)
+Materiais de Apoio/flightlog_*.md
+
 # Scripts output (temporary data)
 scripts/*.log
 scripts/temp
