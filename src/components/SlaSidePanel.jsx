@@ -1,4 +1,4 @@
-import { Clock, Timer, RotateCcw, ArrowUpRight, Info } from 'lucide-react'
+import { Clock, Timer, RotateCcw, ArrowUpRight } from 'lucide-react'
 
 /**
  * Painel lateral de indicadores operacionais (spec §3.1 / §4).
@@ -39,11 +39,7 @@ export function SlaSidePanel({ values = {}, editable = false, onChange }) {
                     Não ponderado
                 </span>
             </div>
-            <p className="text-sm text-slate-500 mb-4 flex items-start gap-1.5">
-                <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-slate-400" />
-                Preenchimento manual, consultando o Tiflux (exportar a base é vedado por LGPD). Fora do score de QA.
-            </p>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3 mt-4">
                 {rows.map(({ key, label, icon: Icon }) => {
                     const value = values?.[key] ?? null
                     return (
