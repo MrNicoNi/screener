@@ -41,16 +41,23 @@ export function AnalystDetail() {
             // Fetch evaluations for this analyst
             const evals = await getEvaluations({ analystId: targetId })
 
-            // Process evaluations for display
-            const processedEvals = evals.map(e => ({
-                id: e.id,
-                ticketId: `#${e.ticket_id}`,
-                date: new Date(e.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }),
-                score: e.final_score || 0,
-                status: e.status || 'pending',
-                evaluator: e.evaluator?.name || 'Avaliador',
-                acknowledged: e.analyst_acknowledged || false
-            }))
+            // Process evaluations for display.
+            // Derive the QUALITY label from final_score — the `status` column is
+            // reused for the workflow state (acknowledged/disputed) once the
+            // analyst reacts, which would otherwise mislabel the row as failed.
+            // The acknowledgment/pending state is shown separately via `acknowledged`.
+            const processedEvals = evals.map(e => {
+                const score = e.final_score || 0
+                return {
+                    id: e.id,
+                    ticketId: `#${e.ticket_id}`,
+                    date: new Date(e.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }),
+                    score,
+                    status: score >= 90 ? 'excellent' : score >= 75 ? 'approved' : 'failed',
+                    evaluator: e.evaluator?.name || 'Avaliador',
+                    acknowledged: e.analyst_acknowledged || false
+                }
+            })
 
             setEvaluations(processedEvals)
 
